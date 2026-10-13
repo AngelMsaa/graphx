@@ -505,7 +505,7 @@
 
     /* --- grafo visible: arista elevada al contenedor visible más cercano --- */
     function computeVisible() {
-      const vis = new Set(), hidden = new Map();
+      const vis = new Set(), hidden = new Map(), cut = new Set();
       /* Con un filtro que poda (`focus.prune`), de cada pieza abierta solo se ven los hijos que están
          en una ruta referenciada; el resto se cuenta en `hidden` y el layout pone «··· N más» en su lugar.
          Una pieza referenciada, una que el usuario ha pedido ver entera o una ajena al filtro se ve entera. */
@@ -514,12 +514,14 @@
         vis.add(id); const n = M.get(id);
         if (!n.children.length || !S.expanded.has(id)) return;
         const all = !F || F.ids.has(id) || S.unpruned.has(id) || !F.keep.has(id);
-        n.children.forEach(c => { if (all || F.keep.has(c)) walk(c); else hidden.set(id, (hidden.get(id) || 0) + 1); });
+        n.children.forEach(c => { if (all || F.keep.has(c)) walk(c); else { cut.add(c); hidden.set(id, (hidden.get(id) || 0) + 1); } });
       };
       /* las raíces que no llevan a nada referenciado se cuentan en una pastilla propia (clave ROOTS) */
       G.roots.forEach(r => { if (!F || F.keep.has(r) || !F.keep.size || S.unpruned.has(ROOTS)) walk(r); else hidden.set(ROOTS, (hidden.get(ROOTS) || 0) + 1); });
-      /* una arista sube al antepasado visible; si el filtro ha ocultado su raíz entera, no se dibuja */
-      const rep = id => { let x = id; while (x != null && !vis.has(x)) x = M.get(x).parent; return x; };
+      /* Una arista sube al antepasado visible: una pieza plegada sigue representando lo que lleva dentro.
+         Lo que el filtro ha podado no está representado por nadie, así que su arista no se dibuja; si
+         subiera, saldría del carril o del contenedor que sí queda y conectaría con algo ajeno al filtro. */
+      const rep = id => { let x = id; while (x != null && !vis.has(x)) { if (cut.has(x)) return null; x = M.get(x).parent; } return x; };
       const agg = new Map();
       for (const e of G.edges) {
         const a = rep(e.from), b = rep(e.to);
@@ -565,8 +567,8 @@
       /* un micro-gráfico (sparkline de graphx-fx) pide su franja debajo del subtítulo */
       const xh = FX ? FX.cardExtra(n) : 0;
       if (full + chipW + 6 <= CARD_MAX - PADX) {
-        const w = clamp(Math.max(full + chipW + 6, Math.min(sub, CARD_MAX - PADX)) + PADX, CARD_MIN, CARD_MAX);
-        return (n._card = { w, h: 64 + xh, base: 64, lines: [n.label] });
+        /* todas las tarjetas miden lo mismo: una columna se lee alineada, no al largo de cada nombre */
+        return (n._card = { w: CARD_MAX, h: 64 + xh, base: 64, lines: [n.label] });
       }
       const lines = wrap2(n.label, CARD_MAX - PADX - chipW, CARD_MAX - PADX);
       return (n._card = { w: CARD_MAX, h: (lines.length > 1 ? 80 : 64) + xh, base: lines.length > 1 ? 80 : 64, lines });
@@ -652,6 +654,18 @@
         clipPaths(out.rects, out.paths, vedges, vis, exp);
         return { rects: out.rects, paths: out.paths, bbox: out.bbox, deco: out.deco || [], wires: out.wires || [], heads: out.heads || null, order: out.order || null, pos: out.pos || null };
       }
+      /* lo que no recibe ninguna arista empieza en la primera columna de su contenedor, no pegado a su
+         destino. Ninguna estrategia de capas de ELK lo consigue dentro de un contenedor con
+         INCLUDE_CHILDREN; la restricción por pieza sí */
+      let hasIn = new Set();
+      /* Con carriles, ELK los ordena con aristas propias entre particiones, incompatibles con FIRST: ahí
+         (piezas sueltas de un carril) manda la estrategia de capas de la raíz, que sí se aplica arriba */
+      const inLane = id => { const p = M.get(id).parent; return strictLanes && (p == null || M.get(p).isLane); };
+      const first = id => (hasIn.has(id) || inLane(id) ? {} : { layoutOptions: { 'elk.layered.layering.layerConstraint': 'FIRST' } });
+      const laneKids = id => M.get(id).children.filter(c => vis.has(c));
+      const openLane = id => exp.has(id) && laneKids(id).length > 0;
+      const laneTop = () => (framed() ? 18 : 46);
+      const laneHeadW = id => { const n = M.get(id); return textW(n.label, 11, 700) * 1.25 + textW(n.subtitle || '', 11, 400, true) + 120; };
       const make = id => {
         const n = M.get(id);
         const kids = n.children.filter(c => vis.has(c));
@@ -663,9 +677,9 @@
             layoutOptions: { 'elk.padding': `[top=${top},left=18,bottom=18,right=18]`, 'elk.nodeSize.constraints': 'MINIMUM_SIZE', 'elk.nodeSize.minimum': `(${Math.round(hw)},60)` }
           };
         }
-        const z = leafSize(n); return { id, width: z.w, height: z.h };
+        const z = leafSize(n); return { id, width: z.w, height: z.h, ...first(id) };
       };
-      const buildGraph = list => ({
+      const buildGraph = list => (hasIn = new Set(list.map(v => (rev.has(v.id) ? v.from : v.to))), {
         id: ' gx-root',
         layoutOptions: {
           'elk.algorithm': 'layered', 'elk.direction': S.dir === 'down' ? 'DOWN' : 'RIGHT',
@@ -674,20 +688,50 @@
           'elk.layered.considerModelOrder.strategy': 'NODES_AND_EDGES',
           'elk.layered.spacing.nodeNodeBetweenLayers': '54', 'elk.spacing.nodeNode': '22',
           'elk.layered.spacing.edgeNodeBetweenLayers': '22', 'elk.spacing.edgeNode': '18', 'elk.spacing.edgeEdge': '12',
-          'elk.spacing.edgeLabel': '4', 'elk.edgeLabels.inline': 'false', 'elk.padding': '[top=24,left=24,bottom=24,right=24]',
+          'elk.spacing.edgeLabel': '4', 'elk.edgeLabels.inline': 'false', 'elk.padding': `[top=${24 + (strictLanes ? laneTop() : 0)},left=42,bottom=42,right=42]`,
           'elk.partitioning.activate': strictLanes ? 'true' : 'false',
-          ...(cycleStrategy ? { 'elk.layered.cycleBreaking.strategy': cycleStrategy } : {})
+          ...(strictLanes ? { 'elk.layered.layering.strategy': 'LONGEST_PATH_SOURCE' } : {}),
+          ...(cycleStrategy ? { 'elk.layered.cycleBreaking.strategy': cycleStrategy } : {}),
         },
-        children: G.roots.filter(r => vis.has(r)).map((r, i) => {
+        children: G.roots.filter(r => vis.has(r)).flatMap(r => {
+          const n = M.get(r), part = { 'elk.partitioning.partition': String(n.order) };
+          /* Un carril abierto no llega a ELK como contenedor: sus piezas van sueltas con la partición
+             del carril, que las mantiene en sus columnas, y el marco se dibuja después alrededor. Como
+             contenedor, cada arista que lo cruza pasa por un puerto en su borde y cada puerto es un
+             quiebro más. */
+          if (strictLanes && n.isLane && openLane(r)) return laneKids(r).map(c => { const el = make(c); el.layoutOptions = Object.assign(el.layoutOptions || {}, part); return el; });
           const el = make(r);
-          if (strictLanes && M.get(r).isLane) el.layoutOptions = Object.assign(el.layoutOptions || {}, { 'elk.partitioning.partition': String(M.get(r).order) });
+          if (strictLanes && n.isLane) el.layoutOptions = Object.assign(el.layoutOptions || {}, part);
           return el;
         }),
         edges: list.map(v => ({
-          id: v.id, sources: [rev.has(v.id) ? v.to : v.from], targets: [rev.has(v.id) ? v.from : v.to],
+          id: v.id, sources: [rev.has(v.id) ? v.to : v.from], targets: [trunkOf.get(v.id) || (rev.has(v.id) ? v.from : v.to)],
           labels: v.label ? [{ text: v.label, width: Math.ceil(textW(v.label, 11, 500)) + 16, height: 20 }] : []
         }))
       });
+      /* Las líneas intercambiables (mismo destino, mismo tipo, misma etiqueta) llegan por un puerto
+         común: el router ortogonal las trata como una hiperarista y comparten tronco. Una etiqueta
+         distinta las separa, para que cada texto siga junto a su línea. */
+      const trunks = list => {
+        const groups = new Map();
+        list.forEach(v => { const t = rev.has(v.id) ? v.from : v.to, k = t + '\u0000' + (v.kind || '') + '\u0000' + (v.label || ''); if (!groups.has(k)) groups.set(k, { t, ids: [] }); groups.get(k).ids.push(v.id); });
+        const ports = new Map(), by = new Map();
+        [...groups.values()].filter(g => g.ids.length > 1).forEach((g, i) => {
+          const pid = g.t + '\u0000trunk' + i;
+          if (!ports.has(g.t)) ports.set(g.t, []);
+          ports.get(g.t).push({ id: pid, width: 1, height: 1 });
+          g.ids.forEach(id => by.set(id, pid));
+        });
+        return { ports, by };
+      };
+      let trunkOf = new Map();
+      const withTrunks = list => {
+        const { ports, by } = trunks(list); trunkOf = by;
+        const g = buildGraph(list);
+        const put = n => { if (ports.has(n.id)) n.ports = ports.get(n.id); (n.children || []).forEach(put); };
+        put(g);
+        return g;
+      };
       /* Con `layout.cycles`, los ciclos se rompen aquí y no en ELK, como hace dagre: un recorrido en
          profundidad que empieza por las piezas escritas primero marca las aristas que vuelven atrás;
          a ELK le llegan invertidas (el grafo que ve no tiene ciclos) y después se giran otra vez. */
@@ -701,11 +745,25 @@
         ids.filter(id => !indeg.get(id)).concat(ids).forEach(id => { if (!st.get(id)) dfs(id); });
       }
       if (!elk) elk = new (await loadELK())();
-      const rectsOf = res => { const r = new Map(); const walk = n => { if (n.id !== ' gx-root') r.set(n.id, { x: n.x, y: n.y, w: n.width, h: n.height }); (n.children || []).forEach(walk); }; walk(res); return r; };
+      const rectsOf = res => {
+        const r = new Map(); const walk = n => { if (n.id !== ' gx-root') r.set(n.id, { x: n.x, y: n.y, w: n.width, h: n.height }); (n.children || []).forEach(walk); }; walk(res);
+        /* los carriles abiertos se enmarcan alrededor de sus piezas, todos con la misma altura */
+        const lanes = strictLanes ? G.roots.filter(id => vis.has(id) && M.get(id).isLane && openLane(id)) : [];
+        if (lanes.length) {
+          const box = id => laneKids(id).map(c => r.get(c)).filter(Boolean);
+          const all = lanes.flatMap(box), top = laneTop();
+          const y0 = Math.min(...all.map(q => q.y)) - top, y1 = Math.max(...all.map(q => q.y + q.h)) + 18;
+          lanes.forEach(id => {
+            const b = box(id), x0 = Math.min(...b.map(q => q.x)) - 18, x1 = Math.max(...b.map(q => q.x + q.w)) + 18;
+            r.set(id, { x: x0, y: y0, w: Math.max(x1 - x0, laneHeadW(id)), h: y1 - y0 });
+          });
+        }
+        return r;
+      };
       /* Una arista que acaba «antes» que su origen obliga a ELK a rodear contenedores enteros
          y a reservar canales vacíos para ello. Se detecta en una primera pasada, se saca del
          layout y se dibuja como arco sobre las posiciones de la segunda. */
-      let res = await elk.layout(buildGraph(vedges));
+      let res = await elk.layout(withTrunks(vedges));
       const down = S.dir === 'down';
       const c1 = rectsOf(res), ctr = (m, id) => { const r = m.get(id); return down ? r.y + r.h / 2 : r.x + r.w / 2; };
       const laneIx = id => { const l = M.get(id).laneId; return l != null ? M.get(l).order : -1; };
@@ -714,7 +772,7 @@
       const back = new Set(routeBack ? [] : vedges.filter(v => c1.has(v.from) && c1.has(v.to) && (
         (strictLanes && laneIx(v.to) >= 0 && laneIx(v.from) >= 0 ? laneIx(v.to) < laneIx(v.from) : false) ||
         ((!strictLanes || laneIx(v.to) === laneIx(v.from)) && ctr(c1, v.to) < ctr(c1, v.from) - 12))).map(v => v.id));
-      if (back.size) res = await elk.layout(buildGraph(vedges.filter(v => !back.has(v.id))));
+      if (back.size) res = await elk.layout(withTrunks(vedges.filter(v => !back.has(v.id))));
       vedges.forEach(v => { v.back = back.has(v.id); });
       const rects = rectsOf(res);
       const paths = new Map();
