@@ -463,7 +463,7 @@
       detail: new Set(), focus: null, unpruned: new Set(), wires: new Map(), order: null
     };
     /* efectos (graphx-fx.js, opcional): se crea al final del montaje; hasta entonces los ganchos no hacen nada */
-    let FX = null;
+    let FX = null, SYS = null;
     const initial = spec.initialDepth != null ? spec.initialDepth : Math.min(1, G.maxDepth);
     setDepthSet(initial);
     /* las cuentas de una carpeta (ficheros y subcarpetas), si el JSON no las trae */
@@ -1105,6 +1105,7 @@
       }
       g._line = line; g._v = v; g._d = d; g._pts = path.pts || null;
       if (FX) FX.edge(g, v, path);
+      if (SYS) SYS.edge(g, v, path);
       const lab = path.label && v.label ? s('g', { class: `gx-elabel d-${v.delta}`, 'data-id': v.id, transform: `translate(${path.label.x},${path.label.y})` }) : null;
       if (lab) {
         s('rect', { width: path.label.w, height: path.label.h, rx: 6 }, lab);
@@ -1442,6 +1443,7 @@
       applyHighlight();
       drawMini();
       if (FX) FX.afterLayout();
+      if (SYS) SYS.afterLayout();
       if (focusId && (!document.activeElement || !host.contains(document.activeElement) || document.activeElement === host)) {
         const el = S.els.get(focusId) || (M.has(focusId) ? S.els.get(repOf(focusId)) : null);
         if (el && el.focus) try { el.focus({ preventScroll: true }); } catch (_) { }
@@ -1904,7 +1906,7 @@
             <button type="button" class="gx-btn${tr && S.trace.dir === 'down' ? ' on' : ''}" data-act="down" title="${esc(T.downstream)}">${esc(T.downShort)} ⟶</button>
             ${tr ? `<button type="button" class="gx-btn" data-act="untrace" title="${esc(T.clearTrace)}">✕</button>` : ''}${FX ? FX.panelActs(n) : ''}
           </div>
-          ${n.summary ? `<p class="gx-psum">${esc(n.summary)}</p>` : ''}${FX ? FX.panelTop(n) : ''}${n.details_html || ''}${metrics}${notes}
+          ${n.summary ? `<p class="gx-psum">${esc(n.summary)}</p>` : ''}${FX ? FX.panelTop(n) : ''}${SYS ? SYS.panelTop(n) : ''}${n.details_html || ''}${metrics}${notes}
           ${linksHTML(n.links)}${filesHTML(n.children.length ? filesUnder(id) : (n.files || []), { owners: n.children.length > 0, prLink: false })}${stepsHTML(G.nodeSteps.get(id))}${connList(id)}${kids}`;
       }
       panel.innerHTML = `<button type="button" class="gx-x" aria-label="${esc(T.close)}">×</button><div class="gx-pbody">${html}</div>`;
@@ -2619,6 +2621,12 @@
         refreshTheme: () => { themeEl.textContent = themeCSS(); }
       });
     }
+    /* sistemas (graphx-systems.js): polaridad, retrasos y bucles; sin el módulo o sin polaridad, nada cambia */
+    const SYSM = global.GraphX && global.GraphX.systems;
+    if (SYSM && SYSM.create) {
+      SYS = SYSM.create({ spec, S, M, s, esc, world, legend, lang, repOf,
+        lightSet: set => { hoverSet = set; applyHighlight(); } });
+    }
     renderTour(); syncTabs(); setMinimap(S.minimap);
     /* `focus` del JSON: el diagrama se abre ya filtrado (los cambios de un diff, una búsqueda) */
     const applyInitialFocus = () => { if (spec.focus && typeof spec.focus === 'object') setFocus(resolveFilter(spec.focus), { label: spec.focus.label, key: spec.focus.key || 'initial', prune: spec.focus.prune }); };
@@ -2645,6 +2653,7 @@
          ocultaría el grafo del siguiente montaje) y sin el id y los atributos que puso el motor */
       destroy() {
         if (FX) FX.destroy();
+        if (SYS) SYS.destroy();
         S.dead = true; S.layoutId++; clearTimeout(S.qT);
         document.removeEventListener('pointerdown', onDocDown); document.removeEventListener('fullscreenchange', onFs); ro && ro.disconnect();
         host.innerHTML = '';

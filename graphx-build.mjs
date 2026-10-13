@@ -43,6 +43,7 @@ vm.runInContext(fs.readFileSync(path.join(HERE, 'graphx.js'), 'utf8'), sandbox);
 vm.runInContext(fs.readFileSync(path.join(HERE, 'graphx-mermaid.js'), 'utf8'), sandbox);
 vm.runInContext(fs.readFileSync(path.join(HERE, 'graphx-tree.js'), 'utf8'), sandbox);
 vm.runInContext(fs.readFileSync(path.join(HERE, 'graphx-fx.js'), 'utf8'), sandbox);
+vm.runInContext(fs.readFileSync(path.join(HERE, 'graphx-systems.js'), 'utf8'), sandbox);
 
 const errors = [], warns = [];
 let spec;
@@ -170,6 +171,23 @@ for (const x of [...(spec.nodes || []), ...(spec.edges || [])]) {
   if (x.category != null && !CATEGORIES.includes(x.category)) errors.push(`${who}: category «${x.category}» inválida (${CATEGORIES.join(', ')})`);
   if (x.from != null && x.style != null && !['solid', 'dashed', 'dotted'].includes(x.style)) errors.push(`${who}: style «${x.style}» inválido (solid, dashed, dotted)`);
 }
+/* --- sistemas: polaridad, retrasos, grupos y propósito --- */
+const DELAY_TYPES = ['perception', 'response', 'delivery'];
+for (const e of spec.edges || []) {
+  if (e.polarity != null && !['+', '-'].includes(e.polarity)) errors.push(`arista ${e.id}: polarity «${e.polarity}» inválida (+, -)`);
+  if (e.delay != null && e.delay !== true && e.delay !== false && !(typeof e.delay === 'object' && (e.delay.type == null || DELAY_TYPES.includes(e.delay.type)) && (e.delay.duration == null || typeof e.delay.duration === 'string' || typeof e.delay.duration === 'number')))
+    errors.push(`arista ${e.id}: delay debe ser true o { duration, type: ${DELAY_TYPES.join('|')} }`);
+}
+for (const n of spec.nodes || []) ['purpose', 'statedPurpose', 'observedPurpose'].forEach(k => { if (n[k] != null && typeof n[k] !== 'string') errors.push(`nodo ${n.id}: ${k} debe ser texto`); });
+if (spec.groups != null && !Array.isArray(spec.groups)) errors.push('groups debe ser una lista de { id, type, label, edges }');
+for (const [i, g] of (Array.isArray(spec.groups) ? spec.groups : []).entries()) {
+  if (!g || !g.id || !Array.isArray(g.edges) || !g.edges.length) { errors.push(`groups[${i}]: necesita id y una lista edges`); continue; }
+  g.edges.forEach(id => { if (!eids.has(id)) errors.push(`grupo ${g.id}: arista «${id}» desconocida`); });
+}
+const SYSTEMS = sandbox.GraphX.systems.analyze({ ...spec, pack: PACK });
+const USES_SYSTEMS = SYSTEMS.loops.length > 0 || (spec.edges || []).some(e => sandbox.GraphX.systems.effective(e, PACK).polarity) || (Array.isArray(spec.groups) && spec.groups.length > 0);
+SYSTEMS.warnings.forEach(w => warns.push(w));
+if (SYSTEMS.loops.length) console.log(`bucles: ${SYSTEMS.loops.map(l => l.tag + (l.label ? ' ' + l.label : '')).join(', ')}`);
 /* --- reglas del paquete: solo para quien lo declara --- */
 if (PACK_DECLARED) {
   const byId = new Map((spec.nodes || []).map(n => [n.id, n]));
@@ -398,7 +416,8 @@ const height = opt('--height');
 const block = `<div class="gx-host" data-gx${height ? ` data-height="${+height}"` : ''}><script type="application/json" class="gx-spec">${json}</script></div>`;
 const escHtml = s => String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 let out;
-if (flag('--fragment')) out = block;
+const systemsJS = USES_SYSTEMS ? `<script>${fs.readFileSync(path.join(HERE, 'graphx-systems.js'), 'utf8')}</script>\n` : '';
+if (flag('--fragment')) out = systemsJS + block;
 else {
   /* --mode full (defecto): bundle minificado con ELK dentro, funciona sin red.
      --mode lite: sin ELK, se carga de jsDelivr al abrir (≈110 KB + datos).
@@ -441,7 +460,7 @@ footer { color: var(--muted); font-size: 12.5px; }
 ${block}
 <footer>GraphX · ${(spec.nodes || []).length} piezas · ${(spec.edges || []).length} conexiones · ${(spec.flows || []).length} flujos · ${((spec.tour && spec.tour.steps) || []).length} pasos</footer>
 </main>
-${engine}
+${systemsJS}${engine}
 </body>
 </html>`;
 }

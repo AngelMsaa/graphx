@@ -1,0 +1,100 @@
+{
+  "pack": "systems",
+  "title": "Population",
+  "lang": "en",
+  "summary": "Meadows, Thinking in Systems p.42: one stock with a reinforcing birth loop and a balancing death loop. Which loop dominates decides growth or decline.",
+  "direction": "right",
+  "nodes": [
+    {
+      "id": "pop",
+      "kind": "stock",
+      "label": "Population",
+      "summary": "People alive at an instant."
+    },
+    {
+      "id": "births",
+      "kind": "flow",
+      "label": "Births per year",
+      "summary": "Population times fertility."
+    },
+    {
+      "id": "deaths",
+      "kind": "flow",
+      "label": "Deaths per year",
+      "summary": "Population times mortality."
+    },
+    {
+      "id": "fert",
+      "kind": "variable",
+      "label": "Fertility",
+      "summary": "Births per person per year."
+    },
+    {
+      "id": "mort",
+      "kind": "variable",
+      "label": "Mortality",
+      "summary": "Deaths per person per year."
+    }
+  ],
+  "edges": [
+    {
+      "id": "b-p",
+      "from": "births",
+      "to": "pop",
+      "kind": "inflow"
+    },
+    {
+      "id": "d-p",
+      "from": "deaths",
+      "to": "pop",
+      "kind": "outflow"
+    },
+    {
+      "id": "p-b",
+      "from": "pop",
+      "to": "births",
+      "kind": "link",
+      "label": "more parents"
+    },
+    {
+      "id": "p-d",
+      "from": "pop",
+      "to": "deaths",
+      "kind": "link",
+      "label": "more people to die"
+    },
+    {
+      "id": "f-b",
+      "from": "fert",
+      "to": "births",
+      "kind": "link"
+    },
+    {
+      "id": "m-d",
+      "from": "mort",
+      "to": "deaths",
+      "kind": "link"
+    }
+  ],
+  "groups": [
+    {
+      "id": "growth",
+      "type": "R",
+      "label": "births compound",
+      "edges": [
+        "p-b",
+        "b-p"
+      ]
+    },
+    {
+      "id": "decline",
+      "type": "B",
+      "label": "deaths drain",
+      "edges": [
+        "p-d",
+        "d-p"
+      ],
+      "goal": "zero population, the level deaths pull toward"
+    }
+  ]
+}

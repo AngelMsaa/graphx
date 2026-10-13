@@ -357,6 +357,13 @@ as kinds when nothing in the pack fits. Without `pack`, the software vocabulary 
 Nodes and edges accept `sources` (quotes) and `confidence` (0 to 1); edges accept `style` (solid, dashed,
 dotted).
 
+**Feedback loops.** With `"pack": "systems"` (stocks, flows, information links), edges take `polarity`
+(`+` same direction, `-` opposite) and `delay` (`true` or `{ "duration": "5 days", "type": "perception" }`).
+The engine finds every feedback loop, labels it R (reinforcing) or B (balancing), draws a glyph at its centre
+and warns when a balancing loop has a delay, since it will oscillate. `groups` name a loop and give a
+balancing one its `goal`, `sensor` and `actuator`; nodes accept `purpose`, `statedPurpose` and
+`observedPurpose`. See `examples/systems/`.
+
 **In a page**
 
 ```html

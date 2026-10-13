@@ -17,7 +17,7 @@ const portAt = args.indexOf('--port');
 const PORT = portAt >= 0 ? +args[portAt + 1] : 5179;
 const SPEC = path.resolve(args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--port') || path.join(ROOT, 'examples/angelos/angelos-map.json'));
 const OUT = path.join(ROOT, 'examples', '.dev.html');
-const WATCHED = ['graphx.js', 'graphx.css', 'graphx-fx.js', 'graphx-shapes.js', 'graphx-mermaid.js', 'graphx-layouts.js', 'graphx-tree.js', 'graphx-build.mjs'].map(f => path.join(ROOT, f)).concat(SPEC);
+const WATCHED = ['graphx.js', 'graphx.css', 'graphx-fx.js', 'graphx-shapes.js', 'graphx-mermaid.js', 'graphx-layouts.js', 'graphx-tree.js', 'graphx-systems.js', 'graphx-build.mjs'].map(f => path.join(ROOT, f)).concat(SPEC);
 const PACKS = path.join(ROOT, 'packs');
 
 const RELOAD = `<script>new EventSource('/__reload').onmessage = () => location.reload();</script>`;

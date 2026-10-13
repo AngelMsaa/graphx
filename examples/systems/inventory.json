@@ -1,0 +1,161 @@
+{
+  "pack": "systems",
+  "title": "Car lot inventory",
+  "lang": "en",
+  "summary": "Meadows, Thinking in Systems p.51: a dealer keeps ten days of sales on the lot. Perception, response and delivery delays inside the balancing loop make inventory oscillate.",
+  "direction": "right",
+  "nodes": [
+    {
+      "id": "inv",
+      "kind": "stock",
+      "label": "Cars on the lot",
+      "summary": "Inventory the dealer can sell today."
+    },
+    {
+      "id": "deliv",
+      "kind": "flow",
+      "label": "Deliveries per day",
+      "summary": "Cars arriving from the factory."
+    },
+    {
+      "id": "sales",
+      "kind": "flow",
+      "label": "Sales per day",
+      "summary": "Cars driven off the lot."
+    },
+    {
+      "id": "factory",
+      "kind": "cloud",
+      "label": "Factory",
+      "summary": "Outside the model boundary."
+    },
+    {
+      "id": "demand",
+      "kind": "variable",
+      "label": "Customer demand",
+      "summary": "Buyers walking in."
+    },
+    {
+      "id": "perceived",
+      "kind": "variable",
+      "label": "Perceived sales",
+      "summary": "Sales averaged over the last days."
+    },
+    {
+      "id": "desired",
+      "kind": "variable",
+      "label": "Desired inventory",
+      "summary": "Ten days of perceived sales."
+    },
+    {
+      "id": "orders",
+      "kind": "flow",
+      "label": "Orders to factory",
+      "summary": "Gap between desired and actual inventory, closed gradually."
+    },
+    {
+      "id": "policy",
+      "kind": "goal",
+      "label": "Ten days of cover",
+      "summary": "The dealer's rule for how much stock to hold."
+    }
+  ],
+  "edges": [
+    {
+      "id": "d-i",
+      "from": "deliv",
+      "to": "inv",
+      "kind": "inflow"
+    },
+    {
+      "id": "s-i",
+      "from": "sales",
+      "to": "inv",
+      "kind": "outflow"
+    },
+    {
+      "id": "f-d",
+      "from": "factory",
+      "to": "deliv",
+      "kind": "pipe"
+    },
+    {
+      "id": "dm-s",
+      "from": "demand",
+      "to": "sales",
+      "kind": "link"
+    },
+    {
+      "id": "i-s",
+      "from": "inv",
+      "to": "sales",
+      "kind": "link",
+      "label": "only what is on the lot sells"
+    },
+    {
+      "id": "s-p",
+      "from": "sales",
+      "to": "perceived",
+      "kind": "link",
+      "delay": {
+        "type": "perception",
+        "duration": "5 days"
+      }
+    },
+    {
+      "id": "p-ds",
+      "from": "perceived",
+      "to": "desired",
+      "kind": "link"
+    },
+    {
+      "id": "pol-ds",
+      "from": "policy",
+      "to": "desired",
+      "kind": "targets"
+    },
+    {
+      "id": "ds-o",
+      "from": "desired",
+      "to": "orders",
+      "kind": "link"
+    },
+    {
+      "id": "i-o",
+      "from": "inv",
+      "to": "orders",
+      "kind": "link",
+      "label": "the gap shrinks",
+      "polarity": "-",
+      "delay": {
+        "type": "response",
+        "duration": "3 days"
+      }
+    },
+    {
+      "id": "o-d",
+      "from": "orders",
+      "to": "deliv",
+      "kind": "link",
+      "delay": {
+        "type": "delivery",
+        "duration": "5 days"
+      }
+    }
+  ],
+  "groups": [
+    {
+      "id": "restock",
+      "type": "B",
+      "label": "restock to cover",
+      "edges": [
+        "i-o",
+        "o-d",
+        "d-i"
+      ],
+      "goal": "ten days of perceived sales on the lot",
+      "sensor": "counting cars on the lot",
+      "actuator": "orders to the factory"
+    }
+  ]
+}

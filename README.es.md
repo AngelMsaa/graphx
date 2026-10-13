@@ -358,6 +358,13 @@ artifact, concept, event, state), que valen como tipo cuando el paquete no tiene
 rige el vocabulario de software y nada cambia. Piezas y aristas admiten `sources` (citas) y `confidence`
 (de 0 a 1); las aristas, `style` (solid, dashed, dotted).
 
+**Bucles de realimentación.** Con `"pack": "systems"` (stocks, flujos, enlaces de información) las
+aristas admiten `polarity` (`+` mismo sentido, `-` contrario) y `delay` (`true` o `{ "duration": "5 días",
+"type": "perception" }`). El motor encuentra cada bucle, lo etiqueta R (refuerza) o B (equilibra), pinta un
+glifo en su centro y avisa cuando uno que equilibra tiene retraso, porque oscilará. `groups` pone nombre a un
+bucle y da a uno que equilibra su `goal`, `sensor` y `actuator`; las piezas admiten `purpose`,
+`statedPurpose` y `observedPurpose`. Ver `examples/systems/`.
+
 **En una página**
 
 ```html
