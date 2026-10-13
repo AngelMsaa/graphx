@@ -378,6 +378,14 @@ puede exigir que un tipo de arista lleve etiqueta (`requireLabel`, para que un m
 frases) y que las piezas lleguen a una meta (`trace: [{ "from": [...], "to": [...], "via": [...] }]`, por
 aristas de los tipos de `via` o subiendo por sus padres). Hay un ejemplo por paquete en `examples/<pack>/`.
 
+**Ejes.** `axes: { x, y }` hace que la posición signifique algo. Un eje es ordinal (`bands: [{ id, label }]`,
+con `lines: [{ after, label }]` con nombre entre ellas) o continuo (`range`, por defecto `[0, 1]`, con
+`ranges` rotulados); cada pieza dice dónde cae con `at: { x, y }`, el id de una banda o un número. Presets:
+`blueprint` (cliente, frontstage, backstage, soporte, con las líneas de interacción, visibilidad e
+interacción interna), `wardley` (evolución en horizontal, visibilidad en vertical) y `stakeholders` (interés y
+poder); `{ "preset": "blueprint", "x": { "bands": [...] } }` añade tus etapas. Con ejes, los `lanes` no se
+pintan. Ver `examples/axes/`.
+
 **En una página**
 
 ```html

@@ -118,6 +118,31 @@ if (PACK_DECLARED) spec.pack = { name: PACK.name, label: PACK.label, legend: PAC
 const PATH_RE = /^[MmLlHhVvCcSsQqTtAaZz0-9.,\s-]+$/;
 const SHAPE_NAMES = new Set(sandbox.GraphX.shapes.names);
 if (spec.layout && spec.layout.mode != null && !sandbox.GraphX.layouts.has(spec.layout.mode)) warns.push(`layout.mode «${spec.layout.mode}» desconocido (válidos: ${sandbox.GraphX.layouts.names.join(', ')}); se usa ELK`);
+/* ejes: bandas y valores que existan; una pieza sin sitio se pinta aparte, pero se avisa */
+if (spec.axes != null) {
+  const LAY = sandbox.GraphX.layouts, AX = typeof spec.axes === 'object' ? LAY.resolveAxes(spec) : null;
+  if (!AX) errors.push('axes debe ser un objeto { x, y, preset }');
+  else {
+    if (spec.axes.preset != null && !LAY.AXIS_PRESETS[spec.axes.preset]) warns.push(`axes.preset «${spec.axes.preset}» desconocido (válidos: ${Object.keys(LAY.AXIS_PRESETS).join(', ')})`);
+    if (spec.layout && spec.layout.mode && spec.layout.mode !== 'axes') warns.push(`axes no se usa: layout.mode «${spec.layout.mode}» manda`);
+    if ((spec.lanes || []).length) warns.push('axes y lanes a la vez: con ejes los carriles no se pintan; usa una banda del eje');
+    const leaves = (spec.nodes || []).filter(n => !(spec.nodes || []).some(c => c.parent === n.id));
+    for (const d of ['x', 'y']) {
+      const ax = AX[d]; if (!ax) continue;
+      if (Array.isArray(ax.bands)) {
+        const ids = new Set(ax.bands.map(b => b && b.id));
+        if (ax.bands.some(b => !b || !b.id)) errors.push(`axes.${d}.bands: cada banda necesita id`);
+        (ax.lines || []).forEach(l => { if (!ids.has(l.after)) warns.push(`axes.${d}.lines: after «${l.after}» no es una banda`); });
+        for (const n of spec.nodes || []) if (n.at && n.at[d] != null && !ids.has(n.at[d])) warns.push(`nodo ${n.id}: at.${d} «${n.at[d]}» no es una banda de ${d} (hay: ${[...ids].join(', ')})`);
+      } else {
+        const [lo, hi] = ax.range;
+        if (!(typeof lo === 'number' && typeof hi === 'number' && hi > lo)) errors.push(`axes.${d}.range debe ser [mínimo, máximo]`);
+        for (const n of spec.nodes || []) if (n.at && n.at[d] != null && (typeof n.at[d] !== 'number' || n.at[d] < lo || n.at[d] > hi)) warns.push(`nodo ${n.id}: at.${d} debe ser un número entre ${lo} y ${hi}`);
+      }
+      for (const n of leaves) if (!n.at || n.at[d] == null) warns.push(`nodo ${n.id}: sin at.${d}; se pinta aparte, fuera del eje`);
+    }
+  }
+}
 if (spec.layout && spec.layout.backEdges != null && spec.layout.backEdges !== 'route') warns.push(`layout.backEdges «${spec.layout.backEdges}» desconocido (válido: route)`);
 const MARKER_NAMES = new Set(['arrow', 'none', 'line', ...Object.keys(sandbox.GraphX.shapes.markers)]);
 for (const [k, v] of Object.entries(spec.icons || {})) {

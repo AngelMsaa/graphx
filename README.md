@@ -377,6 +377,14 @@ that an edge kind has a label (`requireLabel`, so a concept map reads as sentenc
 to a goal (`trace: [{ "from": [...], "to": [...], "via": [...] }]`, following edges of the `via` kinds or
 climbing through parents). One example per pack sits under `examples/<pack>/`.
 
+**Axes.** `axes: { x, y }` makes position mean something. An axis is ordinal (`bands: [{ id, label }]`,
+with named `lines: [{ after, label }]` between them) or continuous (`range`, default `[0, 1]`, with
+labelled `ranges`); each node says where it falls with `at: { x, y }`, a band id or a number. Presets:
+`blueprint` (customer, frontstage, backstage, support, with the lines of interaction, visibility and
+internal interaction), `wardley` (evolution across, visibility up) and `stakeholders` (interest across,
+power up); `{ "preset": "blueprint", "x": { "bands": [...] } }` adds your own stages. With axes, `lanes` are
+not drawn. See `examples/axes/`.
+
 **In a page**
 
 ```html

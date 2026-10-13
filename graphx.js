@@ -649,7 +649,9 @@
     }
     /* layouts propios por tipo de diagrama (graphx-layouts.js), elegidos con `layout.mode` */
     const LAYOUTS = global.GraphX && global.GraphX.layouts ? global.GraphX.layouts : null;
-    const MODE = spec.layout && spec.layout.mode && LAYOUTS && LAYOUTS.has && LAYOUTS.has(spec.layout.mode) ? spec.layout.mode : null;
+    /* `axes` elige su layout solo, salvo que el JSON pida otro */
+    const wantMode = (spec.layout && spec.layout.mode) || (spec.axes ? 'axes' : null);
+    const MODE = wantMode && LAYOUTS && LAYOUTS.has && LAYOUTS.has(wantMode) ? wantMode : null;
     const FLAT = !!(MODE && LAYOUTS.flat && LAYOUTS.flat(MODE));
     /* en el árbol, el botón de orientación cambia entre sangrado (↓, como `tree`) y columnas (→) */
     if (MODE) { host.classList.add('gx-mode-' + MODE); if (!FLAT) bDir.style.display = 'none'; }

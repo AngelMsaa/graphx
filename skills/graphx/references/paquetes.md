@@ -18,6 +18,9 @@ Antes de escribir, **lee el JSON del paquete**: `describe` en cada tipo dice qu�
 en cada arista cómo se etiqueta y `from`/`to` hacia dónde apunta (`uses` va de quien usa a lo usado). Esas son las instrucciones; no las repitas en prosa ni las cambies por las tuyas.
 Hay un ejemplo por paquete en `examples/<paquete>/` (y `examples/onboarding-proceso.json` para `process`).
 
+Cuando la posición significa algo (un service blueprint, un mapa de Wardley, una matriz de interesados), usa
+`axes` con su preset y da a cada pieza su `at`: `examples/axes/` tiene uno de cada tipo de eje.
+
 Si nada del paquete encaja, usa la categoría (`actor`, `unit`, `resource`, `activity`, `artifact`, `concept`,
 `event`, `state`) como `kind`, o `kind: "unmapped"` con `category`. No inventes tipos.
 

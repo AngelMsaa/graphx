@@ -1,0 +1,27 @@
+{
+  "pack": "business",
+  "title": "Payroll platform, Wardley map",
+  "lang": "en",
+  "summary": "What the HR admin needs, the components that deliver it, and how evolved each is. Build what is custom, buy what is a commodity.",
+  "axes": { "preset": "wardley" },
+  "nodes": [
+    { "id": "admin", "kind": "segment", "label": "HR admin", "at": { "x": 0.6, "y": 1 }, "summary": "Needs payroll closed in one afternoon." },
+    { "id": "close", "kind": "offer", "label": "Payroll closed fast", "at": { "x": 0.45, "y": 0.86 }, "summary": "The outcome the admin pays for." },
+    { "id": "rules", "kind": "capability", "label": "Local payroll rules", "at": { "x": 0.3, "y": 0.62 }, "summary": "Per region tax and social security rules; our differentiator." },
+    { "id": "import", "kind": "capability", "label": "Employee data import", "at": { "x": 0.52, "y": 0.66 }, "summary": "CSV and provider exports." },
+    { "id": "onboard", "kind": "lever", "label": "Onboarding specialists", "at": { "x": 0.22, "y": 0.78 }, "summary": "People who walk new accounts through setup." },
+    { "id": "registry", "kind": "partner", "label": "Tax registry API", "at": { "x": 0.66, "y": 0.34 }, "summary": "Government service, product grade but slow at month end." },
+    { "id": "bank", "kind": "partner", "label": "Payments bank", "at": { "x": 0.82, "y": 0.22 }, "summary": "Moves salaries; a commodity we buy." },
+    { "id": "cloud", "kind": "capability", "label": "Cloud compute", "at": { "x": 0.94, "y": 0.06 }, "summary": "Utility." },
+    { "id": "churn", "kind": "metric", "label": "Monthly churn", "at": { "x": 0.38, "y": 0.92 }, "summary": "Share of paying accounts that cancel each month." }
+  ],
+  "edges": [
+    { "id": "e1", "from": "close", "to": "admin", "kind": "offers" },
+    { "id": "e2", "from": "rules", "to": "close", "kind": "enables" },
+    { "id": "e3", "from": "import", "to": "close", "kind": "enables" },
+    { "id": "e4", "from": "registry", "to": "rules", "kind": "enables" },
+    { "id": "e5", "from": "bank", "to": "close", "kind": "enables" },
+    { "id": "e6", "from": "cloud", "to": "rules", "kind": "enables" },
+    { "id": "e7", "from": "onboard", "to": "churn", "kind": "drives", "polarity": "-", "label": "fewer stuck setups" }
+  ]
+}

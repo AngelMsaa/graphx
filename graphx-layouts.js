@@ -390,6 +390,161 @@
     return { rects, paths, bbox: bboxOf(rects), deco: [] };
   }
 
+
+  /* ---------- ejes: posición que significa algo (blueprint, Wardley, matriz de interesados) ---------- */
+  /* `axes: { x, y, preset }`: cada eje es ordinal (`bands` con nombre y `lines` con nombre entre ellas) o
+     continuo (`range`, por defecto [0, 1], con `ranges` rotulados). Cada pieza dice dónde cae con
+     `at: { x, y }` (el id de una banda o un número). Dos ordinales: rejilla de celdas. Dos continuos: cada
+     pieza en su punto y las que chocan se apartan hacia abajo. Mezcla: en cada banda, las piezas se
+     apilan en tantas filas como haga falta para no pisarse a lo largo del eje continuo. */
+  const AXIS_PRESETS = {
+    wardley: {
+      x: { label: { en: 'Evolution', es: 'Evolución' }, ranges: [
+        { from: 0, to: 0.17, label: { en: 'Genesis', es: 'Génesis' } }, { from: 0.17, to: 0.4, label: { en: 'Custom built', es: 'A medida' } },
+        { from: 0.4, to: 0.7, label: { en: 'Product', es: 'Producto' } }, { from: 0.7, to: 1, label: { en: 'Commodity', es: 'Commodity' } }] },
+      y: { label: { en: 'Visibility to the user', es: 'Visibilidad para el usuario' }, ends: [{ en: 'invisible', es: 'invisible' }, { en: 'visible', es: 'visible' }] }
+    },
+    blueprint: {
+      y: { bands: [
+        { id: 'customer', label: { en: 'Customer actions', es: 'Acciones del cliente' } }, { id: 'frontstage', label: { en: 'Frontstage', es: 'Frontstage' } },
+        { id: 'backstage', label: { en: 'Backstage', es: 'Backstage' } }, { id: 'support', label: { en: 'Support processes', es: 'Procesos de soporte' } }],
+        lines: [{ after: 'customer', label: { en: 'line of interaction', es: 'línea de interacción' } },
+          { after: 'frontstage', label: { en: 'line of visibility', es: 'línea de visibilidad' } },
+          { after: 'backstage', label: { en: 'line of internal interaction', es: 'línea de interacción interna' } }] }
+    },
+    stakeholders: {
+      x: { label: { en: 'Interest', es: 'Interés' }, ranges: [{ from: 0, to: 0.5, label: { en: 'low', es: 'bajo' } }, { from: 0.5, to: 1, label: { en: 'high', es: 'alto' } }] },
+      y: { label: { en: 'Power', es: 'Poder' }, ranges: [{ from: 0, to: 0.5, label: { en: 'low', es: 'bajo' } }, { from: 0.5, to: 1, label: { en: 'high', es: 'alto' } }] }
+    }
+  };
+  function resolveAxes(spec) {
+    const a = spec && spec.axes;
+    if (!a || typeof a !== 'object') return null;
+    const pre = (a.preset && AXIS_PRESETS[a.preset]) || {};
+    const one = k => { const v = a[k] || pre[k] ? Object.assign({}, pre[k] || {}, a[k] || {}) : null; if (v && !Array.isArray(v.bands)) v.range = v.range || [0, 1]; return v; };
+    return { x: one('x'), y: one('y') };
+  }
+  function axes(ctx) {
+    const { M, roots, vis, vedges, textW, lang } = ctx, { kids, open } = helpers(ctx);
+    const AX = resolveAxes(ctx.spec) || {}, tr = v => (v && typeof v === 'object' ? v[lang] || v.en || v.es || '' : v == null ? '' : String(v));
+    const GAP = 14, PAD = 18;
+    const items = [];
+    const walk = id => { if (M.get(id).isLane) { kids(id).forEach(walk); return; } if (open(id)) kids(id).forEach(walk); else items.push(id); };
+    roots.filter(r => vis.has(r)).forEach(walk);
+    /* una pieza plegada sin `at` cae donde su primer descendiente con `at` */
+    const atOf = id => { const n = M.get(id); if (n.at) return n.at; const q = [...n.children]; while (q.length) { const c = M.get(q.shift()); if (c.at) return c.at; q.push(...c.children); } return {}; };
+    const dims = ['x', 'y'].map(d => {
+      const ax = AX[d];
+      if (!ax) return { d, kind: 'none', n: 1, slot: () => 0 };
+      if (Array.isArray(ax.bands)) {
+        const ix = new Map(ax.bands.map((b, i) => [b.id, i]));
+        const extra = items.some(id => !ix.has(atOf(id)[d]));
+        return { d, kind: 'ord', ax, n: ax.bands.length + (extra ? 1 : 0), extra, slot: id => (ix.has(atOf(id)[d]) ? ix.get(atOf(id)[d]) : ax.bands.length) };
+      }
+      const [lo, hi] = ax.range;
+      return { d, kind: 'cont', ax, lo, hi, val: id => { const v = atOf(id)[d]; return typeof v === 'number' && isFinite(v) ? clamp((v - lo) / ((hi - lo) || 1), 0, 1) : null; } };
+    });
+    const [DX, DY] = dims, size = new Map(items.map(id => [id, ctx.size(id)]));
+    const maxW = Math.max(60, ...items.map(id => size.get(id).w)), maxH = Math.max(40, ...items.map(id => size.get(id).h));
+    const LEFT = DY.kind === 'none' ? PAD : DY.kind === 'ord' ? 150 : 74, TOP = DX.kind === 'ord' ? 46 : PAD + 8;
+    const rects = new Map(), deco = [];
+    /* tamaño de cada banda a lo largo de su eje y posición de cada pieza dentro */
+    const discrete = D => D.kind !== 'cont';
+    if (discrete(DX) && discrete(DY)) {
+      const cells = new Map();
+      items.forEach(id => { const k = DX.slot(id) + ',' + DY.slot(id); if (!cells.has(k)) cells.set(k, []); cells.get(k).push(id); });
+      const colsOf = list => Math.ceil(Math.sqrt(list.length));
+      const colW = Array.from({ length: DX.n }, (_, i) => Math.max(maxW + 2 * PAD, ...[...cells].filter(([k]) => +k.split(',')[0] === i).map(([, l]) => colsOf(l) * (maxW + GAP) - GAP + 2 * PAD)));
+      const rowH = Array.from({ length: DY.n }, (_, j) => Math.max(maxH + 2 * PAD, ...[...cells].filter(([k]) => +k.split(',')[1] === j).map(([, l]) => Math.ceil(l.length / colsOf(l)) * (maxH + GAP) - GAP + 2 * PAD)));
+      const x0 = []; colW.reduce((a, w, i) => (x0[i] = a, a + w), LEFT);
+      const y0 = []; rowH.reduce((a, h, j) => (y0[j] = a, a + h), TOP);
+      cells.forEach((list, k) => {
+        const [i, j] = k.split(',').map(Number), cols = colsOf(list);
+        list.forEach((id, t) => { const z = size.get(id); rects.set(id, { x: x0[i] + PAD + (t % cols) * (maxW + GAP) + (maxW - z.w) / 2, y: y0[j] + PAD + Math.floor(t / cols) * (maxH + GAP) + (maxH - z.h) / 2, w: z.w, h: z.h }); });
+      });
+      DX.at = x0; DX.len = colW; DY.at = y0; DY.len = rowH;
+    } else if (!discrete(DX) && !discrete(DY)) {
+      const W = Math.max(1100, maxW * 6, Math.sqrt(items.length) * (maxW + GAP) * 2), H = Math.max(700, maxH * 14, Math.sqrt(items.length) * (maxH + GAP) * 2.2);
+      const off = [];
+      items.forEach(id => {
+        const z = size.get(id), vx = DX.val(id), vy = DY.val(id);
+        if (vx == null || vy == null) { off.push(id); return; }
+        rects.set(id, { x: LEFT + vx * W - z.w / 2, y: TOP + (1 - vy) * H - z.h / 2, w: z.w, h: z.h });
+      });
+      /* las que se pisan bajan lo justo, de arriba abajo */
+      const placed = items.filter(id => rects.has(id)).sort((a, b) => rects.get(a).y - rects.get(b).y), done = [];
+      placed.forEach(id => { const r = rects.get(id); let moved = true; for (let k = 0; moved && k < 60; k++) { moved = false; for (const o of done) { const q = rects.get(o); if (r.x < q.x + q.w + 8 && q.x < r.x + r.w + 8 && r.y < q.y + q.h + 8 && q.y < r.y + r.h + 8) { r.y = q.y + q.h + 8; moved = true; } } } done.push(id); });
+      let ox = LEFT; off.forEach(id => { const z = size.get(id); rects.set(id, { x: ox, y: TOP + H + 70, w: z.w, h: z.h }); ox += z.w + GAP; });
+      DX.at = LEFT; DX.len = W; DY.at = TOP; DY.len = H; DX.offY = off.length ? TOP + H + 50 : null;
+    } else {
+      /* A: el eje de bandas (o ninguno); B: el continuo */
+      const A = discrete(DX) ? DX : DY, B = A === DX ? DY : DX, horiz = B === DX;
+      const span = horiz ? Math.max(960, items.length * (maxW + GAP) / 2) : Math.max(640, items.length * (maxH + GAP) / 2);
+      const extB = id => (horiz ? size.get(id).w : size.get(id).h), extA = horiz ? maxH : maxW;
+      const bands = Array.from({ length: A.n }, () => []);
+      items.forEach(id => bands[A.slot(id)].push(id));
+      const start = [], len = []; let acc = horiz ? TOP : LEFT;
+      bands.forEach((list, i) => {
+        const rows = [];
+        list.map(id => ({ id, c: B.val(id) == null ? -1 : B.val(id) })).sort((p, q) => p.c - q.c).forEach(({ id, c }) => {
+          const e = extB(id), pos = c < 0 ? -e - 40 : (horiz ? c : 1 - c) * span - e / 2;
+          let r = rows.findIndex(end => end + GAP <= pos); if (r < 0) { rows.push(-Infinity); r = rows.length - 1; }
+          rows[r] = pos + e;
+          const z = size.get(id), a = acc + PAD + r * (extA + GAP);
+          rects.set(id, horiz ? { x: (horiz ? LEFT : 0) + pos, y: a + (maxH - z.h) / 2, w: z.w, h: z.h } : { x: a + (maxW - z.w) / 2, y: TOP + pos, w: z.w, h: z.h });
+        });
+        start[i] = acc; len[i] = Math.max(1, rows.length) * (extA + GAP) - GAP + 2 * PAD; acc += len[i];
+      });
+      A.at = start; A.len = len; B.at = horiz ? LEFT : TOP; B.len = span;
+    }
+    /* contenedores abiertos: el marco alrededor de lo suyo */
+    const frame = id => { const ks = kids(id).map(c => (open(c) ? frame(c) : rects.get(c))).filter(Boolean); if (!ks.length) return null; const b = bboxOf(new Map(ks.map((r, i) => [i, r]))); const r = { x: b.x + 6, y: b.y - 10, w: b.w - 12, h: b.h - 2 }; if (!M.get(id).isLane) rects.set(id, r); return r; };
+    roots.filter(r => vis.has(r) && open(r)).forEach(frame);
+    roots.filter(r => vis.has(r) && M.get(r).isLane).forEach(r => rects.set(r, { x: LEFT, y: TOP, w: 0, h: 0 }));
+    /* fondo: bandas, líneas con nombre, rangos y títulos de eje */
+    const all = bboxOf(rects), X1 = Math.max(all.x + all.w, DX.kind === 'cont' ? DX.at + DX.len : 0, DX.kind === 'ord' ? DX.at[DX.n - 1] + DX.len[DX.n - 1] : 0);
+    const Y1 = Math.max(all.y + all.h - 24, DY.kind === 'cont' ? DY.at + DY.len : 0, DY.kind === 'ord' ? DY.at[DY.n - 1] + DY.len[DY.n - 1] : 0);
+    const bandLabel = (D, i) => (i < D.ax.bands.length ? tr(D.ax.bands[i].label || D.ax.bands[i].id) : '—');
+    const ordDeco = (D, isX) => {
+      for (let i = 0; i < D.n; i++) {
+        const a = D.at[i], l = D.len[i];
+        if (i % 2) deco.push(E('rect', { class: 'gx-ax-band', ...(isX ? { x: r1(a), y: TOP - 30, width: r1(l), height: r1(Y1 - TOP + 30) } : { x: 4, y: r1(a), width: r1(X1 - 4), height: r1(l) }) }));
+        deco.push(E('text', { class: 'gx-ax-bandt', ...(isX ? { x: r1(a + l / 2), y: TOP - 14, 'text-anchor': 'middle' } : { x: 14, y: r1(a + 20) }) }, null, bandLabel(D, i)));
+      }
+      (D.ax.lines || []).forEach(ln => {
+        const i = D.ax.bands.findIndex(b => b.id === ln.after); if (i < 0 || i >= D.n - 1) return;
+        const p = r1(D.at[i] + D.len[i]);
+        deco.push(E('path', { class: 'gx-ax-line', d: isX ? `M${p},${TOP - 30}V${Y1}` : `M4,${p}H${X1}` }));
+        if (ln.label) deco.push(E('text', { class: 'gx-ax-linet', ...(isX ? { x: p + 4, y: Y1 - 6 } : { x: r1(X1 - 6), y: p - 5, 'text-anchor': 'end' }) }, null, tr(ln.label)));
+      });
+      if (D.ax.label) deco.push(E('text', { class: 'gx-ax-title', ...(isX ? { x: r1(D.at[0]), y: TOP - 34 } : { x: 14, y: TOP - 12 }) }, null, tr(D.ax.label)));
+    };
+    const contDeco = (D, isX) => {
+      const pos = t => (isX ? D.at + t * D.len : D.at + (1 - t) * D.len), base = isX ? Y1 + 26 : LEFT - 40;
+      deco.push(E('path', { class: 'gx-ax-axis', d: isX ? `M${LEFT - 20},${base}H${r1(D.at + D.len + 20)}` : `M${base},${r1(D.at + D.len + 20)}V${D.at - 20}` }));
+      deco.push(E('path', { class: 'gx-ax-head', d: isX ? `M${r1(D.at + D.len + 14)},${base - 5}L${r1(D.at + D.len + 22)},${base}L${r1(D.at + D.len + 14)},${base + 5}` : `M${base - 5},${D.at - 14}L${base},${D.at - 22}L${base + 5},${D.at - 14}` }));
+      (D.ax.ranges || []).forEach((g, i) => {
+        const t0 = (g.from - D.lo) / ((D.hi - D.lo) || 1), t1 = (g.to - D.lo) / ((D.hi - D.lo) || 1), m = (pos(t0) + pos(t1)) / 2;
+        if (i % 2) deco.push(E('rect', { class: 'gx-ax-band', ...(isX ? { x: r1(pos(t0)), y: TOP - 10, width: r1(pos(t1) - pos(t0)), height: r1(base - TOP + 10) } : { x: base, y: r1(pos(t1)), width: r1(X1 - base), height: r1(pos(t0) - pos(t1)) }) }));
+        if (i) deco.push(E('path', { class: 'gx-ax-div', d: isX ? `M${r1(pos(t0))},${TOP - 10}V${base}` : `M${base},${r1(pos(t0))}H${X1}` }));
+        deco.push(E('text', { class: 'gx-ax-range', ...(isX ? { x: r1(m), y: base + 18, 'text-anchor': 'middle' } : { x: base - 8, y: r1(m), 'text-anchor': 'middle', transform: `rotate(-90 ${base - 8} ${r1(m)})` }) }, null, tr(g.label)));
+      });
+      (D.ax.ends || []).forEach((e, i) => { const p = pos(i); deco.push(E('text', { class: 'gx-ax-end', ...(isX ? { x: r1(p), y: base + 32, 'text-anchor': i ? 'end' : 'start' } : { x: base + 6, y: r1(p + (i ? 12 : -4)) }) }, null, tr(e))); });
+      if (D.ax.label) deco.push(E('text', { class: 'gx-ax-title', ...(isX ? { x: r1(D.at + D.len), y: base - 8, 'text-anchor': 'end' } : { x: base + 8, y: D.at - 8 }) }, null, tr(D.ax.label)));
+    };
+    if (DX.kind === 'ord') ordDeco(DX, true); else if (DX.kind === 'cont') contDeco(DX, true);
+    if (DY.kind === 'ord') ordDeco(DY, false); else if (DY.kind === 'cont') contDeco(DY, false);
+    if (DX.offY) deco.push(E('text', { class: 'gx-ax-bandt', x: LEFT, y: DX.offY }, null, lang === 'es' ? 'sin posición' : 'not placed'));
+    const paths = new Map();
+    for (const v of vedges) {
+      const a = rects.get(v.from), b = rects.get(v.to); if (!a || !b) continue;
+      const pa = center(a), pb = center(b);
+      paths.set(v.id, { pts: [pa, pb], label: midLabel(v, pa, pb, textW) });
+    }
+    const extra = [{ x: 0, y: TOP - 40, w: X1 + 30, h: Y1 - TOP + 100 }];
+    return { rects, paths, bbox: bboxOf(rects, extra), deco };
+  }
+
   /* ---------- árbol de ficheros: sangrado como `tree` (hacia abajo) o en columnas (a la derecha) ---------- */
   /* Una carpeta abierta no es un contenedor: es una tarjeta más, y sus hijos cuelgan de ella. Las líneas
      no van en `paths` sino en `wires`: el motor las redibuja en cada fotograma con `wire()` a partir de
@@ -521,8 +676,8 @@
     return `M${f(mx)},${f(ys)} V${f(yk - dir * r)}`;
   }
 
-  const modes = { gantt, git, sankey, treemap, timeline, journey, grid, tree };
+  const modes = { gantt, git, sankey, treemap, timeline, journey, grid, tree, axes };
   /* `flat`: modos en los que una pieza abierta no envuelve a sus hijos (sigue siendo una tarjeta) */
   const FLAT = { tree: 1 };
-  return Object.assign({ names: Object.keys(modes), squarify, wire, has: m => Object.prototype.hasOwnProperty.call(modes, m), flat: m => Object.prototype.hasOwnProperty.call(FLAT, m) }, modes);
+  return Object.assign({ names: Object.keys(modes), squarify, wire, AXIS_PRESETS, resolveAxes, has: m => Object.prototype.hasOwnProperty.call(modes, m), flat: m => Object.prototype.hasOwnProperty.call(FLAT, m) }, modes);
 });
