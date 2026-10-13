@@ -1,0 +1,4495 @@
+{
+ "title": "angelos",
+ "lang": "en",
+ "summary": "Ten skills route each ask to one branch; branches read leaves from shared knowledge domains. Derived from the files by scripts/build-map.py logic: every edge is a load path a file writes.",
+ "direction": "right",
+ "initialDepth": 1,
+ "lanes": [
+  {
+   "id": "skills",
+   "label": "Skills",
+   "subtitle": "skills/<verb>: router plus branches"
+  },
+  {
+   "id": "shared",
+   "label": "Shared knowledge",
+   "subtitle": "shared/<domain>: leaves, no index"
+  }
+ ],
+ "levels": [
+  {
+   "depth": 0,
+   "label": "Skill or domain"
+  },
+  {
+   "depth": 1,
+   "label": "Branch or leaf"
+  },
+  {
+   "depth": 2,
+   "label": "Detail"
+  }
+ ],
+ "filters": [
+  {
+   "label": "analyze",
+   "nodes": [
+    "shared:adoption/dynamics",
+    "shared:datalake/access",
+    "shared:datalake/limits",
+    "shared:diagrams/authoring",
+    "shared:diagrams/recipes",
+    "shared:diagrams/surfaces",
+    "shared:diagrams/when-to-draw",
+    "shared:event-taxonomy/naming-grammar",
+    "shared:metrics/compass-metric",
+    "shared:people/confidence",
+    "shared:people/crawler-prompt",
+    "shared:people/guardrails",
+    "shared:people/sources",
+    "shared:product-judgment/evidence",
+    "shared:product-judgment/health-dimensions",
+    "shared:research-method/domain-map",
+    "shared:research-method/known-competitors",
+    "shared:signals/adapters",
+    "shared:signals/method",
+    "shared:vault/conventions",
+    "skill:analyze/SKILL",
+    "skill:analyze/b/domain",
+    "skill:analyze/b/feature",
+    "skill:analyze/b/person",
+    "skill:analyze/b/pipeline",
+    "skill:analyze/b/report-template"
+   ]
+  },
+  {
+   "label": "build",
+   "nodes": [
+    "shared:abuse/adaptive-defense",
+    "shared:accessibility/cognitive",
+    "shared:accessibility/keyboard",
+    "shared:accessibility/states",
+    "shared:code-design/comments-docs",
+    "shared:component-design/composition",
+    "shared:content-style/most-broken",
+    "shared:content-style/plain-words",
+    "shared:design-quality/interface-principles",
+    "shared:frontend-libraries/catalog",
+    "shared:layout-patterns/page-structure",
+    "shared:moderation/community-standards",
+    "shared:motion/accessibility",
+    "shared:motion/cohesion",
+    "shared:motion/fluidity",
+    "shared:motion/gesture-physics",
+    "shared:motion/gestures",
+    "shared:motion/interruption",
+    "shared:motion/native",
+    "shared:motion/performance",
+    "shared:motion/physicality",
+    "shared:motion/springs",
+    "shared:motion/timing",
+    "shared:motion/transforms",
+    "shared:motion/vocabulary",
+    "shared:motion/when",
+    "shared:subagents/fanout",
+    "shared:subagents/merging",
+    "skill:build/SKILL",
+    "skill:build/b/animation",
+    "skill:build/b/animation-expo",
+    "skill:build/b/animation-expo/recipes",
+    "skill:build/b/animation/recipes",
+    "skill:build/b/component",
+    "skill:build/b/frontend",
+    "skill:build/b/frontend/interaction-design",
+    "skill:build/b/interaction",
+    "skill:build/b/layout",
+    "skill:build/b/pick-library",
+    "skill:build/b/prototype",
+    "skill:build/b/prototype/picker",
+    "skill:build/b/simplify"
+   ]
+  },
+  {
+   "label": "create",
+   "nodes": [
+    "shared:content-style/most-broken",
+    "shared:diagrams/surfaces",
+    "shared:hyperframes/engine",
+    "shared:hyperframes/handoff",
+    "shared:narrative/craft",
+    "shared:narrative/pyramid",
+    "shared:visual-design/ai-slop-blacklist",
+    "shared:visual-design/typography",
+    "skill:create/SKILL",
+    "skill:create/b/diagram",
+    "skill:create/b/explainer",
+    "skill:create/b/launch-video",
+    "skill:create/b/motion-graphic",
+    "skill:create/b/pr-video",
+    "skill:create/b/slideshow",
+    "skill:create/b/video"
+   ]
+  },
+  {
+   "label": "fix",
+   "nodes": [
+    "shared:abuse/adaptive-defense",
+    "shared:root-cause-patterns/catalog",
+    "skill:fix/SKILL"
+   ]
+  },
+  {
+   "label": "measure",
+   "nodes": [
+    "shared:amplitude-best-practices/concepts",
+    "shared:amplitude-best-practices/reference-tables",
+    "shared:event-taxonomy/naming-grammar",
+    "shared:event-taxonomy/property-design",
+    "shared:metrics/compass-metric",
+    "skill:measure/SKILL",
+    "skill:measure/b/build-dashboard",
+    "skill:measure/b/define-event",
+    "skill:measure/b/define-event/sources",
+    "skill:measure/b/discover-events",
+    "skill:measure/b/discover-patterns",
+    "skill:measure/b/feature",
+    "skill:measure/b/read-diff",
+    "skill:measure/b/write-plan"
+   ]
+  },
+  {
+   "label": "note",
+   "nodes": [
+    "shared:vault/conventions",
+    "shared:vault/tags",
+    "skill:note/SKILL",
+    "skill:note/b/classify",
+    "skill:note/b/fetch",
+    "skill:note/b/recall",
+    "skill:note/b/tag",
+    "skill:note/b/verify-vault",
+    "skill:note/b/write-pages",
+    "skill:note/b/write-pages/internal-meetings",
+    "skill:note/b/write-pages/user-interviews"
+   ]
+  },
+  {
+   "label": "research",
+   "nodes": [
+    "shared:adoption/dynamics",
+    "shared:anti-sycophancy/claims",
+    "shared:moderation/community-standards",
+    "shared:research-method/domain-map",
+    "shared:research-method/known-competitors",
+    "shared:signals/adapters",
+    "shared:signals/competitor-radar",
+    "shared:signals/conversations",
+    "shared:signals/method",
+    "shared:vault/conventions",
+    "shared:vault/tags",
+    "skill:note/b/recall",
+    "skill:research/SKILL",
+    "skill:research/b/check-knowledge",
+    "skill:research/b/competitors",
+    "skill:research/b/extract-insights",
+    "skill:research/b/landscape"
+   ]
+  },
+  {
+   "label": "review",
+   "nodes": [
+    "shared:abuse/adaptive-defense",
+    "shared:accessibility/wcag",
+    "shared:anti-sycophancy/artifacts",
+    "shared:anti-sycophancy/claims",
+    "shared:code-design/code-evolution",
+    "shared:code-design/finding-priority",
+    "shared:code-design/red-flags",
+    "shared:code-reviewers/adversarial",
+    "shared:code-reviewers/api-contract",
+    "shared:code-reviewers/data-migrations",
+    "shared:code-reviewers/reliability",
+    "shared:content-style/factorial-guide",
+    "shared:content-style/plain-words",
+    "shared:content-style/ui-patterns",
+    "shared:design-quality/cognitive-patterns",
+    "shared:design-quality/feasibility-lenses",
+    "shared:design-quality/passes",
+    "shared:frontend-libraries/catalog",
+    "shared:frontend-libraries/mismatches",
+    "shared:layout-patterns/page-structure",
+    "shared:motion/accessibility",
+    "shared:motion/fluidity",
+    "shared:motion/gesture-physics",
+    "shared:motion/native",
+    "shared:motion/when",
+    "shared:narrative/craft",
+    "shared:narrative/pyramid",
+    "shared:product-judgment/jtbd",
+    "shared:subagents/fanout",
+    "shared:subagents/merging",
+    "shared:taste/calibration",
+    "shared:vault/conventions",
+    "shared:visual-design/ai-slop-blacklist",
+    "skill:review/SKILL",
+    "skill:review/b/code-accessibility",
+    "skill:review/b/code-backend",
+    "skill:review/b/code-bugs",
+    "skill:review/b/code-frontend",
+    "skill:review/b/design",
+    "skill:review/b/design-accessibility",
+    "skill:review/b/doc",
+    "skill:review/b/motion",
+    "skill:review/b/pr",
+    "skill:review/b/slides",
+    "skill:review/b/ui-copy",
+    "skill:think/b/validate-problem"
+   ]
+  },
+  {
+   "label": "think",
+   "nodes": [
+    "shared:adoption/dynamics",
+    "shared:anti-sycophancy/artifacts",
+    "shared:anti-sycophancy/claims",
+    "shared:code-design/red-flags",
+    "shared:code-design/strategic-posture",
+    "shared:datalake/access",
+    "shared:drafting/writing-to-think",
+    "shared:product-judgment/alternatives",
+    "shared:product-judgment/assumptions",
+    "shared:product-judgment/evidence",
+    "shared:product-judgment/forcing-questions",
+    "shared:product-judgment/health-dimensions",
+    "shared:product-judgment/opportunity-dimensions",
+    "shared:product-judgment/scope-modes",
+    "shared:root-cause-patterns/catalog",
+    "shared:stakeholders/profiles",
+    "shared:subagents/fanout",
+    "shared:subagents/merging",
+    "shared:three-layer-synthesis/emerging-evidence",
+    "shared:three-layer-synthesis/layers",
+    "shared:vault/conventions",
+    "skill:think/SKILL",
+    "skill:think/b/brainstorm",
+    "skill:think/b/challenge",
+    "skill:think/b/debate",
+    "skill:think/b/find-root-cause",
+    "skill:think/b/frame-opportunity",
+    "skill:think/b/generate-ideas",
+    "skill:think/b/perspective-selector",
+    "skill:think/b/poll-panel",
+    "skill:think/b/surface-assumptions",
+    "skill:think/b/validate-problem"
+   ]
+  },
+  {
+   "label": "write",
+   "nodes": [
+    "shared:content-style/factorial-guide",
+    "shared:content-style/most-broken",
+    "shared:content-style/ui-patterns",
+    "shared:drafting/writing-to-think",
+    "shared:narrative/craft",
+    "shared:narrative/pyramid",
+    "skill:write/SKILL",
+    "skill:write/b/comms",
+    "skill:write/b/comms/3p-updates",
+    "skill:write/b/comms/company-newsletter",
+    "skill:write/b/comms/faq-answers",
+    "skill:write/b/slides",
+    "skill:write/b/story",
+    "skill:write/b/ui-copy"
+   ]
+  }
+ ],
+ "legend": {
+  "edges": [
+   {
+    "label": "reads shared knowledge",
+    "style": "solid"
+   },
+   {
+    "label": "hands off or opens detail",
+    "style": "dashed"
+   }
+  ]
+ },
+ "nodes": [
+  {
+   "id": "skill:analyze",
+   "lane": "skills",
+   "label": "analyze",
+   "kind": "service",
+   "summary": "Judges how a feature or a whole product area is doing, ours or a competitor's, and ends in a scorecard plus a verdict (except the person route).",
+   "path": "skills/analyze/SKILL.md",
+   "tags": [
+    "analyze"
+   ]
+  },
+  {
+   "id": "skill:analyze/SKILL",
+   "parent": "skill:analyze",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The analyze router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/analyze/SKILL.md",
+   "tags": [
+    "analyze"
+   ]
+  },
+  {
+   "id": "skill:analyze/b/domain",
+   "parent": "skill:analyze",
+   "label": "domain",
+   "kind": "module",
+   "summary": "Health analysis of a whole product area at any scope (Time, Time Planning, a competitor's suite), ours or a competitor's.",
+   "path": "skills/analyze/branches/domain.md",
+   "tags": [
+    "analyze",
+    "domain"
+   ]
+  },
+  {
+   "id": "skill:analyze/b/feature",
+   "parent": "skill:analyze",
+   "label": "feature",
+   "kind": "module",
+   "summary": "Deep health analysis of ONE product capability, ours or a competitor's.",
+   "path": "skills/analyze/branches/feature.md",
+   "tags": [
+    "analyze",
+    "feature"
+   ]
+  },
+  {
+   "id": "skill:analyze/b/person",
+   "parent": "skill:analyze",
+   "label": "person",
+   "kind": "module",
+   "summary": "Assess one person, the user or a colleague, from their work traces, and add the dated run to the",
+   "path": "skills/analyze/branches/person.md",
+   "tags": [
+    "analyze",
+    "person"
+   ]
+  },
+  {
+   "id": "skill:analyze/b/pipeline",
+   "parent": "skill:analyze",
+   "label": "pipeline",
+   "kind": "module",
+   "summary": "Both `feature` and `domain` run this pipeline.",
+   "path": "skills/analyze/branches/pipeline.md",
+   "tags": [
+    "analyze",
+    "pipeline"
+   ]
+  },
+  {
+   "id": "skill:analyze/b/report-template",
+   "parent": "skill:analyze",
+   "label": "report-template",
+   "kind": "module",
+   "summary": "The markdown is the source of truth (persisted to the vault).",
+   "path": "skills/analyze/branches/report-template.md",
+   "tags": [
+    "analyze",
+    "report-template"
+   ]
+  },
+  {
+   "id": "skill:build",
+   "lane": "skills",
+   "label": "build",
+   "kind": "service",
+   "summary": "Builds interface artifacts in code:",
+   "path": "skills/build/SKILL.md",
+   "tags": [
+    "build"
+   ]
+  },
+  {
+   "id": "skill:build/SKILL",
+   "parent": "skill:build",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The build router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/build/SKILL.md",
+   "tags": [
+    "build"
+   ]
+  },
+  {
+   "id": "skill:build/b/animation-expo",
+   "parent": "skill:build",
+   "label": "animation-expo",
+   "kind": "module",
+   "summary": "Builds animations in React Native and Expo with Reanimated, Gesture Handler, Expo Router and expo-haptics:",
+   "path": "skills/build/branches/animation-expo.md",
+   "tags": [
+    "build",
+    "animation-expo"
+   ]
+  },
+  {
+   "id": "skill:build/b/animation-expo/recipes",
+   "parent": "skill:build",
+   "label": "animation-expo/recipes",
+   "kind": "file",
+   "summary": "Ready-to-build implementations for the cases that come up most in a React Native app.",
+   "path": "skills/build/branches/animation-expo/recipes.md",
+   "tags": [
+    "build"
+   ]
+  },
+  {
+   "id": "skill:build/b/animation",
+   "parent": "skill:build",
+   "label": "animation",
+   "kind": "module",
+   "summary": "Builds a web animation from scratch in the order that decides whether it feels right:",
+   "path": "skills/build/branches/animation.md",
+   "tags": [
+    "build",
+    "animation"
+   ]
+  },
+  {
+   "id": "skill:build/b/animation/recipes",
+   "parent": "skill:build",
+   "label": "animation/recipes",
+   "kind": "file",
+   "summary": "Ready-to-build implementations for the cases that come up most.",
+   "path": "skills/build/branches/animation/recipes.md",
+   "tags": [
+    "build"
+   ]
+  },
+  {
+   "id": "skill:build/b/component",
+   "parent": "skill:build",
+   "label": "component",
+   "kind": "module",
+   "summary": "Builds one component API first and tree second, so its props read at the call site and its markup has no box without a job.",
+   "path": "skills/build/branches/component.md",
+   "tags": [
+    "build",
+    "component"
+   ]
+  },
+  {
+   "id": "skill:build/b/frontend",
+   "parent": "skill:build",
+   "label": "frontend",
+   "kind": "module",
+   "summary": "Create distinctive, production-grade frontend interfaces that avoid generic AI aesthetics.",
+   "path": "skills/build/branches/frontend.md",
+   "tags": [
+    "build",
+    "frontend"
+   ]
+  },
+  {
+   "id": "skill:build/b/frontend/interaction-design",
+   "parent": "skill:build",
+   "label": "frontend/interaction-de\u2026",
+   "kind": "file",
+   "summary": "The implementation patterns behind an interaction:",
+   "path": "skills/build/branches/frontend/interaction-design.md",
+   "tags": [
+    "build"
+   ]
+  },
+  {
+   "id": "skill:build/b/interaction",
+   "parent": "skill:build",
+   "label": "interaction",
+   "kind": "module",
+   "summary": "Decides what happens when the user acts:",
+   "path": "skills/build/branches/interaction.md",
+   "tags": [
+    "build",
+    "interaction"
+   ]
+  },
+  {
+   "id": "skill:build/b/layout",
+   "parent": "skill:build",
+   "label": "layout",
+   "kind": "module",
+   "summary": "Build page-level layouts using F0 layout components and spacing tokens.",
+   "path": "skills/build/branches/layout.md",
+   "tags": [
+    "build",
+    "layout"
+   ]
+  },
+  {
+   "id": "skill:build/b/pick-library",
+   "parent": "skill:build",
+   "label": "pick-library",
+   "kind": "module",
+   "summary": "Picks the right frontend library for a task from a curated, opinionated list:",
+   "path": "skills/build/branches/pick-library.md",
+   "tags": [
+    "build",
+    "pick-library"
+   ]
+  },
+  {
+   "id": "skill:build/b/prototype",
+   "parent": "skill:build",
+   "label": "prototype",
+   "kind": "module",
+   "summary": "Builds several genuinely different versions of a described UI piece behind a visual picker, so the strongest direction can be flipped through live and promoted into the codebase.",
+   "path": "skills/build/branches/prototype.md",
+   "tags": [
+    "build",
+    "prototype"
+   ]
+  },
+  {
+   "id": "skill:build/b/prototype/picker",
+   "parent": "skill:build",
+   "label": "prototype/picker",
+   "kind": "file",
+   "summary": "The picker's appearance is **not a design decision**.",
+   "path": "skills/build/branches/prototype/picker.md",
+   "tags": [
+    "build"
+   ]
+  },
+  {
+   "id": "skill:build/b/simplify",
+   "parent": "skill:build",
+   "label": "simplify",
+   "kind": "module",
+   "summary": "Applies reuse, quality and efficiency fixes to changed code while preserving behavior.",
+   "path": "skills/build/branches/simplify.md",
+   "tags": [
+    "build",
+    "simplify"
+   ]
+  },
+  {
+   "id": "skill:create",
+   "lane": "skills",
+   "label": "create",
+   "kind": "service",
+   "summary": "Creates things people watch:",
+   "path": "skills/create/SKILL.md",
+   "tags": [
+    "create"
+   ]
+  },
+  {
+   "id": "skill:create/SKILL",
+   "parent": "skill:create",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The create router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/create/SKILL.md",
+   "tags": [
+    "create"
+   ]
+  },
+  {
+   "id": "skill:create/b/diagram",
+   "parent": "skill:create",
+   "label": "diagram",
+   "kind": "module",
+   "summary": "Draws a navigable diagram for an explicit ask:",
+   "path": "skills/create/branches/diagram.md",
+   "tags": [
+    "create",
+    "diagram"
+   ]
+  },
+  {
+   "id": "skill:create/b/explainer",
+   "parent": "skill:create",
+   "label": "explainer",
+   "kind": "module",
+   "summary": "Makes a narrated explainer from text alone, with every visual invented per scene.",
+   "path": "skills/create/branches/explainer.md",
+   "tags": [
+    "create",
+    "explainer"
+   ]
+  },
+  {
+   "id": "skill:create/b/launch-video",
+   "parent": "skill:create",
+   "label": "launch-video",
+   "kind": "module",
+   "summary": "Makes a narrated launch or promo video from a product, site or app.",
+   "path": "skills/create/branches/launch-video.md",
+   "tags": [
+    "create",
+    "launch-video"
+   ]
+  },
+  {
+   "id": "skill:create/b/motion-graphic",
+   "parent": "skill:create",
+   "label": "motion-graphic",
+   "kind": "module",
+   "summary": "Makes a short unnarrated clip where motion is the message, rendered to mp4 or a transparent overlay.",
+   "path": "skills/create/branches/motion-graphic.md",
+   "tags": [
+    "create",
+    "motion-graphic"
+   ]
+  },
+  {
+   "id": "skill:create/b/pr-video",
+   "parent": "skill:create",
+   "label": "pr-video",
+   "kind": "module",
+   "summary": "Makes a narrated explainer of a code change from a pull request.",
+   "path": "skills/create/branches/pr-video.md",
+   "tags": [
+    "create",
+    "pr-video"
+   ]
+  },
+  {
+   "id": "skill:create/b/slideshow",
+   "parent": "skill:create",
+   "label": "slideshow",
+   "kind": "module",
+   "summary": "Makes a deck that plays:",
+   "path": "skills/create/branches/slideshow.md",
+   "tags": [
+    "create",
+    "slideshow"
+   ]
+  },
+  {
+   "id": "skill:create/b/video",
+   "parent": "skill:create",
+   "label": "video",
+   "kind": "module",
+   "summary": "Makes any piece that plays and fits no other row:",
+   "path": "skills/create/branches/video.md",
+   "tags": [
+    "create",
+    "video"
+   ]
+  },
+  {
+   "id": "skill:fix",
+   "lane": "skills",
+   "label": "fix",
+   "kind": "service",
+   "summary": "Diagnoses a technical failure to its root cause before changing anything, then fixes it:",
+   "path": "skills/fix/SKILL.md",
+   "tags": [
+    "fix"
+   ]
+  },
+  {
+   "id": "skill:fix/SKILL",
+   "parent": "skill:fix",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The fix router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/fix/SKILL.md",
+   "tags": [
+    "fix"
+   ]
+  },
+  {
+   "id": "skill:measure",
+   "lane": "skills",
+   "label": "measure",
+   "kind": "service",
+   "summary": "Handles product analytics end to end:",
+   "path": "skills/measure/SKILL.md",
+   "tags": [
+    "measure"
+   ]
+  },
+  {
+   "id": "skill:measure/SKILL",
+   "parent": "skill:measure",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The measure router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/measure/SKILL.md",
+   "tags": [
+    "measure"
+   ]
+  },
+  {
+   "id": "skill:measure/b/build-dashboard",
+   "parent": "skill:measure",
+   "label": "build-dashboard",
+   "kind": "module",
+   "summary": "Turns a question someone actually asked into the smallest set of Amplitude charts that answers it,",
+   "path": "skills/measure/branches/build-dashboard.md",
+   "tags": [
+    "measure",
+    "build-dashboard"
+   ]
+  },
+  {
+   "id": "skill:measure/b/define-event",
+   "parent": "skill:measure",
+   "label": "define-event",
+   "kind": "module",
+   "summary": "Defines ONE Amplitude event end to end:",
+   "path": "skills/measure/branches/define-event.md",
+   "tags": [
+    "measure",
+    "define-event"
+   ]
+  },
+  {
+   "id": "skill:measure/b/define-event/sources",
+   "parent": "skill:measure",
+   "label": "define-event/sources",
+   "kind": "file",
+   "summary": "Three places define an event.",
+   "path": "skills/measure/branches/define-event/sources.md",
+   "tags": [
+    "measure"
+   ]
+  },
+  {
+   "id": "skill:measure/b/discover-events",
+   "parent": "skill:measure",
+   "label": "discover-events",
+   "kind": "module",
+   "summary": "Generate an exhaustive list of candidate analytics events from a change_brief YAML:",
+   "path": "skills/measure/branches/discover-events.md",
+   "tags": [
+    "measure",
+    "discover-events"
+   ]
+  },
+  {
+   "id": "skill:measure/b/discover-patterns",
+   "parent": "skill:measure",
+   "label": "discover-patterns",
+   "kind": "module",
+   "summary": "Discover how analytics tracking calls are actually written in this codebase:",
+   "path": "skills/measure/branches/discover-patterns.md",
+   "tags": [
+    "measure",
+    "discover-patterns"
+   ]
+  },
+  {
+   "id": "skill:measure/b/feature",
+   "parent": "skill:measure",
+   "label": "feature",
+   "kind": "module",
+   "summary": "Runs the whole instrumentation pipeline for a PR, branch, file, directory or feature in one pass:",
+   "path": "skills/measure/branches/feature.md",
+   "tags": [
+    "measure",
+    "feature"
+   ]
+  },
+  {
+   "id": "skill:measure/b/read-diff",
+   "parent": "skill:measure",
+   "label": "read-diff",
+   "kind": "module",
+   "summary": "Read a PR or branch diff and produce a structured YAML change brief for downstream instrumentation.",
+   "path": "skills/measure/branches/read-diff.md",
+   "tags": [
+    "measure",
+    "read-diff"
+   ]
+  },
+  {
+   "id": "skill:measure/b/write-plan",
+   "parent": "skill:measure",
+   "label": "write-plan",
+   "kind": "module",
+   "summary": "Turn event_candidates YAML into a concrete instrumentation plan for priority-3 events:",
+   "path": "skills/measure/branches/write-plan.md",
+   "tags": [
+    "measure",
+    "write-plan"
+   ]
+  },
+  {
+   "id": "skill:note",
+   "lane": "skills",
+   "label": "note",
+   "kind": "service",
+   "summary": "Operates the personal meetings knowledge base in the vault:",
+   "path": "skills/note/SKILL.md",
+   "tags": [
+    "note"
+   ]
+  },
+  {
+   "id": "skill:note/SKILL",
+   "parent": "skill:note",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The note router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/note/SKILL.md",
+   "tags": [
+    "note"
+   ]
+  },
+  {
+   "id": "skill:note/b/classify",
+   "parent": "skill:note",
+   "label": "classify",
+   "kind": "module",
+   "summary": "Reads a transcript and extracts the structured fields `write-pages` turns into a note.",
+   "path": "skills/note/branches/classify.md",
+   "tags": [
+    "note",
+    "classify"
+   ]
+  },
+  {
+   "id": "skill:note/b/fetch",
+   "parent": "skill:note",
+   "label": "fetch",
+   "kind": "module",
+   "summary": "Finds the meetings in a window and the transcript document for each, without writing anything.",
+   "path": "skills/note/branches/fetch.md",
+   "tags": [
+    "note",
+    "fetch"
+   ]
+  },
+  {
+   "id": "skill:note/b/recall",
+   "parent": "skill:note",
+   "label": "recall",
+   "kind": "module",
+   "summary": "Answers questions from the meetings vault:",
+   "path": "skills/note/branches/recall.md",
+   "tags": [
+    "note",
+    "recall"
+   ]
+  },
+  {
+   "id": "skill:note/b/tag",
+   "parent": "skill:note",
+   "label": "tag",
+   "kind": "module",
+   "summary": "Applies and audits tags on vault pages against the canonical vocabulary.",
+   "path": "skills/note/branches/tag.md",
+   "tags": [
+    "note",
+    "tag"
+   ]
+  },
+  {
+   "id": "skill:note/b/verify-vault",
+   "parent": "skill:note",
+   "label": "verify-vault",
+   "kind": "module",
+   "summary": "Health check for the meetings vault:",
+   "path": "skills/note/branches/verify-vault.md",
+   "tags": [
+    "note",
+    "verify-vault"
+   ]
+  },
+  {
+   "id": "skill:note/b/write-pages",
+   "parent": "skill:note",
+   "label": "write-pages",
+   "kind": "module",
+   "summary": "Create structured meeting notes and raw transcript pages in the notes folder from classified meeting data.",
+   "path": "skills/note/branches/write-pages.md",
+   "tags": [
+    "note",
+    "write-pages"
+   ]
+  },
+  {
+   "id": "skill:note/b/write-pages/internal-meetings",
+   "parent": "skill:note",
+   "label": "write-pages/internal-me\u2026",
+   "kind": "file",
+   "summary": "How to write internal meeting notes for the user's notes folder.",
+   "path": "skills/note/branches/write-pages/internal-meetings.md",
+   "tags": [
+    "note"
+   ]
+  },
+  {
+   "id": "skill:note/b/write-pages/user-interviews",
+   "parent": "skill:note",
+   "label": "write-pages/user-interv\u2026",
+   "kind": "file",
+   "summary": "How to write user interview notes.",
+   "path": "skills/note/branches/write-pages/user-interviews.md",
+   "tags": [
+    "note"
+   ]
+  },
+  {
+   "id": "skill:research",
+   "lane": "skills",
+   "label": "research",
+   "kind": "service",
+   "summary": "Gathers and synthesizes outside or prior knowledge:",
+   "path": "skills/research/SKILL.md",
+   "tags": [
+    "research"
+   ]
+  },
+  {
+   "id": "skill:research/SKILL",
+   "parent": "skill:research",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The research router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/research/SKILL.md",
+   "tags": [
+    "research"
+   ]
+  },
+  {
+   "id": "skill:research/b/check-knowledge",
+   "parent": "skill:research",
+   "label": "check-knowledge",
+   "kind": "module",
+   "summary": "Searches the vault for what is already known about a topic before any research starts, so nothing is",
+   "path": "skills/research/branches/check-knowledge.md",
+   "tags": [
+    "research",
+    "check-knowledge"
+   ]
+  },
+  {
+   "id": "skill:research/b/competitors",
+   "parent": "skill:research",
+   "label": "competitors",
+   "kind": "module",
+   "summary": "Scan a competitor's public presence for product coverage, market signals, and positioning.",
+   "path": "skills/research/branches/competitors.md",
+   "tags": [
+    "research",
+    "competitors"
+   ]
+  },
+  {
+   "id": "skill:research/b/extract-insights",
+   "parent": "skill:research",
+   "label": "extract-insights",
+   "kind": "module",
+   "summary": "Identify UX emotions, insights, signals, and anti-patterns in user interview notes:",
+   "path": "skills/research/branches/extract-insights.md",
+   "tags": [
+    "research",
+    "extract-insights"
+   ]
+  },
+  {
+   "id": "skill:research/b/landscape",
+   "parent": "skill:research",
+   "label": "landscape",
+   "kind": "module",
+   "summary": "Synthesize a competitive or contextual landscape for a product domain from scanner output and notes-folder knowledge (competitor profiles, interviews, feature pages).",
+   "path": "skills/research/branches/landscape.md",
+   "tags": [
+    "research",
+    "landscape"
+   ]
+  },
+  {
+   "id": "skill:review",
+   "lane": "skills",
+   "label": "review",
+   "kind": "service",
+   "summary": "Judges an artifact that already exists and reports what is wrong with it:",
+   "path": "skills/review/SKILL.md",
+   "tags": [
+    "review"
+   ]
+  },
+  {
+   "id": "skill:review/SKILL",
+   "parent": "skill:review",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The review router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/review/SKILL.md",
+   "tags": [
+    "review"
+   ]
+  },
+  {
+   "id": "skill:review/b/code-accessibility",
+   "parent": "skill:review",
+   "label": "code-accessibility",
+   "kind": "module",
+   "summary": "Audits implemented UI against WCAG 2.2 AA:",
+   "path": "skills/review/branches/code-accessibility.md",
+   "tags": [
+    "review",
+    "code-accessibility"
+   ]
+  },
+  {
+   "id": "skill:review/b/code-backend",
+   "parent": "skill:review",
+   "label": "code-backend",
+   "kind": "module",
+   "summary": "Reviews Ruby and Rails code on three planes:",
+   "path": "skills/review/branches/code-backend.md",
+   "tags": [
+    "review",
+    "code-backend"
+   ]
+  },
+  {
+   "id": "skill:review/b/code-bugs",
+   "parent": "skill:review",
+   "label": "code-bugs",
+   "kind": "module",
+   "summary": "Finds bugs in a change set or a file set by spawning specialist reviewers in parallel and merging what they return on one severity scale.",
+   "path": "skills/review/branches/code-bugs.md",
+   "tags": [
+    "review",
+    "code-bugs"
+   ]
+  },
+  {
+   "id": "skill:review/b/code-frontend",
+   "parent": "skill:review",
+   "label": "code-frontend",
+   "kind": "module",
+   "summary": "Reviews React, TypeScript and f0 code on five planes:",
+   "path": "skills/review/branches/code-frontend.md",
+   "tags": [
+    "review",
+    "code-frontend"
+   ]
+  },
+  {
+   "id": "skill:review/b/design-accessibility",
+   "parent": "skill:review",
+   "label": "design-accessibility",
+   "kind": "module",
+   "summary": "Audits a design that does not run yet against the WCAG criteria a static artifact can answer.",
+   "path": "skills/review/branches/design-accessibility.md",
+   "tags": [
+    "review",
+    "design-accessibility"
+   ]
+  },
+  {
+   "id": "skill:review/b/design",
+   "parent": "skill:review",
+   "label": "design",
+   "kind": "module",
+   "summary": "Reviews a flow, screen, or Figma design:",
+   "path": "skills/review/branches/design.md",
+   "tags": [
+    "review",
+    "design"
+   ]
+  },
+  {
+   "id": "skill:review/b/doc",
+   "parent": "skill:review",
+   "label": "doc",
+   "kind": "module",
+   "summary": "Reviews any written document through parallel persona subagents, surfacing role specific issues rather than generic writing feedback.",
+   "path": "skills/review/branches/doc.md",
+   "tags": [
+    "review",
+    "doc"
+   ]
+  },
+  {
+   "id": "skill:review/b/motion",
+   "parent": "skill:review",
+   "label": "motion",
+   "kind": "module",
+   "summary": "Judges motion against a high craft bar, or sweeps an interface for motion that should exist and does not.",
+   "path": "skills/review/branches/motion.md",
+   "tags": [
+    "review",
+    "motion"
+   ]
+  },
+  {
+   "id": "skill:review/b/pr",
+   "parent": "skill:review",
+   "label": "pr",
+   "kind": "module",
+   "summary": "Reviews a whole diff:",
+   "path": "skills/review/branches/pr.md",
+   "tags": [
+    "review",
+    "pr"
+   ]
+  },
+  {
+   "id": "skill:review/b/slides",
+   "parent": "skill:review",
+   "label": "slides",
+   "kind": "module",
+   "summary": "Judges a deck on the two things a deck can fail at independently:",
+   "path": "skills/review/branches/slides.md",
+   "tags": [
+    "review",
+    "slides"
+   ]
+  },
+  {
+   "id": "skill:review/b/ui-copy",
+   "parent": "skill:review",
+   "label": "ui-copy",
+   "kind": "module",
+   "summary": "Audits existing UI strings against Factorial's Product Content Style Guide.",
+   "path": "skills/review/branches/ui-copy.md",
+   "tags": [
+    "review",
+    "ui-copy"
+   ]
+  },
+  {
+   "id": "skill:think",
+   "lane": "skills",
+   "label": "think",
+   "kind": "service",
+   "summary": "Reasons about a decision before anything is committed to or built:",
+   "path": "skills/think/SKILL.md",
+   "tags": [
+    "think"
+   ]
+  },
+  {
+   "id": "skill:think/SKILL",
+   "parent": "skill:think",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The think router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/think/SKILL.md",
+   "tags": [
+    "think"
+   ]
+  },
+  {
+   "id": "skill:think/b/brainstorm",
+   "parent": "skill:think",
+   "label": "brainstorm",
+   "kind": "module",
+   "summary": "Interactive one-question-at-a-time dialogue to think through a feature or problem, pressure-tested with 5 gap lenses (Evidence, Specificity, Counterfactual, Attachment, Durability), ending in a right-sized requirements d",
+   "path": "skills/think/branches/brainstorm.md",
+   "tags": [
+    "think",
+    "brainstorm"
+   ]
+  },
+  {
+   "id": "skill:think/b/challenge",
+   "parent": "skill:think",
+   "label": "challenge",
+   "kind": "module",
+   "summary": "Interrogate a feature or product idea with forcing questions and anti-sycophancy.",
+   "path": "skills/think/branches/challenge.md",
+   "tags": [
+    "think",
+    "challenge"
+   ]
+  },
+  {
+   "id": "skill:think/b/debate",
+   "parent": "skill:think",
+   "label": "debate",
+   "kind": "module",
+   "summary": "Structured 3-round debate between two opposing Panelist subagents:",
+   "path": "skills/think/branches/debate.md",
+   "tags": [
+    "think",
+    "debate"
+   ]
+  },
+  {
+   "id": "skill:think/b/find-root-cause",
+   "parent": "skill:think",
+   "label": "find-root-cause",
+   "kind": "module",
+   "summary": "Root cause investigation for design and product questions.",
+   "path": "skills/think/branches/find-root-cause.md",
+   "tags": [
+    "think",
+    "find-root-cause"
+   ]
+  },
+  {
+   "id": "skill:think/b/frame-opportunity",
+   "parent": "skill:think",
+   "label": "frame-opportunity",
+   "kind": "module",
+   "summary": "Turn signals into structured opportunity briefs with evidence:",
+   "path": "skills/think/branches/frame-opportunity.md",
+   "tags": [
+    "think",
+    "frame-opportunity"
+   ]
+  },
+  {
+   "id": "skill:think/b/generate-ideas",
+   "parent": "skill:think",
+   "label": "generate-ideas",
+   "kind": "module",
+   "summary": "Generates and critically evaluates grounded ideas through four decorrelated ideation frames run in parallel, then merges, tags and rejects.",
+   "path": "skills/think/branches/generate-ideas.md",
+   "tags": [
+    "think",
+    "generate-ideas"
+   ]
+  },
+  {
+   "id": "skill:think/b/perspective-selector",
+   "parent": "skill:think",
+   "label": "perspective-selector",
+   "kind": "module",
+   "summary": "Rules for choosing which stakeholder profiles to spawn, including debate tension pairs.",
+   "path": "skills/think/branches/perspective-selector.md",
+   "tags": [
+    "think",
+    "perspective-selector"
+   ]
+  },
+  {
+   "id": "skill:think/b/poll-panel",
+   "parent": "skill:think",
+   "label": "poll-panel",
+   "kind": "module",
+   "summary": "Multi-perspective stakeholder evaluation via 5-9 parallel Panelist subagents, aggregated by consensus, divergence, and outliers.",
+   "path": "skills/think/branches/poll-panel.md",
+   "tags": [
+    "think",
+    "poll-panel"
+   ]
+  },
+  {
+   "id": "skill:think/b/surface-assumptions",
+   "parent": "skill:think",
+   "label": "surface-assumptions",
+   "kind": "module",
+   "summary": "Surface hidden assumptions in proposals, features, or designs:",
+   "path": "skills/think/branches/surface-assumptions.md",
+   "tags": [
+    "think",
+    "surface-assumptions"
+   ]
+  },
+  {
+   "id": "skill:think/b/validate-problem",
+   "parent": "skill:think",
+   "label": "validate-problem",
+   "kind": "module",
+   "summary": "Validate the problem a screen or feature is solving:",
+   "path": "skills/think/branches/validate-problem.md",
+   "tags": [
+    "think",
+    "validate-problem"
+   ]
+  },
+  {
+   "id": "skill:write",
+   "lane": "skills",
+   "label": "write",
+   "kind": "service",
+   "summary": "Drafts something that has to land with an audience:",
+   "path": "skills/write/SKILL.md",
+   "tags": [
+    "write"
+   ]
+  },
+  {
+   "id": "skill:write/SKILL",
+   "parent": "skill:write",
+   "label": "SKILL.md",
+   "kind": "route",
+   "summary": "The write router: reads the ask, matches one row, opens that row's files.",
+   "path": "skills/write/SKILL.md",
+   "tags": [
+    "write"
+   ]
+  },
+  {
+   "id": "skill:write/b/comms",
+   "parent": "skill:write",
+   "label": "comms",
+   "kind": "module",
+   "summary": "Writes an internal communication:",
+   "path": "skills/write/branches/comms.md",
+   "tags": [
+    "write",
+    "comms"
+   ]
+  },
+  {
+   "id": "skill:write/b/comms/3p-updates",
+   "parent": "skill:write",
+   "label": "comms/3p-updates",
+   "kind": "file",
+   "summary": "Instructions and worked examples for a 3P update:",
+   "path": "skills/write/branches/comms/3p-updates.md",
+   "tags": [
+    "write"
+   ]
+  },
+  {
+   "id": "skill:write/b/comms/company-newsletter",
+   "parent": "skill:write",
+   "label": "comms/company-newsletter",
+   "kind": "file",
+   "summary": "Instructions and worked examples for a company newsletter.",
+   "path": "skills/write/branches/comms/company-newsletter.md",
+   "tags": [
+    "write"
+   ]
+  },
+  {
+   "id": "skill:write/b/comms/faq-answers",
+   "parent": "skill:write",
+   "label": "comms/faq-answers",
+   "kind": "file",
+   "summary": "Turns a set of questions into short, answerable FAQ entries.",
+   "path": "skills/write/branches/comms/faq-answers.md",
+   "tags": [
+    "write"
+   ]
+  },
+  {
+   "id": "skill:write/b/slides",
+   "parent": "skill:write",
+   "label": "slides",
+   "kind": "module",
+   "summary": "Plan slide deck structure and content hierarchy for Google Slides:",
+   "path": "skills/write/branches/slides.md",
+   "tags": [
+    "write",
+    "slides"
+   ]
+  },
+  {
+   "id": "skill:write/b/story",
+   "parent": "skill:write",
+   "label": "story",
+   "kind": "module",
+   "summary": "Build narrative structures for communicating design work:",
+   "path": "skills/write/branches/story.md",
+   "tags": [
+    "write",
+    "story"
+   ]
+  },
+  {
+   "id": "skill:write/b/ui-copy",
+   "parent": "skill:write",
+   "label": "ui-copy",
+   "kind": "module",
+   "summary": "Write UI microcopy following Factorial's Product Content Style Guide.",
+   "path": "skills/write/branches/ui-copy.md",
+   "tags": [
+    "write",
+    "ui-copy"
+   ]
+  },
+  {
+   "id": "shared:abuse",
+   "lane": "shared",
+   "label": "abuse",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/abuse/"
+  },
+  {
+   "id": "shared:abuse/adaptive-defense",
+   "parent": "shared:abuse",
+   "label": "adaptive-defense",
+   "kind": "file",
+   "summary": "How to design a system that faces an adversary who adapts to whatever gets built.",
+   "path": "shared/abuse/adaptive-defense.md"
+  },
+  {
+   "id": "shared:accessibility",
+   "lane": "shared",
+   "label": "accessibility",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 6 files. Routers name the ones they open; there is no index.",
+   "path": "shared/accessibility/"
+  },
+  {
+   "id": "shared:accessibility/cognitive",
+   "parent": "shared:accessibility",
+   "label": "cognitive",
+   "kind": "file",
+   "summary": "Reading level, consistency, error prevention and time pressure:",
+   "path": "shared/accessibility/cognitive.md"
+  },
+  {
+   "id": "shared:accessibility/keyboard",
+   "parent": "shared:accessibility",
+   "label": "keyboard",
+   "kind": "file",
+   "summary": "What every interactive flow owes a keyboard user:",
+   "path": "shared/accessibility/keyboard.md"
+  },
+  {
+   "id": "shared:accessibility/screen-reader",
+   "parent": "shared:accessibility",
+   "label": "screen-reader",
+   "kind": "file",
+   "summary": "The structure a screen reader interprets:",
+   "path": "shared/accessibility/screen-reader.md"
+  },
+  {
+   "id": "shared:accessibility/states",
+   "parent": "shared:accessibility",
+   "label": "states",
+   "kind": "file",
+   "summary": "The eight states every interactive element owes, and the pair designers most often treat as",
+   "path": "shared/accessibility/states.md"
+  },
+  {
+   "id": "shared:accessibility/vision",
+   "parent": "shared:accessibility",
+   "label": "vision",
+   "kind": "file",
+   "summary": "Colour, contrast, zoom and forced colours:",
+   "path": "shared/accessibility/vision.md"
+  },
+  {
+   "id": "shared:accessibility/wcag",
+   "parent": "shared:accessibility",
+   "label": "wcag",
+   "kind": "file",
+   "summary": "The criteria a Factorial interface is held to, which level applies where, and the subset a tool can",
+   "path": "shared/accessibility/wcag.md"
+  },
+  {
+   "id": "shared:adoption",
+   "lane": "shared",
+   "label": "adoption",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/adoption/"
+  },
+  {
+   "id": "shared:adoption/dynamics",
+   "parent": "shared:adoption",
+   "label": "dynamics",
+   "kind": "file",
+   "summary": "What decides whether a good product actually gets used, beyond whether it's good.",
+   "path": "shared/adoption/dynamics.md"
+  },
+  {
+   "id": "shared:amplitude-best-practices",
+   "lane": "shared",
+   "label": "amplitude-best-practices",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 3 files. Routers name the ones they open; there is no index.",
+   "path": "shared/amplitude-best-practices/"
+  },
+  {
+   "id": "shared:amplitude-best-practices/concepts",
+   "parent": "shared:amplitude-best-practices",
+   "label": "concepts",
+   "kind": "file",
+   "summary": "The model of Amplitude an agent has to internalise before reading a taxonomy:",
+   "path": "shared/amplitude-best-practices/concepts.md"
+  },
+  {
+   "id": "shared:amplitude-best-practices/reference-tables",
+   "parent": "shared:amplitude-best-practices",
+   "label": "reference-tables",
+   "kind": "file",
+   "summary": "The lookup values the rules cite:",
+   "path": "shared/amplitude-best-practices/reference-tables.md"
+  },
+  {
+   "id": "shared:amplitude-best-practices/rules",
+   "parent": "shared:amplitude-best-practices",
+   "label": "rules",
+   "kind": "file",
+   "summary": "What is allowed and required per operation:",
+   "path": "shared/amplitude-best-practices/rules.md"
+  },
+  {
+   "id": "shared:anti-sycophancy",
+   "lane": "shared",
+   "label": "anti-sycophancy",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/anti-sycophancy/"
+  },
+  {
+   "id": "shared:anti-sycophancy/artifacts",
+   "parent": "shared:anti-sycophancy",
+   "label": "artifacts",
+   "kind": "file",
+   "summary": "The same discipline when nobody asserted anything:",
+   "path": "shared/anti-sycophancy/artifacts.md"
+  },
+  {
+   "id": "shared:anti-sycophancy/claims",
+   "parent": "shared:anti-sycophancy",
+   "label": "claims",
+   "kind": "file",
+   "summary": "The patterns for pushing back on what someone asserts, how hard to push, the biases to name, and how to land the verdict when the claim survives.",
+   "path": "shared/anti-sycophancy/claims.md"
+  },
+  {
+   "id": "shared:code-design",
+   "lane": "shared",
+   "label": "code-design",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 14 files. Routers name the ones they open; there is no index.",
+   "path": "shared/code-design/"
+  },
+  {
+   "id": "shared:code-design/code-evolution",
+   "parent": "shared:code-design",
+   "label": "code-evolution",
+   "kind": "file",
+   "summary": "Judges whether a change was designed in or bolted on.",
+   "path": "shared/code-design/code-evolution.md"
+  },
+  {
+   "id": "shared:code-design/comments-docs",
+   "parent": "shared:code-design",
+   "label": "comments-docs",
+   "kind": "file",
+   "summary": "Judges whether comments capture what the code cannot say, or merely repeat it.",
+   "path": "shared/code-design/comments-docs.md"
+  },
+  {
+   "id": "shared:code-design/complexity-recognition",
+   "parent": "shared:code-design",
+   "label": "complexity-recognition",
+   "kind": "file",
+   "summary": "Diagnoses whether complexity exists and where it comes from, via three symptoms and two root causes.",
+   "path": "shared/code-design/complexity-recognition.md"
+  },
+  {
+   "id": "shared:code-design/deep-modules",
+   "parent": "shared:code-design",
+   "label": "deep-modules",
+   "kind": "file",
+   "summary": "Judges whether an abstraction is genuine and then whether the module is deep:",
+   "path": "shared/code-design/deep-modules.md"
+  },
+  {
+   "id": "shared:code-design/design-it-twice",
+   "parent": "shared:code-design",
+   "label": "design-it-twice",
+   "kind": "file",
+   "summary": "Checks for evidence that alternatives were considered, and forces a second design when they were not.",
+   "path": "shared/code-design/design-it-twice.md"
+  },
+  {
+   "id": "shared:code-design/error-design",
+   "parent": "shared:code-design",
+   "label": "error-design",
+   "kind": "file",
+   "summary": "Reviews error handling strategy, applying define errors out of existence.",
+   "path": "shared/code-design/error-design.md"
+  },
+  {
+   "id": "shared:code-design/finding-priority",
+   "parent": "shared:code-design",
+   "label": "finding-priority",
+   "kind": "file",
+   "summary": "Which lens owns a defect two lenses both saw, and the order a merged set of code design findings is ranked in.",
+   "path": "shared/code-design/finding-priority.md"
+  },
+  {
+   "id": "shared:code-design/general-vs-special",
+   "parent": "shared:code-design",
+   "label": "general-vs-special",
+   "kind": "file",
+   "summary": "Judges whether an interface is general purpose or contaminated by one caller's special case.",
+   "path": "shared/code-design/general-vs-special.md"
+  },
+  {
+   "id": "shared:code-design/information-hiding",
+   "parent": "shared:code-design",
+   "label": "information-hiding",
+   "kind": "file",
+   "summary": "Checks for knowledge leaking across module boundaries.",
+   "path": "shared/code-design/information-hiding.md"
+  },
+  {
+   "id": "shared:code-design/module-boundaries",
+   "parent": "shared:code-design",
+   "label": "module-boundaries",
+   "kind": "file",
+   "summary": "Judges whether boundaries are drawn around knowledge domains or around process steps.",
+   "path": "shared/code-design/module-boundaries.md"
+  },
+  {
+   "id": "shared:code-design/naming-obviousness",
+   "parent": "shared:code-design",
+   "label": "naming-obviousness",
+   "kind": "file",
+   "summary": "Reviews naming quality and code obviousness, treating naming difficulty as a design signal.",
+   "path": "shared/code-design/naming-obviousness.md"
+  },
+  {
+   "id": "shared:code-design/pull-complexity-down",
+   "parent": "shared:code-design",
+   "label": "pull-complexity-down",
+   "kind": "file",
+   "summary": "Judges whether a module absorbs complexity or exports it to callers.",
+   "path": "shared/code-design/pull-complexity-down.md"
+  },
+  {
+   "id": "shared:code-design/red-flags",
+   "parent": "shared:code-design",
+   "label": "red-flags",
+   "kind": "file",
+   "summary": "Scans code against seventeen named design smells and reports them structurally.",
+   "path": "shared/code-design/red-flags.md"
+  },
+  {
+   "id": "shared:code-design/strategic-posture",
+   "parent": "shared:code-design",
+   "label": "strategic-posture",
+   "kind": "file",
+   "summary": "Judges whether the work is being approached tactically or strategically, and whether that posture is right for this case.",
+   "path": "shared/code-design/strategic-posture.md"
+  },
+  {
+   "id": "shared:code-reviewers",
+   "lane": "shared",
+   "label": "code-reviewers",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 12 files. Routers name the ones they open; there is no index.",
+   "path": "shared/code-reviewers/"
+  },
+  {
+   "id": "shared:code-reviewers/adversarial",
+   "parent": "shared:code-reviewers",
+   "label": "adversarial",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/adversarial.md"
+  },
+  {
+   "id": "shared:code-reviewers/api-contract",
+   "parent": "shared:code-reviewers",
+   "label": "api-contract",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/api-contract.md"
+  },
+  {
+   "id": "shared:code-reviewers/convention",
+   "parent": "shared:code-reviewers",
+   "label": "convention",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/convention.md"
+  },
+  {
+   "id": "shared:code-reviewers/correctness",
+   "parent": "shared:code-reviewers",
+   "label": "correctness",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/correctness.md"
+  },
+  {
+   "id": "shared:code-reviewers/data-migrations",
+   "parent": "shared:code-reviewers",
+   "label": "data-migrations",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/data-migrations.md"
+  },
+  {
+   "id": "shared:code-reviewers/efficiency",
+   "parent": "shared:code-reviewers",
+   "label": "efficiency",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/efficiency.md"
+  },
+  {
+   "id": "shared:code-reviewers/performance",
+   "parent": "shared:code-reviewers",
+   "label": "performance",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/performance.md"
+  },
+  {
+   "id": "shared:code-reviewers/quality",
+   "parent": "shared:code-reviewers",
+   "label": "quality",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/quality.md"
+  },
+  {
+   "id": "shared:code-reviewers/reliability",
+   "parent": "shared:code-reviewers",
+   "label": "reliability",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/reliability.md"
+  },
+  {
+   "id": "shared:code-reviewers/reuse",
+   "parent": "shared:code-reviewers",
+   "label": "reuse",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/reuse.md"
+  },
+  {
+   "id": "shared:code-reviewers/security",
+   "parent": "shared:code-reviewers",
+   "label": "security",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/security.md"
+  },
+  {
+   "id": "shared:code-reviewers/test-coverage",
+   "parent": "shared:code-reviewers",
+   "label": "test-coverage",
+   "kind": "file",
+   "summary": "A code review persona:",
+   "path": "shared/code-reviewers/test-coverage.md"
+  },
+  {
+   "id": "shared:component-design",
+   "lane": "shared",
+   "label": "component-design",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/component-design/"
+  },
+  {
+   "id": "shared:component-design/composition",
+   "parent": "shared:component-design",
+   "label": "composition",
+   "kind": "file",
+   "summary": "How a component's element tree should be shaped:",
+   "path": "shared/component-design/composition.md"
+  },
+  {
+   "id": "shared:component-design/prop-api",
+   "parent": "shared:component-design",
+   "label": "prop-api",
+   "kind": "file",
+   "summary": "What a component's props should be called and shaped so the call site reads without opening the definition, ranked by the harm a violation causes.",
+   "path": "shared/component-design/prop-api.md"
+  },
+  {
+   "id": "shared:content-style",
+   "lane": "shared",
+   "label": "content-style",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 4 files. Routers name the ones they open; there is no index.",
+   "path": "shared/content-style/"
+  },
+  {
+   "id": "shared:content-style/factorial-guide",
+   "parent": "shared:content-style",
+   "label": "factorial-guide",
+   "kind": "file",
+   "summary": "> Source:",
+   "path": "shared/content-style/factorial-guide.md"
+  },
+  {
+   "id": "shared:content-style/most-broken",
+   "parent": "shared:content-style",
+   "label": "most-broken",
+   "kind": "file",
+   "summary": "The short list of rules that actually get broken in Factorial's product, split into what a string",
+   "path": "shared/content-style/most-broken.md"
+  },
+  {
+   "id": "shared:content-style/plain-words",
+   "parent": "shared:content-style",
+   "label": "plain-words",
+   "kind": "file",
+   "summary": "What a finding may not say to the person deciding on it.",
+   "path": "shared/content-style/plain-words.md"
+  },
+  {
+   "id": "shared:content-style/ui-patterns",
+   "parent": "shared:content-style",
+   "label": "ui-patterns",
+   "kind": "file",
+   "summary": "The recurring surfaces and what each one's words have to do:",
+   "path": "shared/content-style/ui-patterns.md"
+  },
+  {
+   "id": "shared:datalake",
+   "lane": "shared",
+   "label": "datalake",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 4 files. Routers name the ones they open; there is no index.",
+   "path": "shared/datalake/"
+  },
+  {
+   "id": "shared:datalake/access",
+   "parent": "shared:datalake",
+   "label": "access",
+   "kind": "file",
+   "summary": "Connecting to Trino over OAuth, and the discovery queries that map an unfamiliar schema.",
+   "path": "shared/datalake/access.md"
+  },
+  {
+   "id": "shared:datalake/limits",
+   "parent": "shared:datalake",
+   "label": "limits",
+   "kind": "file",
+   "summary": "What the warehouse cannot answer and where to go instead.",
+   "path": "shared/datalake/limits.md"
+  },
+  {
+   "id": "shared:datalake/schemas",
+   "parent": "shared:datalake",
+   "label": "schemas",
+   "kind": "file",
+   "summary": "The schema layout, and the CDC deduplication pattern every query against a replicated table must",
+   "path": "shared/datalake/schemas.md"
+  },
+  {
+   "id": "shared:datalake/tables",
+   "parent": "shared:datalake",
+   "label": "tables",
+   "kind": "file",
+   "summary": "The revenue and packaging tables worth knowing, and the gotchas that bite.",
+   "path": "shared/datalake/tables.md"
+  },
+  {
+   "id": "shared:design-quality",
+   "lane": "shared",
+   "label": "design-quality",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 4 files. Routers name the ones they open; there is no index.",
+   "path": "shared/design-quality/"
+  },
+  {
+   "id": "shared:design-quality/cognitive-patterns",
+   "parent": "shared:design-quality",
+   "label": "cognitive-patterns",
+   "kind": "file",
+   "summary": "12 patterns that distinguish strong design thinking from surface-level execution.",
+   "path": "shared/design-quality/cognitive-patterns.md"
+  },
+  {
+   "id": "shared:design-quality/feasibility-lenses",
+   "parent": "shared:design-quality",
+   "label": "feasibility-lenses",
+   "kind": "file",
+   "summary": "The five things that make a design expensive or impossible to build, and the cognitive patterns",
+   "path": "shared/design-quality/feasibility-lenses.md"
+  },
+  {
+   "id": "shared:design-quality/interface-principles",
+   "parent": "shared:design-quality",
+   "label": "interface-principles",
+   "kind": "file",
+   "summary": "The eight principles a good interface is judged against, the tactical rules that serve them, and the process that produces one.",
+   "path": "shared/design-quality/interface-principles.md"
+  },
+  {
+   "id": "shared:design-quality/passes",
+   "parent": "shared:design-quality",
+   "label": "passes",
+   "kind": "file",
+   "summary": "What a complete design covers:",
+   "path": "shared/design-quality/passes.md"
+  },
+  {
+   "id": "shared:diagrams",
+   "lane": "shared",
+   "label": "diagrams",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 4 files. Routers name the ones they open; there is no index.",
+   "path": "shared/diagrams/"
+  },
+  {
+   "id": "shared:diagrams/authoring",
+   "parent": "shared:diagrams",
+   "label": "authoring",
+   "kind": "file",
+   "summary": "House rules for writing a GraphX spec or an enriched Mermaid block, whichever surface renders it.",
+   "path": "shared/diagrams/authoring.md"
+  },
+  {
+   "id": "shared:diagrams/recipes",
+   "parent": "shared:diagrams",
+   "label": "recipes",
+   "kind": "file",
+   "summary": "One recipe per situation angelos draws for, each as the question it answers, the shape, what to enrich and how the tour runs.",
+   "path": "shared/diagrams/recipes.md"
+  },
+  {
+   "id": "shared:diagrams/surfaces",
+   "parent": "shared:diagrams",
+   "label": "surfaces",
+   "kind": "file",
+   "summary": "Which form a diagram takes at run time and how each is produced and handed over.",
+   "path": "shared/diagrams/surfaces.md"
+  },
+  {
+   "id": "shared:diagrams/when-to-draw",
+   "parent": "shared:diagrams",
+   "label": "when-to-draw",
+   "kind": "file",
+   "summary": "Whether a diagram earns its place, decided by the question the reader has to answer.",
+   "path": "shared/diagrams/when-to-draw.md"
+  },
+  {
+   "id": "shared:doc-reviewers",
+   "lane": "shared",
+   "label": "doc-reviewers",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 7 files. Routers name the ones they open; there is no index.",
+   "path": "shared/doc-reviewers/"
+  },
+  {
+   "id": "shared:doc-reviewers/adversarial",
+   "parent": "shared:doc-reviewers",
+   "label": "adversarial",
+   "kind": "file",
+   "summary": "You challenge premises, surface unstated assumptions, and stress-test decisions.",
+   "path": "shared/doc-reviewers/adversarial.md"
+  },
+  {
+   "id": "shared:doc-reviewers/coherence",
+   "parent": "shared:doc-reviewers",
+   "label": "coherence",
+   "kind": "file",
+   "summary": "You review documents for internal consistency, contradictions, and structural completeness.",
+   "path": "shared/doc-reviewers/coherence.md"
+  },
+  {
+   "id": "shared:doc-reviewers/design",
+   "parent": "shared:doc-reviewers",
+   "label": "design",
+   "kind": "file",
+   "summary": "You review plans for missing design decisions, interaction states, and AI-generated design slop.",
+   "path": "shared/doc-reviewers/design.md"
+  },
+  {
+   "id": "shared:doc-reviewers/feasibility",
+   "parent": "shared:doc-reviewers",
+   "label": "feasibility",
+   "kind": "file",
+   "summary": "You evaluate whether proposed technical approaches will survive contact with reality.",
+   "path": "shared/doc-reviewers/feasibility.md"
+  },
+  {
+   "id": "shared:doc-reviewers/product",
+   "parent": "shared:doc-reviewers",
+   "label": "product",
+   "kind": "file",
+   "summary": "You challenge problem framing, evaluate scope decisions, and surface goal misalignment.",
+   "path": "shared/doc-reviewers/product.md"
+  },
+  {
+   "id": "shared:doc-reviewers/scope-guardian",
+   "parent": "shared:doc-reviewers",
+   "label": "scope-guardian",
+   "kind": "file",
+   "summary": "You challenge unjustified complexity, scope creep, and premature abstractions.",
+   "path": "shared/doc-reviewers/scope-guardian.md"
+  },
+  {
+   "id": "shared:doc-reviewers/security",
+   "parent": "shared:doc-reviewers",
+   "label": "security",
+   "kind": "file",
+   "summary": "You evaluate plans for security gaps at the plan level, auth, data, APIs, trust boundaries.",
+   "path": "shared/doc-reviewers/security.md"
+  },
+  {
+   "id": "shared:drafting",
+   "lane": "shared",
+   "label": "drafting",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/drafting/"
+  },
+  {
+   "id": "shared:drafting/writing-to-think",
+   "parent": "shared:drafting",
+   "label": "writing-to-think",
+   "kind": "file",
+   "summary": "How writing something down produces understanding that thinking alone doesn't.",
+   "path": "shared/drafting/writing-to-think.md"
+  },
+  {
+   "id": "shared:event-taxonomy",
+   "lane": "shared",
+   "label": "event-taxonomy",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/event-taxonomy/"
+  },
+  {
+   "id": "shared:event-taxonomy/naming-grammar",
+   "parent": "shared:event-taxonomy",
+   "label": "naming-grammar",
+   "kind": "file",
+   "summary": "Source of truth:",
+   "path": "shared/event-taxonomy/naming-grammar.md"
+  },
+  {
+   "id": "shared:event-taxonomy/property-design",
+   "parent": "shared:event-taxonomy",
+   "label": "property-design",
+   "kind": "file",
+   "summary": "Which properties an event carries and which it must never repeat, so a taxonomy stays queryable as",
+   "path": "shared/event-taxonomy/property-design.md"
+  },
+  {
+   "id": "shared:frontend-libraries",
+   "lane": "shared",
+   "label": "frontend-libraries",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/frontend-libraries/"
+  },
+  {
+   "id": "shared:frontend-libraries/catalog",
+   "parent": "shared:frontend-libraries",
+   "label": "catalog",
+   "kind": "file",
+   "summary": "The curated pick per problem, grouped by the kind of problem.",
+   "path": "shared/frontend-libraries/catalog.md"
+  },
+  {
+   "id": "shared:frontend-libraries/mismatches",
+   "parent": "shared:frontend-libraries",
+   "label": "mismatches",
+   "kind": "file",
+   "summary": "The hand rolled implementations worth catching in review, each with the library that already solves it.",
+   "path": "shared/frontend-libraries/mismatches.md"
+  },
+  {
+   "id": "shared:hyperframes",
+   "lane": "shared",
+   "label": "hyperframes",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/hyperframes/"
+  },
+  {
+   "id": "shared:hyperframes/engine",
+   "parent": "shared:hyperframes",
+   "label": "engine",
+   "kind": "file",
+   "summary": "Where the engine lives, how it is invoked, and what must be true before a run starts.",
+   "path": "shared/hyperframes/engine.md"
+  },
+  {
+   "id": "shared:hyperframes/handoff",
+   "parent": "shared:hyperframes",
+   "label": "handoff",
+   "kind": "file",
+   "summary": "How an entry point runs a HyperFrames workflow without losing angelOS's own judgment.",
+   "path": "shared/hyperframes/handoff.md"
+  },
+  {
+   "id": "shared:layout-patterns",
+   "lane": "shared",
+   "label": "layout-patterns",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/layout-patterns/"
+  },
+  {
+   "id": "shared:layout-patterns/page-structure",
+   "parent": "shared:layout-patterns",
+   "label": "page-structure",
+   "kind": "file",
+   "summary": "Which page structure fits which job, and the structures to avoid.",
+   "path": "shared/layout-patterns/page-structure.md"
+  },
+  {
+   "id": "shared:metrics",
+   "lane": "shared",
+   "label": "metrics",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/metrics/"
+  },
+  {
+   "id": "shared:metrics/compass-metric",
+   "parent": "shared:metrics",
+   "label": "compass-metric",
+   "kind": "file",
+   "summary": "What makes a single tracked number trustworthy enough to steer decisions by, and where it quietly",
+   "path": "shared/metrics/compass-metric.md"
+  },
+  {
+   "id": "shared:moderation",
+   "lane": "shared",
+   "label": "moderation",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/moderation/"
+  },
+  {
+   "id": "shared:moderation/community-standards",
+   "parent": "shared:moderation",
+   "label": "community-standards",
+   "kind": "file",
+   "summary": "What keeps a space with user generated content, rankings or votes trustworthy.",
+   "path": "shared/moderation/community-standards.md"
+  },
+  {
+   "id": "shared:motion",
+   "lane": "shared",
+   "label": "motion",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 17 files. Routers name the ones they open; there is no index.",
+   "path": "shared/motion/"
+  },
+  {
+   "id": "shared:motion/accessibility",
+   "parent": "shared:motion",
+   "label": "accessibility",
+   "kind": "file",
+   "summary": "Reduced motion and touch hover gating:",
+   "path": "shared/motion/accessibility.md"
+  },
+  {
+   "id": "shared:motion/cohesion",
+   "parent": "shared:motion",
+   "label": "cohesion",
+   "kind": "file",
+   "summary": "Matching motion to a component's personality, and how to tell whether it landed.",
+   "path": "shared/motion/cohesion.md"
+  },
+  {
+   "id": "shared:motion/continuous",
+   "parent": "shared:motion",
+   "label": "continuous",
+   "kind": "file",
+   "summary": "Skeletons, spinners, progress bars, streaming text.",
+   "path": "shared/motion/continuous.md"
+  },
+  {
+   "id": "shared:motion/fluidity",
+   "parent": "shared:motion",
+   "label": "fluidity",
+   "kind": "file",
+   "summary": "The through line and the three principles everything else serves:",
+   "path": "shared/motion/fluidity.md"
+  },
+  {
+   "id": "shared:motion/gesture-physics",
+   "parent": "shared:motion",
+   "label": "gesture-physics",
+   "kind": "file",
+   "summary": "Springs, velocity handoff, momentum projection, spatial consistency, hinting, rubber banding, and the feel checklist a gesture is judged by.",
+   "path": "shared/motion/gesture-physics.md"
+  },
+  {
+   "id": "shared:motion/gestures",
+   "parent": "shared:motion",
+   "label": "gestures",
+   "kind": "file",
+   "summary": "How a dragged thing should behave:",
+   "path": "shared/motion/gestures.md"
+  },
+  {
+   "id": "shared:motion/interruption",
+   "parent": "shared:motion",
+   "label": "interruption",
+   "kind": "file",
+   "summary": "What happens when motion is cut off mid flight, and how to make that the smooth case rather than the",
+   "path": "shared/motion/interruption.md"
+  },
+  {
+   "id": "shared:motion/multimodal-feedback",
+   "parent": "shared:motion",
+   "label": "multimodal-feedback",
+   "kind": "file",
+   "summary": "How motion, sound and haptics combine without breaking the illusion, and when to add a second channel at all.",
+   "path": "shared/motion/multimodal-feedback.md"
+  },
+  {
+   "id": "shared:motion/native",
+   "parent": "shared:motion",
+   "label": "native",
+   "kind": "file",
+   "summary": "What changes on React Native and Expo:",
+   "path": "shared/motion/native.md"
+  },
+  {
+   "id": "shared:motion/performance",
+   "parent": "shared:motion",
+   "label": "performance",
+   "kind": "file",
+   "summary": "Which properties are cheap to animate and which stall a frame, plus the",
+   "path": "shared/motion/performance.md"
+  },
+  {
+   "id": "shared:motion/physicality",
+   "parent": "shared:motion",
+   "label": "physicality",
+   "kind": "file",
+   "summary": "Motion that obeys how objects behave:",
+   "path": "shared/motion/physicality.md"
+  },
+  {
+   "id": "shared:motion/springs",
+   "parent": "shared:motion",
+   "label": "springs",
+   "kind": "file",
+   "summary": "When physics beats a duration, and why a spring survives an interruption that a keyframe does not.",
+   "path": "shared/motion/springs.md"
+  },
+  {
+   "id": "shared:motion/timing",
+   "parent": "shared:motion",
+   "label": "timing",
+   "kind": "file",
+   "summary": "Easing curves, durations and the rhythm between them.",
+   "path": "shared/motion/timing.md"
+  },
+  {
+   "id": "shared:motion/transforms",
+   "parent": "shared:motion",
+   "label": "transforms",
+   "kind": "file",
+   "summary": "The two property families worth animating, and what each can express.",
+   "path": "shared/motion/transforms.md"
+  },
+  {
+   "id": "shared:motion/violations",
+   "parent": "shared:motion",
+   "label": "violations",
+   "kind": "file",
+   "summary": "The patterns that are wrong on sight, and which fix to reach for first once one fires.",
+   "path": "shared/motion/violations.md"
+  },
+  {
+   "id": "shared:motion/vocabulary",
+   "parent": "shared:motion",
+   "label": "vocabulary",
+   "kind": "file",
+   "summary": "Reverse lookup glossary turning a vague description of a motion effect into its exact term.",
+   "path": "shared/motion/vocabulary.md"
+  },
+  {
+   "id": "shared:motion/when",
+   "parent": "shared:motion",
+   "label": "when",
+   "kind": "file",
+   "summary": "Whether a thing should move at all, judged on how often the user sees it and what the motion is",
+   "path": "shared/motion/when.md"
+  },
+  {
+   "id": "shared:narrative",
+   "lane": "shared",
+   "label": "narrative",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 8 files. Routers name the ones they open; there is no index.",
+   "path": "shared/narrative/"
+  },
+  {
+   "id": "shared:narrative/bta",
+   "parent": "shared:narrative",
+   "label": "bta",
+   "kind": "file",
+   "summary": "The BTA narrative structure.",
+   "path": "shared/narrative/bta.md"
+  },
+  {
+   "id": "shared:narrative/circular",
+   "parent": "shared:narrative",
+   "label": "circular",
+   "kind": "file",
+   "summary": "The circular narrative structure:",
+   "path": "shared/narrative/circular.md"
+  },
+  {
+   "id": "shared:narrative/craft",
+   "parent": "shared:narrative",
+   "label": "craft",
+   "kind": "file",
+   "summary": "The techniques that make a written piece land:",
+   "path": "shared/narrative/craft.md"
+  },
+  {
+   "id": "shared:narrative/pesi",
+   "parent": "shared:narrative",
+   "label": "pesi",
+   "kind": "file",
+   "summary": "The PESI narrative structure.",
+   "path": "shared/narrative/pesi.md"
+  },
+  {
+   "id": "shared:narrative/pyramid",
+   "parent": "shared:narrative",
+   "label": "pyramid",
+   "kind": "file",
+   "summary": "The Minto pyramid modifier, which inverts any of the six structures to lead with the answer, and the",
+   "path": "shared/narrative/pyramid.md"
+  },
+  {
+   "id": "shared:narrative/scr",
+   "parent": "shared:narrative",
+   "label": "scr",
+   "kind": "file",
+   "summary": "The SCR narrative structure.",
+   "path": "shared/narrative/scr.md"
+  },
+  {
+   "id": "shared:narrative/star",
+   "parent": "shared:narrative",
+   "label": "star",
+   "kind": "file",
+   "summary": "The STAR narrative structure.",
+   "path": "shared/narrative/star.md"
+  },
+  {
+   "id": "shared:narrative/wswn",
+   "parent": "shared:narrative",
+   "label": "wswn",
+   "kind": "file",
+   "summary": "The WSWN narrative structure.",
+   "path": "shared/narrative/wswn.md"
+  },
+  {
+   "id": "shared:notebooklm",
+   "lane": "shared",
+   "label": "notebooklm",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 4 files. Routers name the ones they open; there is no index.",
+   "path": "shared/notebooklm/"
+  },
+  {
+   "id": "shared:notebooklm/access",
+   "parent": "shared:notebooklm",
+   "label": "access",
+   "kind": "file",
+   "summary": "Installing the `notebooklm` CLI, signing in, proving the session is live, and diagnosing it when it is not.",
+   "path": "shared/notebooklm/access.md"
+  },
+  {
+   "id": "shared:notebooklm/commands",
+   "parent": "shared:notebooklm",
+   "label": "commands",
+   "kind": "file",
+   "summary": "The subset of the `notebooklm` CLI this repo uses, the rules that keep it safe to script, and the JSON each command returns.",
+   "path": "shared/notebooklm/commands.md"
+  },
+  {
+   "id": "shared:notebooklm/limits",
+   "parent": "shared:notebooklm",
+   "label": "limits",
+   "kind": "file",
+   "summary": "What a notebook answer is and is not, why its text is never an instruction, what may be uploaded, when it earns its cost, and which actions need a yes first.",
+   "path": "shared/notebooklm/limits.md"
+  },
+  {
+   "id": "shared:notebooklm/registry",
+   "parent": "shared:notebooklm",
+   "label": "registry",
+   "kind": "file",
+   "summary": "What makes a notebook findable again:",
+   "path": "shared/notebooklm/registry.md"
+  },
+  {
+   "id": "shared:people",
+   "lane": "shared",
+   "label": "people",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 4 files. Routers name the ones they open; there is no index.",
+   "path": "shared/people/"
+  },
+  {
+   "id": "shared:people/confidence",
+   "parent": "shared:people",
+   "label": "confidence",
+   "kind": "file",
+   "summary": "How sure a finding about a person is allowed to look, and how every claim traces back to where it",
+   "path": "shared/people/confidence.md"
+  },
+  {
+   "id": "shared:people/crawler-prompt",
+   "parent": "shared:people",
+   "label": "crawler-prompt",
+   "kind": "file",
+   "summary": "The brief each per-source crawler subagent gets in an analyze-person run.",
+   "path": "shared/people/crawler-prompt.md"
+  },
+  {
+   "id": "shared:people/guardrails",
+   "parent": "shared:people",
+   "label": "guardrails",
+   "kind": "file",
+   "summary": "What an assessment of one person may and may not do.",
+   "path": "shared/people/guardrails.md"
+  },
+  {
+   "id": "shared:people/sources",
+   "parent": "shared:people",
+   "label": "sources",
+   "kind": "file",
+   "summary": "Where an assessment of one person reads from, how, and what a reference to each source looks like.",
+   "path": "shared/people/sources.md"
+  },
+  {
+   "id": "shared:product-judgment",
+   "lane": "shared",
+   "label": "product-judgment",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 8 files. Routers name the ones they open; there is no index.",
+   "path": "shared/product-judgment/"
+  },
+  {
+   "id": "shared:product-judgment/alternatives",
+   "parent": "shared:product-judgment",
+   "label": "alternatives",
+   "kind": "file",
+   "summary": "Never accept the first approach.",
+   "path": "shared/product-judgment/alternatives.md"
+  },
+  {
+   "id": "shared:product-judgment/assumptions",
+   "parent": "shared:product-judgment",
+   "label": "assumptions",
+   "kind": "file",
+   "summary": "The seven kinds of thing a plan believes without saying, each with what would invalidate it.",
+   "path": "shared/product-judgment/assumptions.md"
+  },
+  {
+   "id": "shared:product-judgment/evidence",
+   "parent": "shared:product-judgment",
+   "label": "evidence",
+   "kind": "file",
+   "summary": "What counts as evidence for a product claim, ranked, and the inference chain from a raw signal to a",
+   "path": "shared/product-judgment/evidence.md"
+  },
+  {
+   "id": "shared:product-judgment/forcing-questions",
+   "parent": "shared:product-judgment",
+   "label": "forcing-questions",
+   "kind": "file",
+   "summary": "Detailed reference for the six forcing questions used by `/challenge`.",
+   "path": "shared/product-judgment/forcing-questions.md"
+  },
+  {
+   "id": "shared:product-judgment/health-dimensions",
+   "parent": "shared:product-judgment",
+   "label": "health-dimensions",
+   "kind": "file",
+   "summary": "The dimensions a shipped feature or domain is scored on, the 1 to 5 anchors behind each, and the",
+   "path": "shared/product-judgment/health-dimensions.md"
+  },
+  {
+   "id": "shared:product-judgment/jtbd",
+   "parent": "shared:product-judgment",
+   "label": "jtbd",
+   "kind": "file",
+   "summary": "The statement format, what an anti job is and why it matters, and what makes a success criterion",
+   "path": "shared/product-judgment/jtbd.md"
+  },
+  {
+   "id": "shared:product-judgment/opportunity-dimensions",
+   "parent": "shared:product-judgment",
+   "label": "opportunity-dimensions",
+   "kind": "file",
+   "summary": "How to size a problem before deciding to solve it:",
+   "path": "shared/product-judgment/opportunity-dimensions.md"
+  },
+  {
+   "id": "shared:product-judgment/scope-modes",
+   "parent": "shared:product-judgment",
+   "label": "scope-modes",
+   "kind": "file",
+   "summary": "Four modes for calibrating feature scope based on evidence.",
+   "path": "shared/product-judgment/scope-modes.md"
+  },
+  {
+   "id": "shared:research-method",
+   "lane": "shared",
+   "label": "research-method",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/research-method/"
+  },
+  {
+   "id": "shared:research-method/domain-map",
+   "parent": "shared:research-method",
+   "label": "domain-map",
+   "kind": "file",
+   "summary": "Maps Factorial internal domain names to industry-standard competitive feature categories.",
+   "path": "shared/research-method/domain-map.md"
+  },
+  {
+   "id": "shared:research-method/known-competitors",
+   "parent": "shared:research-method",
+   "label": "known-competitors",
+   "kind": "file",
+   "summary": "Seeded list of HR/People platform competitors.",
+   "path": "shared/research-method/known-competitors.md"
+  },
+  {
+   "id": "shared:root-cause-patterns",
+   "lane": "shared",
+   "label": "root-cause-patterns",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/root-cause-patterns/"
+  },
+  {
+   "id": "shared:root-cause-patterns/catalog",
+   "parent": "shared:root-cause-patterns",
+   "label": "catalog",
+   "kind": "file",
+   "summary": "The recurring shapes a root cause takes, the zone each usually sits in, and the evidence that confirms it.",
+   "path": "shared/root-cause-patterns/catalog.md"
+  },
+  {
+   "id": "shared:signals",
+   "lane": "shared",
+   "label": "signals",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 8 files. Routers name the ones they open; there is no index.",
+   "path": "shared/signals/"
+  },
+  {
+   "id": "shared:signals/adapters",
+   "parent": "shared:signals",
+   "label": "adapters",
+   "kind": "file",
+   "summary": "Which source feeds which signal method, and how its fields map onto the method's input record.",
+   "path": "shared/signals/adapters.md"
+  },
+  {
+   "id": "shared:signals/change-log",
+   "parent": "shared:signals",
+   "label": "change-log",
+   "kind": "file",
+   "summary": "How to turn a period of code, pull requests and release notes into customer outcome stories, so what shipped is judged by what customers can now do rather than by activity.",
+   "path": "shared/signals/change-log.md"
+  },
+  {
+   "id": "shared:signals/competitor-radar",
+   "parent": "shared:signals",
+   "label": "competitor-radar",
+   "kind": "file",
+   "summary": "How to report what competitors changed in a window, dated and sourced, for the competitors that matter in the markets where the subject earns, instead of an evergreen company overview.",
+   "path": "shared/signals/competitor-radar.md"
+  },
+  {
+   "id": "shared:signals/conversations",
+   "parent": "shared:signals",
+   "label": "conversations",
+   "kind": "file",
+   "summary": "How to turn any corpus of transcripts (sales calls, account reviews, interviews, internal meetings) into counted, traceable themes without mistaking talk for outcomes.",
+   "path": "shared/signals/conversations.md"
+  },
+  {
+   "id": "shared:signals/feedback",
+   "parent": "shared:signals",
+   "label": "feedback",
+   "kind": "file",
+   "summary": "How to rank written feedback (survey comments, NPS verbatims, review text, support macros) into themes that stay traceable to the responses behind them.",
+   "path": "shared/signals/feedback.md"
+  },
+  {
+   "id": "shared:signals/method",
+   "parent": "shared:signals",
+   "label": "method",
+   "kind": "file",
+   "summary": "The rules every signal method shares:",
+   "path": "shared/signals/method.md"
+  },
+  {
+   "id": "shared:signals/revenue",
+   "parent": "shared:signals",
+   "label": "revenue",
+   "kind": "file",
+   "summary": "How to read recurring revenue for a product or capability:",
+   "path": "shared/signals/revenue.md"
+  },
+  {
+   "id": "shared:signals/usage-criterion",
+   "parent": "shared:signals",
+   "label": "usage-criterion",
+   "kind": "file",
+   "summary": "How to decide whether an entity (a company, workspace, team or account) actually uses a capability in a period, so that adoption is a defended number rather than a count of any activity.",
+   "path": "shared/signals/usage-criterion.md"
+  },
+  {
+   "id": "shared:stakeholders",
+   "lane": "shared",
+   "label": "stakeholders",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/stakeholders/"
+  },
+  {
+   "id": "shared:stakeholders/profiles",
+   "parent": "shared:stakeholders",
+   "label": "profiles",
+   "kind": "file",
+   "summary": "Who sits around a product decision, what each of them optimises for, and where each is reliably blind.",
+   "path": "shared/stakeholders/profiles.md"
+  },
+  {
+   "id": "shared:subagents",
+   "lane": "shared",
+   "label": "subagents",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/subagents/"
+  },
+  {
+   "id": "shared:subagents/fanout",
+   "parent": "shared:subagents",
+   "label": "fanout",
+   "kind": "file",
+   "summary": "When parallel subagents are worth spawning, and the shape of the prompt each one gets.",
+   "path": "shared/subagents/fanout.md"
+  },
+  {
+   "id": "shared:subagents/merging",
+   "parent": "shared:subagents",
+   "label": "merging",
+   "kind": "file",
+   "summary": "The contract subagents return under, and how to merge their output into one result.",
+   "path": "shared/subagents/merging.md"
+  },
+  {
+   "id": "shared:taste",
+   "lane": "shared",
+   "label": "taste",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 1 files. Routers name the ones they open; there is no index.",
+   "path": "shared/taste/"
+  },
+  {
+   "id": "shared:taste/calibration",
+   "parent": "shared:taste",
+   "label": "calibration",
+   "kind": "file",
+   "summary": "How to judge quality without borrowing someone else's answer.",
+   "path": "shared/taste/calibration.md"
+  },
+  {
+   "id": "shared:three-layer-synthesis",
+   "lane": "shared",
+   "label": "three-layer-synthesis",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/three-layer-synthesis/"
+  },
+  {
+   "id": "shared:three-layer-synthesis/emerging-evidence",
+   "parent": "shared:three-layer-synthesis",
+   "label": "emerging-evidence",
+   "kind": "file",
+   "summary": "Where a Layer 2 claim has to come from, and the sources that count.",
+   "path": "shared/three-layer-synthesis/emerging-evidence.md"
+  },
+  {
+   "id": "shared:three-layer-synthesis/layers",
+   "parent": "shared:three-layer-synthesis",
+   "label": "layers",
+   "kind": "file",
+   "summary": "What each layer asks, the rules that keep them distinct, and the decisions worth running through all three.",
+   "path": "shared/three-layer-synthesis/layers.md"
+  },
+  {
+   "id": "shared:vault",
+   "lane": "shared",
+   "label": "vault",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 2 files. Routers name the ones they open; there is no index.",
+   "path": "shared/vault/"
+  },
+  {
+   "id": "shared:vault/conventions",
+   "parent": "shared:vault",
+   "label": "conventions",
+   "kind": "file",
+   "summary": "Conventions for writing findings into the notes vault.",
+   "path": "shared/vault/conventions.md"
+  },
+  {
+   "id": "shared:vault/tags",
+   "parent": "shared:vault",
+   "label": "tags",
+   "kind": "file",
+   "summary": "The facets a vault page is tagged on and how many values each may carry.",
+   "path": "shared/vault/tags.md"
+  },
+  {
+   "id": "shared:visual-design",
+   "lane": "shared",
+   "label": "visual-design",
+   "kind": "datastore",
+   "summary": "Shared knowledge domain. 7 files. Routers name the ones they open; there is no index.",
+   "path": "shared/visual-design/"
+  },
+  {
+   "id": "shared:visual-design/aesthetics",
+   "parent": "shared:visual-design",
+   "label": "aesthetics",
+   "kind": "file",
+   "summary": "What a distinctive interface does and what a generated one does instead, as DO and DON'T per",
+   "path": "shared/visual-design/aesthetics.md"
+  },
+  {
+   "id": "shared:visual-design/ai-slop-blacklist",
+   "parent": "shared:visual-design",
+   "label": "ai-slop-blacklist",
+   "kind": "file",
+   "summary": "10 patterns that indicate generic AI-generated design output rather than intentional design decisions.",
+   "path": "shared/visual-design/ai-slop-blacklist.md"
+  },
+  {
+   "id": "shared:visual-design/color-and-contrast",
+   "parent": "shared:visual-design",
+   "label": "color-and-contrast",
+   "kind": "file",
+   "summary": "The conformance numbers are `<root>/shared/accessibility/wcag.md`.",
+   "path": "shared/visual-design/color-and-contrast.md"
+  },
+  {
+   "id": "shared:visual-design/materials-and-depth",
+   "parent": "shared:visual-design",
+   "label": "materials-and-depth",
+   "kind": "file",
+   "summary": "How translucency, blur and shadow carry hierarchy on a surface, and the pairings that destroy legibility.",
+   "path": "shared/visual-design/materials-and-depth.md"
+  },
+  {
+   "id": "shared:visual-design/responsive-design",
+   "parent": "shared:visual-design",
+   "label": "responsive-design",
+   "kind": "file",
+   "summary": "Breakpoints, input detection, safe areas and image delivery.",
+   "path": "shared/visual-design/responsive-design.md"
+  },
+  {
+   "id": "shared:visual-design/spatial-design",
+   "parent": "shared:visual-design",
+   "label": "spatial-design",
+   "kind": "file",
+   "summary": "The spacing base, semantic tokens, grids and container queries.",
+   "path": "shared/visual-design/spatial-design.md"
+  },
+  {
+   "id": "shared:visual-design/typography",
+   "parent": "shared:visual-design",
+   "label": "typography",
+   "kind": "file",
+   "summary": "Scale, vertical rhythm, measure, pairing and loading.",
+   "path": "shared/visual-design/typography.md"
+  }
+ ],
+ "edges": [
+  {
+   "id": "e0",
+   "from": "skill:build/b/animation-expo",
+   "to": "skill:build/b/animation-expo/recipes",
+   "kind": "call",
+   "summary": "animation-expo detail recipes."
+  },
+  {
+   "id": "e1",
+   "from": "skill:build/b/animation",
+   "to": "skill:build/b/animation/recipes",
+   "kind": "call",
+   "summary": "animation detail recipes."
+  },
+  {
+   "id": "e2",
+   "from": "skill:build/b/frontend",
+   "to": "skill:build/b/frontend/interaction-design",
+   "kind": "call",
+   "summary": "frontend detail interaction-design."
+  },
+  {
+   "id": "e3",
+   "from": "skill:build/b/prototype",
+   "to": "skill:build/b/prototype/picker",
+   "kind": "call",
+   "summary": "prototype detail picker."
+  },
+  {
+   "id": "e4",
+   "from": "skill:measure/b/define-event",
+   "to": "skill:measure/b/define-event/sources",
+   "kind": "call",
+   "summary": "define-event detail sources."
+  },
+  {
+   "id": "e5",
+   "from": "skill:note/b/write-pages",
+   "to": "skill:note/b/write-pages/internal-meetings",
+   "kind": "call",
+   "summary": "write-pages detail internal-meetings."
+  },
+  {
+   "id": "e6",
+   "from": "skill:note/b/write-pages",
+   "to": "skill:note/b/write-pages/user-interviews",
+   "kind": "call",
+   "summary": "write-pages detail user-interviews."
+  },
+  {
+   "id": "e7",
+   "from": "skill:write/b/comms",
+   "to": "skill:write/b/comms/3p-updates",
+   "kind": "call",
+   "summary": "comms detail 3p-updates."
+  },
+  {
+   "id": "e8",
+   "from": "skill:write/b/comms",
+   "to": "skill:write/b/comms/company-newsletter",
+   "kind": "call",
+   "summary": "comms detail company-newsletter."
+  },
+  {
+   "id": "e9",
+   "from": "skill:write/b/comms",
+   "to": "skill:write/b/comms/faq-answers",
+   "kind": "call",
+   "summary": "comms detail faq-answers."
+  },
+  {
+   "id": "e10",
+   "from": "skill:write/SKILL",
+   "to": "shared:narrative/craft",
+   "kind": "data",
+   "summary": "SKILL reads craft."
+  },
+  {
+   "id": "e11",
+   "from": "skill:write/SKILL",
+   "to": "shared:narrative/pyramid",
+   "kind": "data",
+   "summary": "SKILL reads pyramid."
+  },
+  {
+   "id": "e12",
+   "from": "skill:write/SKILL",
+   "to": "shared:drafting/writing-to-think",
+   "kind": "data",
+   "summary": "SKILL reads writing-to-think."
+  },
+  {
+   "id": "e13",
+   "from": "skill:research/SKILL",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "SKILL reads conventions."
+  },
+  {
+   "id": "e14",
+   "from": "skill:research/SKILL",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "SKILL reads claims."
+  },
+  {
+   "id": "e15",
+   "from": "skill:research/SKILL",
+   "to": "shared:research-method/domain-map",
+   "kind": "data",
+   "summary": "SKILL reads domain-map."
+  },
+  {
+   "id": "e16",
+   "from": "skill:research/SKILL",
+   "to": "shared:research-method/known-competitors",
+   "kind": "data",
+   "summary": "SKILL reads known-competitors."
+  },
+  {
+   "id": "e17",
+   "from": "skill:research/SKILL",
+   "to": "shared:signals/competitor-radar",
+   "kind": "data",
+   "summary": "SKILL reads competitor-radar."
+  },
+  {
+   "id": "e18",
+   "from": "skill:research/SKILL",
+   "to": "shared:signals/method",
+   "kind": "data",
+   "summary": "SKILL reads method."
+  },
+  {
+   "id": "e19",
+   "from": "skill:research/SKILL",
+   "to": "shared:moderation/community-standards",
+   "kind": "data",
+   "summary": "SKILL reads community-standards."
+  },
+  {
+   "id": "e20",
+   "from": "skill:research/SKILL",
+   "to": "shared:adoption/dynamics",
+   "kind": "data",
+   "summary": "SKILL reads dynamics."
+  },
+  {
+   "id": "e21",
+   "from": "skill:research/SKILL",
+   "to": "shared:vault/tags",
+   "kind": "data",
+   "summary": "SKILL reads tags."
+  },
+  {
+   "id": "e22",
+   "from": "skill:research/SKILL",
+   "to": "shared:signals/conversations",
+   "kind": "data",
+   "summary": "SKILL reads conversations."
+  },
+  {
+   "id": "e23",
+   "from": "skill:research/SKILL",
+   "to": "shared:signals/adapters",
+   "kind": "data",
+   "summary": "SKILL reads adapters."
+  },
+  {
+   "id": "e24",
+   "from": "skill:note/SKILL",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "SKILL reads conventions."
+  },
+  {
+   "id": "e25",
+   "from": "skill:note/SKILL",
+   "to": "shared:vault/tags",
+   "kind": "data",
+   "summary": "SKILL reads tags."
+  },
+  {
+   "id": "e26",
+   "from": "skill:think/SKILL",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "SKILL reads conventions."
+  },
+  {
+   "id": "e27",
+   "from": "skill:think/SKILL",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "SKILL reads claims."
+  },
+  {
+   "id": "e28",
+   "from": "skill:think/SKILL",
+   "to": "shared:anti-sycophancy/artifacts",
+   "kind": "data",
+   "summary": "SKILL reads artifacts."
+  },
+  {
+   "id": "e29",
+   "from": "skill:think/SKILL",
+   "to": "shared:product-judgment/forcing-questions",
+   "kind": "data",
+   "summary": "SKILL reads forcing-questions."
+  },
+  {
+   "id": "e30",
+   "from": "skill:think/SKILL",
+   "to": "shared:product-judgment/alternatives",
+   "kind": "data",
+   "summary": "SKILL reads alternatives."
+  },
+  {
+   "id": "e31",
+   "from": "skill:think/SKILL",
+   "to": "shared:code-design/strategic-posture",
+   "kind": "data",
+   "summary": "SKILL reads strategic-posture."
+  },
+  {
+   "id": "e32",
+   "from": "skill:think/SKILL",
+   "to": "shared:product-judgment/scope-modes",
+   "kind": "data",
+   "summary": "SKILL reads scope-modes."
+  },
+  {
+   "id": "e33",
+   "from": "skill:think/SKILL",
+   "to": "shared:product-judgment/evidence",
+   "kind": "data",
+   "summary": "SKILL reads evidence."
+  },
+  {
+   "id": "e34",
+   "from": "skill:think/SKILL",
+   "to": "shared:product-judgment/assumptions",
+   "kind": "data",
+   "summary": "SKILL reads assumptions."
+  },
+  {
+   "id": "e35",
+   "from": "skill:think/SKILL",
+   "to": "shared:three-layer-synthesis/layers",
+   "kind": "data",
+   "summary": "SKILL reads layers."
+  },
+  {
+   "id": "e36",
+   "from": "skill:think/SKILL",
+   "to": "shared:stakeholders/profiles",
+   "kind": "data",
+   "summary": "SKILL reads profiles."
+  },
+  {
+   "id": "e37",
+   "from": "skill:think/SKILL",
+   "to": "shared:product-judgment/opportunity-dimensions",
+   "kind": "data",
+   "summary": "SKILL reads opportunity-dimensions."
+  },
+  {
+   "id": "e38",
+   "from": "skill:think/SKILL",
+   "to": "shared:root-cause-patterns/catalog",
+   "kind": "data",
+   "summary": "SKILL reads catalog."
+  },
+  {
+   "id": "e39",
+   "from": "skill:think/SKILL",
+   "to": "shared:adoption/dynamics",
+   "kind": "data",
+   "summary": "SKILL reads dynamics."
+  },
+  {
+   "id": "e40",
+   "from": "skill:think/SKILL",
+   "to": "shared:drafting/writing-to-think",
+   "kind": "data",
+   "summary": "SKILL reads writing-to-think."
+  },
+  {
+   "id": "e41",
+   "from": "skill:think/SKILL",
+   "to": "shared:subagents/fanout",
+   "kind": "data",
+   "summary": "SKILL reads fanout."
+  },
+  {
+   "id": "e42",
+   "from": "skill:think/SKILL",
+   "to": "shared:subagents/merging",
+   "kind": "data",
+   "summary": "SKILL reads merging."
+  },
+  {
+   "id": "e43",
+   "from": "skill:review/SKILL",
+   "to": "shared:content-style/plain-words",
+   "kind": "data",
+   "summary": "SKILL reads plain-words."
+  },
+  {
+   "id": "e44",
+   "from": "skill:review/SKILL",
+   "to": "shared:anti-sycophancy/artifacts",
+   "kind": "data",
+   "summary": "SKILL reads artifacts."
+  },
+  {
+   "id": "e45",
+   "from": "skill:review/SKILL",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "SKILL reads claims."
+  },
+  {
+   "id": "e46",
+   "from": "skill:review/SKILL",
+   "to": "shared:code-design/code-evolution",
+   "kind": "data",
+   "summary": "SKILL reads code-evolution."
+  },
+  {
+   "id": "e47",
+   "from": "skill:review/SKILL",
+   "to": "shared:code-design/red-flags",
+   "kind": "data",
+   "summary": "SKILL reads red-flags."
+  },
+  {
+   "id": "e48",
+   "from": "skill:review/SKILL",
+   "to": "shared:design-quality/passes",
+   "kind": "data",
+   "summary": "SKILL reads passes."
+  },
+  {
+   "id": "e49",
+   "from": "skill:review/SKILL",
+   "to": "shared:abuse/adaptive-defense",
+   "kind": "data",
+   "summary": "SKILL reads adaptive-defense."
+  },
+  {
+   "id": "e50",
+   "from": "skill:review/SKILL",
+   "to": "skill:think/b/validate-problem",
+   "kind": "call",
+   "summary": "SKILL hands off validate-problem."
+  },
+  {
+   "id": "e51",
+   "from": "skill:review/SKILL",
+   "to": "shared:product-judgment/jtbd",
+   "kind": "data",
+   "summary": "SKILL reads jtbd."
+  },
+  {
+   "id": "e52",
+   "from": "skill:review/SKILL",
+   "to": "shared:design-quality/cognitive-patterns",
+   "kind": "data",
+   "summary": "SKILL reads cognitive-patterns."
+  },
+  {
+   "id": "e53",
+   "from": "skill:review/SKILL",
+   "to": "shared:design-quality/feasibility-lenses",
+   "kind": "data",
+   "summary": "SKILL reads feasibility-lenses."
+  },
+  {
+   "id": "e54",
+   "from": "skill:review/SKILL",
+   "to": "shared:taste/calibration",
+   "kind": "data",
+   "summary": "SKILL reads calibration."
+  },
+  {
+   "id": "e55",
+   "from": "skill:review/SKILL",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "SKILL reads conventions."
+  },
+  {
+   "id": "e56",
+   "from": "skill:review/SKILL",
+   "to": "shared:content-style/factorial-guide",
+   "kind": "data",
+   "summary": "SKILL reads factorial-guide."
+  },
+  {
+   "id": "e57",
+   "from": "skill:review/SKILL",
+   "to": "shared:content-style/ui-patterns",
+   "kind": "data",
+   "summary": "SKILL reads ui-patterns."
+  },
+  {
+   "id": "e58",
+   "from": "skill:review/SKILL",
+   "to": "shared:narrative/craft",
+   "kind": "data",
+   "summary": "SKILL reads craft."
+  },
+  {
+   "id": "e59",
+   "from": "skill:review/SKILL",
+   "to": "shared:narrative/pyramid",
+   "kind": "data",
+   "summary": "SKILL reads pyramid."
+  },
+  {
+   "id": "e60",
+   "from": "skill:review/SKILL",
+   "to": "shared:layout-patterns/page-structure",
+   "kind": "data",
+   "summary": "SKILL reads page-structure."
+  },
+  {
+   "id": "e61",
+   "from": "skill:review/SKILL",
+   "to": "shared:frontend-libraries/catalog",
+   "kind": "data",
+   "summary": "SKILL reads catalog."
+  },
+  {
+   "id": "e62",
+   "from": "skill:review/SKILL",
+   "to": "shared:frontend-libraries/mismatches",
+   "kind": "data",
+   "summary": "SKILL reads mismatches."
+  },
+  {
+   "id": "e63",
+   "from": "skill:review/SKILL",
+   "to": "shared:subagents/fanout",
+   "kind": "data",
+   "summary": "SKILL reads fanout."
+  },
+  {
+   "id": "e64",
+   "from": "skill:review/SKILL",
+   "to": "shared:subagents/merging",
+   "kind": "data",
+   "summary": "SKILL reads merging."
+  },
+  {
+   "id": "e65",
+   "from": "skill:review/SKILL",
+   "to": "shared:motion/accessibility",
+   "kind": "data",
+   "summary": "SKILL reads accessibility."
+  },
+  {
+   "id": "e66",
+   "from": "skill:review/SKILL",
+   "to": "shared:motion/gesture-physics",
+   "kind": "data",
+   "summary": "SKILL reads gesture-physics."
+  },
+  {
+   "id": "e67",
+   "from": "skill:review/SKILL",
+   "to": "shared:motion/fluidity",
+   "kind": "data",
+   "summary": "SKILL reads fluidity."
+  },
+  {
+   "id": "e68",
+   "from": "skill:review/SKILL",
+   "to": "shared:motion/native",
+   "kind": "data",
+   "summary": "SKILL reads native."
+  },
+  {
+   "id": "e69",
+   "from": "skill:review/SKILL",
+   "to": "shared:code-reviewers/adversarial",
+   "kind": "data",
+   "summary": "SKILL reads adversarial."
+  },
+  {
+   "id": "e70",
+   "from": "skill:review/SKILL",
+   "to": "shared:code-reviewers/api-contract",
+   "kind": "data",
+   "summary": "SKILL reads api-contract."
+  },
+  {
+   "id": "e71",
+   "from": "skill:review/SKILL",
+   "to": "shared:code-reviewers/reliability",
+   "kind": "data",
+   "summary": "SKILL reads reliability."
+  },
+  {
+   "id": "e72",
+   "from": "skill:review/SKILL",
+   "to": "shared:code-reviewers/data-migrations",
+   "kind": "data",
+   "summary": "SKILL reads data-migrations."
+  },
+  {
+   "id": "e73",
+   "from": "skill:review/SKILL",
+   "to": "shared:code-design/finding-priority",
+   "kind": "data",
+   "summary": "SKILL reads finding-priority."
+  },
+  {
+   "id": "e74",
+   "from": "skill:fix/SKILL",
+   "to": "shared:root-cause-patterns/catalog",
+   "kind": "data",
+   "summary": "SKILL reads catalog."
+  },
+  {
+   "id": "e75",
+   "from": "skill:fix/SKILL",
+   "to": "shared:abuse/adaptive-defense",
+   "kind": "data",
+   "summary": "SKILL reads adaptive-defense."
+  },
+  {
+   "id": "e76",
+   "from": "skill:measure/SKILL",
+   "to": "shared:amplitude-best-practices/concepts",
+   "kind": "data",
+   "summary": "SKILL reads concepts."
+  },
+  {
+   "id": "e77",
+   "from": "skill:measure/SKILL",
+   "to": "shared:amplitude-best-practices/reference-tables",
+   "kind": "data",
+   "summary": "SKILL reads reference-tables."
+  },
+  {
+   "id": "e78",
+   "from": "skill:measure/SKILL",
+   "to": "shared:metrics/compass-metric",
+   "kind": "data",
+   "summary": "SKILL reads compass-metric."
+  },
+  {
+   "id": "e79",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:people/confidence",
+   "kind": "data",
+   "summary": "SKILL reads confidence."
+  },
+  {
+   "id": "e80",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:people/guardrails",
+   "kind": "data",
+   "summary": "SKILL reads guardrails."
+  },
+  {
+   "id": "e81",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:people/sources",
+   "kind": "data",
+   "summary": "SKILL reads sources."
+  },
+  {
+   "id": "e82",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:people/crawler-prompt",
+   "kind": "data",
+   "summary": "SKILL reads crawler-prompt."
+  },
+  {
+   "id": "e83",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "SKILL reads conventions."
+  },
+  {
+   "id": "e84",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:product-judgment/health-dimensions",
+   "kind": "data",
+   "summary": "SKILL reads health-dimensions."
+  },
+  {
+   "id": "e85",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:product-judgment/evidence",
+   "kind": "data",
+   "summary": "SKILL reads evidence."
+  },
+  {
+   "id": "e86",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:metrics/compass-metric",
+   "kind": "data",
+   "summary": "SKILL reads compass-metric."
+  },
+  {
+   "id": "e87",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:adoption/dynamics",
+   "kind": "data",
+   "summary": "SKILL reads dynamics."
+  },
+  {
+   "id": "e88",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:event-taxonomy/naming-grammar",
+   "kind": "data",
+   "summary": "SKILL reads naming-grammar."
+  },
+  {
+   "id": "e89",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:research-method/domain-map",
+   "kind": "data",
+   "summary": "SKILL reads domain-map."
+  },
+  {
+   "id": "e90",
+   "from": "skill:analyze/SKILL",
+   "to": "shared:research-method/known-competitors",
+   "kind": "data",
+   "summary": "SKILL reads known-competitors."
+  },
+  {
+   "id": "e91",
+   "from": "skill:build/SKILL",
+   "to": "shared:layout-patterns/page-structure",
+   "kind": "data",
+   "summary": "SKILL reads page-structure."
+  },
+  {
+   "id": "e92",
+   "from": "skill:build/SKILL",
+   "to": "shared:component-design/composition",
+   "kind": "data",
+   "summary": "SKILL reads composition."
+  },
+  {
+   "id": "e93",
+   "from": "skill:build/SKILL",
+   "to": "shared:design-quality/interface-principles",
+   "kind": "data",
+   "summary": "SKILL reads interface-principles."
+  },
+  {
+   "id": "e94",
+   "from": "skill:build/SKILL",
+   "to": "skill:build/b/frontend/interaction-design",
+   "kind": "call",
+   "summary": "SKILL hands off interaction-design."
+  },
+  {
+   "id": "e95",
+   "from": "skill:build/SKILL",
+   "to": "shared:subagents/fanout",
+   "kind": "data",
+   "summary": "SKILL reads fanout."
+  },
+  {
+   "id": "e96",
+   "from": "skill:build/SKILL",
+   "to": "shared:subagents/merging",
+   "kind": "data",
+   "summary": "SKILL reads merging."
+  },
+  {
+   "id": "e97",
+   "from": "skill:build/SKILL",
+   "to": "shared:content-style/plain-words",
+   "kind": "data",
+   "summary": "SKILL reads plain-words."
+  },
+  {
+   "id": "e98",
+   "from": "skill:build/SKILL",
+   "to": "shared:frontend-libraries/catalog",
+   "kind": "data",
+   "summary": "SKILL reads catalog."
+  },
+  {
+   "id": "e99",
+   "from": "skill:build/SKILL",
+   "to": "shared:motion/accessibility",
+   "kind": "data",
+   "summary": "SKILL reads accessibility."
+  },
+  {
+   "id": "e100",
+   "from": "skill:build/SKILL",
+   "to": "shared:content-style/most-broken",
+   "kind": "data",
+   "summary": "SKILL reads most-broken."
+  },
+  {
+   "id": "e101",
+   "from": "skill:build/SKILL",
+   "to": "shared:moderation/community-standards",
+   "kind": "data",
+   "summary": "SKILL reads community-standards."
+  },
+  {
+   "id": "e102",
+   "from": "skill:build/SKILL",
+   "to": "shared:abuse/adaptive-defense",
+   "kind": "data",
+   "summary": "SKILL reads adaptive-defense."
+  },
+  {
+   "id": "e103",
+   "from": "skill:build/SKILL",
+   "to": "shared:code-design/comments-docs",
+   "kind": "data",
+   "summary": "SKILL reads comments-docs."
+  },
+  {
+   "id": "e104",
+   "from": "skill:create/SKILL",
+   "to": "shared:hyperframes/engine",
+   "kind": "data",
+   "summary": "SKILL reads engine."
+  },
+  {
+   "id": "e105",
+   "from": "skill:create/SKILL",
+   "to": "shared:hyperframes/handoff",
+   "kind": "data",
+   "summary": "SKILL reads handoff."
+  },
+  {
+   "id": "e106",
+   "from": "skill:create/SKILL",
+   "to": "shared:diagrams/surfaces",
+   "kind": "data",
+   "summary": "SKILL reads surfaces."
+  },
+  {
+   "id": "e107",
+   "from": "skill:create/SKILL",
+   "to": "shared:visual-design/ai-slop-blacklist",
+   "kind": "data",
+   "summary": "SKILL reads ai-slop-blacklist."
+  },
+  {
+   "id": "e108",
+   "from": "skill:create/SKILL",
+   "to": "shared:narrative/craft",
+   "kind": "data",
+   "summary": "SKILL reads craft."
+  },
+  {
+   "id": "e109",
+   "from": "skill:create/SKILL",
+   "to": "shared:narrative/pyramid",
+   "kind": "data",
+   "summary": "SKILL reads pyramid."
+  },
+  {
+   "id": "e110",
+   "from": "skill:create/SKILL",
+   "to": "shared:visual-design/typography",
+   "kind": "data",
+   "summary": "SKILL reads typography."
+  },
+  {
+   "id": "e111",
+   "from": "skill:create/SKILL",
+   "to": "shared:content-style/most-broken",
+   "kind": "data",
+   "summary": "SKILL reads most-broken."
+  },
+  {
+   "id": "e112",
+   "from": "skill:build/b/pick-library",
+   "to": "shared:frontend-libraries/catalog",
+   "kind": "data",
+   "summary": "pick-library reads catalog."
+  },
+  {
+   "id": "e113",
+   "from": "skill:build/b/animation-expo",
+   "to": "shared:motion/native",
+   "kind": "data",
+   "summary": "animation-expo reads native."
+  },
+  {
+   "id": "e114",
+   "from": "skill:build/b/animation-expo",
+   "to": "shared:motion/gesture-physics",
+   "kind": "data",
+   "summary": "animation-expo reads gesture-physics."
+  },
+  {
+   "id": "e115",
+   "from": "skill:build/b/animation-expo",
+   "to": "shared:motion/vocabulary",
+   "kind": "data",
+   "summary": "animation-expo reads vocabulary."
+  },
+  {
+   "id": "e116",
+   "from": "skill:build/b/animation",
+   "to": "shared:motion/when",
+   "kind": "data",
+   "summary": "animation reads when."
+  },
+  {
+   "id": "e117",
+   "from": "skill:build/b/animation",
+   "to": "shared:motion/timing",
+   "kind": "data",
+   "summary": "animation reads timing."
+  },
+  {
+   "id": "e118",
+   "from": "skill:build/b/animation",
+   "to": "shared:motion/springs",
+   "kind": "data",
+   "summary": "animation reads springs."
+  },
+  {
+   "id": "e119",
+   "from": "skill:build/b/animation",
+   "to": "shared:motion/interruption",
+   "kind": "data",
+   "summary": "animation reads interruption."
+  },
+  {
+   "id": "e120",
+   "from": "skill:build/b/animation",
+   "to": "shared:motion/accessibility",
+   "kind": "data",
+   "summary": "animation reads accessibility."
+  },
+  {
+   "id": "e121",
+   "from": "skill:build/b/animation",
+   "to": "shared:motion/vocabulary",
+   "kind": "data",
+   "summary": "animation reads vocabulary."
+  },
+  {
+   "id": "e122",
+   "from": "skill:build/b/animation",
+   "to": "shared:motion/gesture-physics",
+   "kind": "data",
+   "summary": "animation reads gesture-physics."
+  },
+  {
+   "id": "e123",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/when",
+   "kind": "data",
+   "summary": "interaction reads when."
+  },
+  {
+   "id": "e124",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/gestures",
+   "kind": "data",
+   "summary": "interaction reads gestures."
+  },
+  {
+   "id": "e125",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/physicality",
+   "kind": "data",
+   "summary": "interaction reads physicality."
+  },
+  {
+   "id": "e126",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/transforms",
+   "kind": "data",
+   "summary": "interaction reads transforms."
+  },
+  {
+   "id": "e127",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/springs",
+   "kind": "data",
+   "summary": "interaction reads springs."
+  },
+  {
+   "id": "e128",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/performance",
+   "kind": "data",
+   "summary": "interaction reads performance."
+  },
+  {
+   "id": "e129",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/accessibility",
+   "kind": "data",
+   "summary": "interaction reads accessibility."
+  },
+  {
+   "id": "e130",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/cohesion",
+   "kind": "data",
+   "summary": "interaction reads cohesion."
+  },
+  {
+   "id": "e131",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/gesture-physics",
+   "kind": "data",
+   "summary": "interaction reads gesture-physics."
+  },
+  {
+   "id": "e132",
+   "from": "skill:build/b/interaction",
+   "to": "shared:motion/fluidity",
+   "kind": "data",
+   "summary": "interaction reads fluidity."
+  },
+  {
+   "id": "e133",
+   "from": "skill:build/b/layout",
+   "to": "shared:layout-patterns/page-structure",
+   "kind": "data",
+   "summary": "layout reads page-structure."
+  },
+  {
+   "id": "e134",
+   "from": "skill:build/b/frontend/interaction-design",
+   "to": "shared:accessibility/states",
+   "kind": "data",
+   "summary": "interaction-design reads states."
+  },
+  {
+   "id": "e135",
+   "from": "skill:build/b/frontend/interaction-design",
+   "to": "shared:accessibility/keyboard",
+   "kind": "data",
+   "summary": "interaction-design reads keyboard."
+  },
+  {
+   "id": "e136",
+   "from": "skill:build/b/frontend/interaction-design",
+   "to": "shared:accessibility/cognitive",
+   "kind": "data",
+   "summary": "interaction-design reads cognitive."
+  },
+  {
+   "id": "e137",
+   "from": "skill:analyze/b/pipeline",
+   "to": "shared:signals/adapters",
+   "kind": "data",
+   "summary": "pipeline reads adapters."
+  },
+  {
+   "id": "e138",
+   "from": "skill:analyze/b/pipeline",
+   "to": "shared:signals/method",
+   "kind": "data",
+   "summary": "pipeline reads method."
+  },
+  {
+   "id": "e139",
+   "from": "skill:analyze/b/pipeline",
+   "to": "shared:datalake/access",
+   "kind": "data",
+   "summary": "pipeline reads access."
+  },
+  {
+   "id": "e140",
+   "from": "skill:analyze/b/pipeline",
+   "to": "shared:datalake/limits",
+   "kind": "data",
+   "summary": "pipeline reads limits."
+  },
+  {
+   "id": "e141",
+   "from": "skill:analyze/b/pipeline",
+   "to": "shared:event-taxonomy/naming-grammar",
+   "kind": "data",
+   "summary": "pipeline reads naming-grammar."
+  },
+  {
+   "id": "e142",
+   "from": "skill:analyze/b/pipeline",
+   "to": "shared:product-judgment/evidence",
+   "kind": "data",
+   "summary": "pipeline reads evidence."
+  },
+  {
+   "id": "e143",
+   "from": "skill:analyze/b/pipeline",
+   "to": "shared:product-judgment/health-dimensions",
+   "kind": "data",
+   "summary": "pipeline reads health-dimensions."
+  },
+  {
+   "id": "e144",
+   "from": "skill:analyze/b/person",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "person reads conventions."
+  },
+  {
+   "id": "e145",
+   "from": "skill:analyze/b/domain",
+   "to": "skill:analyze/b/pipeline",
+   "kind": "call",
+   "summary": "domain hands off pipeline."
+  },
+  {
+   "id": "e146",
+   "from": "skill:analyze/b/domain",
+   "to": "shared:product-judgment/health-dimensions",
+   "kind": "data",
+   "summary": "domain reads health-dimensions."
+  },
+  {
+   "id": "e147",
+   "from": "skill:analyze/b/domain",
+   "to": "shared:diagrams/recipes",
+   "kind": "data",
+   "summary": "domain reads recipes."
+  },
+  {
+   "id": "e148",
+   "from": "skill:analyze/b/domain",
+   "to": "shared:diagrams/authoring",
+   "kind": "data",
+   "summary": "domain reads authoring."
+  },
+  {
+   "id": "e149",
+   "from": "skill:analyze/b/domain",
+   "to": "shared:diagrams/surfaces",
+   "kind": "data",
+   "summary": "domain reads surfaces."
+  },
+  {
+   "id": "e150",
+   "from": "skill:analyze/b/domain",
+   "to": "shared:diagrams/when-to-draw",
+   "kind": "data",
+   "summary": "domain reads when-to-draw."
+  },
+  {
+   "id": "e151",
+   "from": "skill:analyze/b/feature",
+   "to": "skill:analyze/b/pipeline",
+   "kind": "call",
+   "summary": "feature hands off pipeline."
+  },
+  {
+   "id": "e152",
+   "from": "skill:analyze/b/feature",
+   "to": "shared:product-judgment/health-dimensions",
+   "kind": "data",
+   "summary": "feature reads health-dimensions."
+  },
+  {
+   "id": "e153",
+   "from": "skill:measure/b/define-event",
+   "to": "shared:event-taxonomy/naming-grammar",
+   "kind": "data",
+   "summary": "define-event reads naming-grammar."
+  },
+  {
+   "id": "e154",
+   "from": "skill:measure/b/define-event",
+   "to": "shared:event-taxonomy/property-design",
+   "kind": "data",
+   "summary": "define-event reads property-design."
+  },
+  {
+   "id": "e155",
+   "from": "skill:measure/b/discover-patterns",
+   "to": "shared:event-taxonomy/naming-grammar",
+   "kind": "data",
+   "summary": "discover-patterns reads naming-grammar."
+  },
+  {
+   "id": "e156",
+   "from": "skill:measure/b/discover-patterns",
+   "to": "shared:event-taxonomy/property-design",
+   "kind": "data",
+   "summary": "discover-patterns reads property-design."
+  },
+  {
+   "id": "e157",
+   "from": "skill:measure/b/discover-patterns",
+   "to": "shared:amplitude-best-practices/concepts",
+   "kind": "data",
+   "summary": "discover-patterns reads concepts."
+  },
+  {
+   "id": "e158",
+   "from": "skill:measure/b/discover-patterns",
+   "to": "shared:amplitude-best-practices/reference-tables",
+   "kind": "data",
+   "summary": "discover-patterns reads reference-tables."
+  },
+  {
+   "id": "e159",
+   "from": "skill:measure/b/discover-events",
+   "to": "shared:amplitude-best-practices/concepts",
+   "kind": "data",
+   "summary": "discover-events reads concepts."
+  },
+  {
+   "id": "e160",
+   "from": "skill:measure/b/write-plan",
+   "to": "shared:amplitude-best-practices/concepts",
+   "kind": "data",
+   "summary": "write-plan reads concepts."
+  },
+  {
+   "id": "e161",
+   "from": "skill:think/b/challenge",
+   "to": "shared:product-judgment/forcing-questions",
+   "kind": "data",
+   "summary": "challenge reads forcing-questions."
+  },
+  {
+   "id": "e162",
+   "from": "skill:think/b/challenge",
+   "to": "shared:product-judgment/alternatives",
+   "kind": "data",
+   "summary": "challenge reads alternatives."
+  },
+  {
+   "id": "e163",
+   "from": "skill:think/b/challenge",
+   "to": "shared:code-design/strategic-posture",
+   "kind": "data",
+   "summary": "challenge reads strategic-posture."
+  },
+  {
+   "id": "e164",
+   "from": "skill:think/b/challenge",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "challenge reads claims."
+  },
+  {
+   "id": "e165",
+   "from": "skill:think/b/challenge",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "challenge reads conventions."
+  },
+  {
+   "id": "e166",
+   "from": "skill:think/b/challenge",
+   "to": "skill:think/b/poll-panel",
+   "kind": "call",
+   "summary": "challenge hands off poll-panel."
+  },
+  {
+   "id": "e167",
+   "from": "skill:think/b/challenge",
+   "to": "shared:product-judgment/scope-modes",
+   "kind": "data",
+   "summary": "challenge reads scope-modes."
+  },
+  {
+   "id": "e168",
+   "from": "skill:think/b/challenge",
+   "to": "shared:three-layer-synthesis/layers",
+   "kind": "data",
+   "summary": "challenge reads layers."
+  },
+  {
+   "id": "e169",
+   "from": "skill:think/b/challenge",
+   "to": "shared:three-layer-synthesis/emerging-evidence",
+   "kind": "data",
+   "summary": "challenge reads emerging-evidence."
+  },
+  {
+   "id": "e170",
+   "from": "skill:think/b/challenge",
+   "to": "shared:datalake/access",
+   "kind": "data",
+   "summary": "challenge reads access."
+  },
+  {
+   "id": "e171",
+   "from": "skill:think/b/frame-opportunity",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "frame-opportunity reads claims."
+  },
+  {
+   "id": "e172",
+   "from": "skill:think/b/frame-opportunity",
+   "to": "shared:product-judgment/opportunity-dimensions",
+   "kind": "data",
+   "summary": "frame-opportunity reads opportunity-dimensions."
+  },
+  {
+   "id": "e173",
+   "from": "skill:think/b/frame-opportunity",
+   "to": "shared:product-judgment/evidence",
+   "kind": "data",
+   "summary": "frame-opportunity reads evidence."
+  },
+  {
+   "id": "e174",
+   "from": "skill:think/b/frame-opportunity",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "frame-opportunity reads conventions."
+  },
+  {
+   "id": "e175",
+   "from": "skill:think/b/frame-opportunity",
+   "to": "skill:think/b/poll-panel",
+   "kind": "call",
+   "summary": "frame-opportunity hands off poll-panel."
+  },
+  {
+   "id": "e176",
+   "from": "skill:think/b/frame-opportunity",
+   "to": "shared:datalake/access",
+   "kind": "data",
+   "summary": "frame-opportunity reads access."
+  },
+  {
+   "id": "e177",
+   "from": "skill:think/b/validate-problem",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "validate-problem reads claims."
+  },
+  {
+   "id": "e178",
+   "from": "skill:think/b/validate-problem",
+   "to": "shared:product-judgment/evidence",
+   "kind": "data",
+   "summary": "validate-problem reads evidence."
+  },
+  {
+   "id": "e179",
+   "from": "skill:think/b/validate-problem",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "validate-problem reads conventions."
+  },
+  {
+   "id": "e180",
+   "from": "skill:think/b/find-root-cause",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "find-root-cause reads conventions."
+  },
+  {
+   "id": "e181",
+   "from": "skill:think/b/find-root-cause",
+   "to": "shared:root-cause-patterns/catalog",
+   "kind": "data",
+   "summary": "find-root-cause reads catalog."
+  },
+  {
+   "id": "e182",
+   "from": "skill:think/b/poll-panel",
+   "to": "shared:stakeholders/profiles",
+   "kind": "data",
+   "summary": "poll-panel reads profiles."
+  },
+  {
+   "id": "e183",
+   "from": "skill:think/b/poll-panel",
+   "to": "skill:think/b/perspective-selector",
+   "kind": "call",
+   "summary": "poll-panel hands off perspective-selector."
+  },
+  {
+   "id": "e184",
+   "from": "skill:think/b/poll-panel",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "poll-panel reads claims."
+  },
+  {
+   "id": "e185",
+   "from": "skill:think/b/poll-panel",
+   "to": "skill:think/b/challenge",
+   "kind": "call",
+   "summary": "poll-panel hands off challenge."
+  },
+  {
+   "id": "e186",
+   "from": "skill:think/b/perspective-selector",
+   "to": "shared:stakeholders/profiles",
+   "kind": "data",
+   "summary": "perspective-selector reads profiles."
+  },
+  {
+   "id": "e187",
+   "from": "skill:think/b/surface-assumptions",
+   "to": "shared:three-layer-synthesis/layers",
+   "kind": "data",
+   "summary": "surface-assumptions reads layers."
+  },
+  {
+   "id": "e188",
+   "from": "skill:think/b/surface-assumptions",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "surface-assumptions reads claims."
+  },
+  {
+   "id": "e189",
+   "from": "skill:think/b/surface-assumptions",
+   "to": "shared:product-judgment/assumptions",
+   "kind": "data",
+   "summary": "surface-assumptions reads assumptions."
+  },
+  {
+   "id": "e190",
+   "from": "skill:think/b/surface-assumptions",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "surface-assumptions reads conventions."
+  },
+  {
+   "id": "e191",
+   "from": "skill:think/b/surface-assumptions",
+   "to": "skill:think/b/poll-panel",
+   "kind": "call",
+   "summary": "surface-assumptions hands off poll-panel."
+  },
+  {
+   "id": "e192",
+   "from": "skill:think/b/generate-ideas",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "generate-ideas reads conventions."
+  },
+  {
+   "id": "e193",
+   "from": "skill:think/b/debate",
+   "to": "shared:stakeholders/profiles",
+   "kind": "data",
+   "summary": "debate reads profiles."
+  },
+  {
+   "id": "e194",
+   "from": "skill:think/b/debate",
+   "to": "skill:think/b/perspective-selector",
+   "kind": "call",
+   "summary": "debate hands off perspective-selector."
+  },
+  {
+   "id": "e195",
+   "from": "skill:think/b/debate",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "debate reads claims."
+  },
+  {
+   "id": "e196",
+   "from": "skill:think/b/debate",
+   "to": "skill:think/b/challenge",
+   "kind": "call",
+   "summary": "debate hands off challenge."
+  },
+  {
+   "id": "e197",
+   "from": "skill:think/b/debate",
+   "to": "skill:think/b/poll-panel",
+   "kind": "call",
+   "summary": "debate hands off poll-panel."
+  },
+  {
+   "id": "e198",
+   "from": "skill:think/b/brainstorm",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "brainstorm reads conventions."
+  },
+  {
+   "id": "e199",
+   "from": "skill:note/b/tag",
+   "to": "shared:vault/tags",
+   "kind": "data",
+   "summary": "tag reads tags."
+  },
+  {
+   "id": "e200",
+   "from": "skill:note/b/tag",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "tag reads conventions."
+  },
+  {
+   "id": "e201",
+   "from": "skill:research/b/competitors",
+   "to": "shared:research-method/domain-map",
+   "kind": "data",
+   "summary": "competitors reads domain-map."
+  },
+  {
+   "id": "e202",
+   "from": "skill:research/b/competitors",
+   "to": "shared:research-method/known-competitors",
+   "kind": "data",
+   "summary": "competitors reads known-competitors."
+  },
+  {
+   "id": "e203",
+   "from": "skill:research/b/competitors",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "competitors reads conventions."
+  },
+  {
+   "id": "e204",
+   "from": "skill:research/b/landscape",
+   "to": "shared:anti-sycophancy/claims",
+   "kind": "data",
+   "summary": "landscape reads claims."
+  },
+  {
+   "id": "e205",
+   "from": "skill:research/b/check-knowledge",
+   "to": "skill:note/b/recall",
+   "kind": "call",
+   "summary": "check-knowledge hands off recall."
+  },
+  {
+   "id": "e206",
+   "from": "skill:research/b/extract-insights",
+   "to": "skill:research/b/check-knowledge",
+   "kind": "call",
+   "summary": "extract-insights hands off check-knowledge."
+  },
+  {
+   "id": "e207",
+   "from": "skill:write/b/slides",
+   "to": "shared:narrative/pyramid",
+   "kind": "data",
+   "summary": "slides reads pyramid."
+  },
+  {
+   "id": "e208",
+   "from": "skill:write/b/ui-copy",
+   "to": "shared:content-style/factorial-guide",
+   "kind": "data",
+   "summary": "ui-copy reads factorial-guide."
+  },
+  {
+   "id": "e209",
+   "from": "skill:write/b/ui-copy",
+   "to": "shared:content-style/ui-patterns",
+   "kind": "data",
+   "summary": "ui-copy reads ui-patterns."
+  },
+  {
+   "id": "e210",
+   "from": "skill:write/b/ui-copy",
+   "to": "shared:content-style/most-broken",
+   "kind": "data",
+   "summary": "ui-copy reads most-broken."
+  },
+  {
+   "id": "e211",
+   "from": "skill:write/b/story",
+   "to": "shared:narrative/pyramid",
+   "kind": "data",
+   "summary": "story reads pyramid."
+  },
+  {
+   "id": "e212",
+   "from": "skill:write/b/story",
+   "to": "shared:narrative/craft",
+   "kind": "data",
+   "summary": "story reads craft."
+  },
+  {
+   "id": "e213",
+   "from": "shared:design-quality/cognitive-patterns",
+   "to": "shared:accessibility/wcag",
+   "kind": "data",
+   "summary": "cognitive-patterns reads wcag."
+  },
+  {
+   "id": "e214",
+   "from": "shared:design-quality/passes",
+   "to": "shared:visual-design/ai-slop-blacklist",
+   "kind": "data",
+   "summary": "passes reads ai-slop-blacklist."
+  },
+  {
+   "id": "e215",
+   "from": "shared:design-quality/passes",
+   "to": "shared:accessibility/wcag",
+   "kind": "data",
+   "summary": "passes reads wcag."
+  },
+  {
+   "id": "e216",
+   "from": "shared:design-quality/passes",
+   "to": "shared:motion/accessibility",
+   "kind": "data",
+   "summary": "passes reads accessibility."
+  },
+  {
+   "id": "e217",
+   "from": "shared:product-judgment/evidence",
+   "to": "shared:datalake/access",
+   "kind": "data",
+   "summary": "evidence reads access."
+  },
+  {
+   "id": "e218",
+   "from": "shared:product-judgment/opportunity-dimensions",
+   "to": "shared:product-judgment/health-dimensions",
+   "kind": "data",
+   "summary": "opportunity-dimensions reads health-dimensions."
+  },
+  {
+   "id": "e219",
+   "from": "shared:visual-design/color-and-contrast",
+   "to": "shared:accessibility/wcag",
+   "kind": "data",
+   "summary": "color-and-contrast reads wcag."
+  },
+  {
+   "id": "e220",
+   "from": "shared:motion/interruption",
+   "to": "shared:motion/springs",
+   "kind": "data",
+   "summary": "interruption reads springs."
+  },
+  {
+   "id": "e221",
+   "from": "shared:motion/native",
+   "to": "shared:motion/when",
+   "kind": "data",
+   "summary": "native reads when."
+  },
+  {
+   "id": "e222",
+   "from": "shared:amplitude-best-practices/rules",
+   "to": "shared:event-taxonomy/naming-grammar",
+   "kind": "data",
+   "summary": "rules reads naming-grammar."
+  },
+  {
+   "id": "e223",
+   "from": "shared:people/sources",
+   "to": "shared:vault/conventions",
+   "kind": "data",
+   "summary": "sources reads conventions."
+  },
+  {
+   "id": "e224",
+   "from": "shared:accessibility/vision",
+   "to": "shared:motion/accessibility",
+   "kind": "data",
+   "summary": "vision reads accessibility."
+  },
+  {
+   "id": "e225",
+   "from": "shared:three-layer-synthesis/emerging-evidence",
+   "to": "shared:datalake/access",
+   "kind": "data",
+   "summary": "emerging-evidence reads access."
+  },
+  {
+   "id": "e226",
+   "from": "shared:code-design/strategic-posture",
+   "to": "shared:code-design/red-flags",
+   "kind": "data",
+   "summary": "strategic-posture reads red-flags."
+  }
+ ],
+ "tour": {
+  "title": "How angelos is wired",
+  "steps": [
+   {
+    "title": "One router per verb",
+    "body": "Each of the ten skills is a SKILL.md router. It reads the ask, matches one routing row, and that row names the exact files to open. Nothing else is loaded.",
+    "focus": {
+     "nodes": [
+      "skill:analyze/SKILL",
+      "skill:build/SKILL",
+      "skill:create/SKILL",
+      "skill:fix/SKILL",
+      "skill:measure/SKILL",
+      "skill:note/SKILL",
+      "skill:research/SKILL",
+      "skill:review/SKILL",
+      "skill:think/SKILL",
+      "skill:write/SKILL"
+     ]
+    }
+   },
+   {
+    "title": "Branches do the work",
+    "body": "A matched row opens one branch under skills/<verb>/branches. Review groups its branches by what is judged: code, design, document, plus concerns that stack on any of them.",
+    "depth": 2,
+    "focus": {
+     "nodes": [
+      "skill:review/SKILL",
+      "skill:review/b/code-accessibility",
+      "skill:review/b/code-backend",
+      "skill:review/b/code-bugs",
+      "skill:review/b/code-frontend",
+      "skill:review/b/design-accessibility",
+      "skill:review/b/design",
+      "skill:review/b/doc",
+      "skill:review/b/motion",
+      "skill:review/b/pr",
+      "skill:review/b/slides",
+      "skill:review/b/ui-copy"
+     ]
+    }
+   },
+   {
+    "title": "Shared knowledge",
+    "body": "Standards live once under shared/<domain>, as leaves with no index file. A router or branch names the leaves it reads, so the same standard serves the verb that writes and the verb that judges.",
+    "focus": {
+     "nodes": [
+      "shared:abuse",
+      "shared:accessibility",
+      "shared:adoption",
+      "shared:amplitude-best-practices",
+      "shared:anti-sycophancy",
+      "shared:code-design",
+      "shared:code-reviewers",
+      "shared:component-design",
+      "shared:content-style",
+      "shared:datalake",
+      "shared:design-quality",
+      "shared:diagrams",
+      "shared:doc-reviewers",
+      "shared:drafting",
+      "shared:event-taxonomy",
+      "shared:frontend-libraries",
+      "shared:hyperframes",
+      "shared:layout-patterns",
+      "shared:metrics",
+      "shared:moderation",
+      "shared:motion",
+      "shared:narrative",
+      "shared:notebooklm",
+      "shared:people",
+      "shared:product-judgment",
+      "shared:research-method",
+      "shared:root-cause-patterns",
+      "shared:signals",
+      "shared:stakeholders",
+      "shared:subagents",
+      "shared:taste",
+      "shared:three-layer-synthesis",
+      "shared:vault",
+      "shared:visual-design"
+     ]
+    }
+   },
+   {
+    "title": "A worked path",
+    "body": "Review on a diff spawns reviewer prompts from shared/code-reviewers, one per failure class. Pick a skill in the filter bar to see only its flow and everything it reads.",
+    "focus": {
+     "edges": [
+      "e69",
+      "e70",
+      "e71",
+      "e72"
+     ]
+    }
+   }
+  ]
+ }
+}

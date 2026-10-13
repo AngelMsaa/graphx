@@ -7,6 +7,7 @@
   "scripts": {
     "build": "node graphx-build.mjs",
     "check": "node graphx-build.mjs --check",
+    "dev": "node tools/dev-server.mjs",
     "verify:mermaid": "node tools/verify-mermaid.mjs",
     "verify:shapes": "node tools/verify-shapes.mjs",
     "verify:tree": "node tools/verify-tree.mjs",
