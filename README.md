@@ -348,6 +348,15 @@ accepts `.json`, `.mmd` and Markdown with a ` ```mermaid ` block. Use `--strict`
 }
 ```
 
+**Any domain, not only software.** `"pack": "process"` swaps the vocabulary: node kinds (stage, step,
+decision, artifact…), edge kinds with their own line style and blast direction (next, handoff, triggers,
+RACI), nesting and cardinality rules, labels too generic to accept, and a node budget per view. Packs live
+in `packs/`; a spec can also inline one, `{ "extends": "process", "nodeKinds": { … } }`. Every kind maps to
+one of eight categories (actor, unit, resource, activity, artifact, concept, event, state), which also work
+as kinds when nothing in the pack fits. Without `pack`, the software vocabulary applies and nothing changes.
+Nodes and edges accept `sources` (quotes) and `confidence` (0 to 1); edges accept `style` (solid, dashed,
+dotted).
+
 **In a page**
 
 ```html

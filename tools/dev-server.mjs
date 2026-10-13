@@ -18,6 +18,7 @@ const PORT = portAt >= 0 ? +args[portAt + 1] : 5179;
 const SPEC = path.resolve(args.find((a, i) => !a.startsWith('--') && args[i - 1] !== '--port') || path.join(ROOT, 'examples/angelos/angelos-map.json'));
 const OUT = path.join(ROOT, 'examples', '.dev.html');
 const WATCHED = ['graphx.js', 'graphx.css', 'graphx-fx.js', 'graphx-shapes.js', 'graphx-mermaid.js', 'graphx-layouts.js', 'graphx-tree.js', 'graphx-build.mjs'].map(f => path.join(ROOT, f)).concat(SPEC);
+const PACKS = path.join(ROOT, 'packs');
 
 const RELOAD = `<script>new EventSource('/__reload').onmessage = () => location.reload();</script>`;
 let page = '', lastError = '';
@@ -42,6 +43,7 @@ const schedule = () => { clearTimeout(timer); timer = setTimeout(build, 120); };
 // Los editores que guardan con rename sueltan el watcher del fichero; vigilar los directorios no.
 new Set(WATCHED.map(f => path.dirname(f))).forEach(dir =>
   fs.watch(dir, (_, name) => { if (name && WATCHED.includes(path.join(dir, name))) schedule(); }));
+fs.watch(PACKS, (_, name) => { if (name && name.endsWith('.json')) schedule(); });
 
 http.createServer((req, res) => {
   if (req.url === '/__reload') {

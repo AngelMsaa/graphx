@@ -13,7 +13,10 @@
   const NS = 'http://www.w3.org/2000/svg';
   const DUR = 460;
   const DELTA_RANK = { added: 3, removed: 3, modified: 2, unchanged: 0 };
+  /* sin `pack`, el vocabulario de software de siempre: los eventos y las colas van discontinuos y su fallo baja */
   const DASHED_KINDS = { event: 1, queue: 1, async: 1 };
+  /* icono de reserva por categoría: un tipo de un paquete que no trae icono se pinta como lo que es */
+  const CATEGORY_ICON = { actor: 'user', unit: 'service', resource: 'datastore', activity: 'job', artifact: 'doc', concept: 'node', event: 'bell', state: 'gauge', unmapped: 'other' };
   /* filas de una secuencia que no son mensajes: marcos, notas, activaciones y fases */
   const SEQ_META = { phase: 1, block: 1, else: 1, end: 1, note: 1, activate: 1, deactivate: 1, create: 1, destroy: 1 };
 
@@ -302,7 +305,12 @@
     const G = buildModel(spec);
     const nItems = k => `${k} ${k === 1 ? T.item : T.items}`;
     /* nombre legible de un tipo: el de `legend.kinds` si lo trae, si no el propio `kind` */
-    const kindName = k => (spec.legend && spec.legend.kinds && spec.legend.kinds[k]) || k;
+    const PACK = spec.pack && typeof spec.pack === 'object' ? spec.pack : null;
+    const said = v => (v && typeof v === 'object' ? v[lang] || v.en || v.es : v);
+    const nodeDef = k => (PACK && PACK.nodeKinds && PACK.nodeKinds[k]) || {};
+    const edgeDef = k => (PACK ? (PACK.edgeKinds && PACK.edgeKinds[k]) || {} : DASHED_KINDS[k] ? { style: 'dashed', blast: 'forward' } : {});
+    const edgeStyle = e => e.style || edgeDef(e.kind).style || 'solid';
+    const kindName = k => (spec.legend && spec.legend.kinds && spec.legend.kinds[k]) || said(nodeDef(k).label) || k;
     const M = G.M;
     const I = 'gx' + (++uid);
     const reduce = !!(global.matchMedia && global.matchMedia('(prefers-reduced-motion: reduce)').matches);
@@ -321,6 +329,8 @@
       const d = typeof v === 'string' ? v : v && v.path;
       if (typeof d === 'string' && d.length < 6000 && /^[MmLlHhVvCcSsQqTtAaZz0-9.,\s-]+$/.test(d)) { IC[k] = d; if (v && v.fill) ICFILL.add(k); }
     });
+    Object.entries(CATEGORY_ICON).forEach(([c, k]) => { if (!IC[c]) IC[c] = ICON[k]; });
+    Object.entries((PACK && PACK.nodeKinds) || {}).forEach(([k, v]) => { if (!IC[k]) IC[k] = ICON[v.icon] || ICON[CATEGORY_ICON[v.category]] || ICON.other; });
     /* estados propios (`statuses`): cada pieza con `status` toma su etiqueta y, si no trae color, el suyo */
     const STATUSES = spec.statuses && typeof spec.statuses === 'object' ? spec.statuses : {};
     const HAS_DELTA = (spec.nodes || []).some(n => n.delta) || (spec.edges || []).some(e => e.delta);
@@ -536,7 +546,7 @@
         const lead = v.list.slice().sort((x, y) => ((y.emphasis === 'hero') - (x.emphasis === 'hero')) || ((DELTA_RANK[y.delta] || 0) - (DELTA_RANK[x.delta] || 0)))[0];
         return Object.assign(v, {
           delta: lead.delta && DELTA_RANK[lead.delta] === rank ? lead.delta : (rank === 3 ? 'added' : rank === 2 ? 'modified' : 'unchanged'),
-          kind: lead.kind, animated: v.list.some(e => e.animated), hero: v.list.some(e => e.emphasis === 'hero'),
+          kind: lead.kind, style: lead.style, animated: v.list.some(e => e.animated), hero: v.list.some(e => e.emphasis === 'hero'),
           muted: v.list.every(e => e.emphasis === 'muted'),
           lifted: v.list.some(e => e.from !== v.from || e.to !== v.to),
           label: v.list.length > 1 ? (lead.label ? `${lead.label} +${v.list.length - 1}` : `×${v.list.length}`) : (lead.label || '')
@@ -1066,7 +1076,7 @@
     }
     const maxWeight = Math.max(0, ...(spec.edges || []).map(e => typeof e.weight === 'number' ? e.weight : 0));
     function makeEdge(v, path) {
-      const g = s('g', { class: `gx-edge d-${v.delta} k-${v.kind}${v.back ? ' back' : ''}${v.hero ? ' hero' : ''}${v.muted ? ' muted' : ''}${v.lifted ? ' lifted' : ''}${DASHED_KINDS[v.kind] ? ' dashed' : ''}`, 'data-id': v.id });
+      const g = s('g', { class: `gx-edge d-${v.delta} k-${v.kind}${v.back ? ' back' : ''}${v.hero ? ' hero' : ''}${v.muted ? ' muted' : ''}${v.lifted ? ' lifted' : ''}${edgeStyle(v) !== 'solid' ? ' ' + edgeStyle(v) : ''}`, 'data-id': v.id });
       const curve = v.list.every(e => e.curve);
       const d = path.d || (curve ? smoothPath(path.pts) : roundedPath(path.pts, path.radius || 9));
       if (curve) g.classList.add('curved');
@@ -1601,7 +1611,7 @@
     }
     function hideTip() { clearTimeout(tipTimer); tip.classList.remove('on'); }
     const deltaPill = d => d && d !== 'unchanged' ? `<span class="gx-pill d-${d}">${esc(T.delta[d])}</span>` : HAS_DELTA ? `<span class="gx-pill">${esc(T.delta.unchanged)}</span>` : '';
-    const kindLabel = k => (spec.legend && spec.legend.kinds && spec.legend.kinds[k]) || k;
+    const kindLabel = kindName;
     const nodePill = n => n.status ? `<span class="gx-pill gx-pst" style="--gx-pc:${statusCvar(n.status) || 'var(--gx-neu)'}">${esc(STATUSES[n.status].label || n.status)}</span>` : deltaPill(n.delta);
     const statTxt = st => st && (st.additions || st.deletions) ? `<span class="gx-add">+${st.additions}</span> <span class="gx-del">−${st.deletions}</span>${st.files ? ` · ${st.files} ${T.filesOf}` : ''}` : '';
     function nodeTip(n) {
@@ -1841,7 +1851,7 @@
         const x = left ? 0 : W - 116;
         const chips = shown.map(([oid, es], i) => {
           const o = M.get(oid), y = y0 + i * RH, tip = es.map(e => e.label || e.kind).filter(Boolean).join(' · ');
-          const dashed = es.every(e => DASHED_KINDS[e.kind]), d = left ? `M${x + 116},${y + 10} C${x + 140},${y + 10} ${W / 2 - 40},${cy} ${W / 2 - 27},${cy}` : `M${W / 2 + 27},${cy} C${W / 2 + 40},${cy} ${x - 24},${y + 10} ${x},${y + 10}`;
+          const dashed = es.every(e => edgeStyle(e) !== 'solid'), d = left ? `M${x + 116},${y + 10} C${x + 140},${y + 10} ${W / 2 - 40},${cy} ${W / 2 - 27},${cy}` : `M${W / 2 + 27},${cy} C${W / 2 + 40},${cy} ${x - 24},${y + 10} ${x},${y + 10}`;
           return `<path class="gx-ego-e${dashed ? ' dashed' : ''}${es.some(e => e.delta !== 'unchanged') ? ' d-' + es[0].delta : ''}" d="${d}"/>`
             + `<g class="gx-ego-c" data-go="${esc(oid)}" role="button" tabindex="0" transform="translate(${x},${y})"><title>${esc(o.label)}${tip ? ' — ' + esc(tip) : ''}</title><rect width="116" height="20" rx="6"/>`
             + `<path class="gx-ego-i" transform="translate(5,3) scale(.84)" d="${IC[o.kind] || IC.other}"/><text x="24" y="14">${esc(fitText(o.label, 86, 11.5, 500))}</text>${es.length > 1 ? `<text class="gx-ego-n" x="110" y="14">×${es.length}</text>` : ''}</g>`;
@@ -2127,9 +2137,18 @@
     const swatches = Object.keys(STATUSES).length
       ? Object.entries(STATUSES).map(([k, v]) => `<li><i class="gx-lg-sw on" style="--gx-pc:${statusCvar(k) || 'var(--gx-neu)'}"></i>${esc(v.label || k)}</li>`).join('')
       : (LG.delta === false || (!HAS_DELTA && LG.delta !== true)) ? '' : ['added', 'modified', 'removed', 'unchanged'].map(d => `<li><i class="gx-lg-sw d-${d}"></i>${esc(T.delta[d])}</li>`).join('');
-    const EST = { solid: '', dashed: ' dashed', hero: ' hero', flow: ' flow', muted: ' muted' };
+    const EST = { solid: '', dashed: ' dashed', dotted: ' dotted', hero: ' hero', flow: ' flow', muted: ' muted' };
+    /* con un paquete, la leyenda nombra los tipos de arista que el mapa usa, agrupados por trazo */
+    const packRows = () => {
+      const by = new Map();
+      for (const e of G.edges) { const st = edgeStyle(e), lab = said(edgeDef(e.kind).label) || e.kind; if (!lab) continue; if (!by.has(st)) by.set(st, new Set()); by.get(st).add(lab); }
+      return [...by].map(([st, labs]) => `<li><svg viewBox="0 0 36 10"><path class="gx-lg-e${EST[st] || ''}" d="M2 5h32"/></svg>${esc([...labs].join(' · '))}</li>`).join('')
+        + (G.edges.some(e => e.emphasis === 'hero') ? `<li><svg viewBox="0 0 36 10"><path class="gx-lg-e hero" d="M2 5h32"/></svg>${esc(T.edgeKinds.hero)}</li>` : '')
+        + (G.edges.some(e => e.animated) ? `<li><svg viewBox="0 0 36 10"><path class="gx-lg-e flow" d="M2 5h32"/></svg>${esc(T.edgeKinds.animated)}</li>` : '');
+    };
     const edgeRows = Array.isArray(LG.edges) && LG.edges.length
       ? LG.edges.map(e => { const cv = colorVar(e.color); return `<li><svg viewBox="0 0 36 10"><path class="gx-lg-e${EST[e.style] || ''}" d="M2 5h32"${cv ? ` style="stroke:${cv}"` : ''}/></svg>${esc(e.label || '')}</li>`; }).join('')
+      : PACK && PACK.legend !== 'classic' ? packRows()
       : `<li><svg viewBox="0 0 36 10"><path class="gx-lg-e" d="M2 5h32"/></svg>${esc(T.edgeKinds.sync)}</li>
       <li><svg viewBox="0 0 36 10"><path class="gx-lg-e dashed" d="M2 5h32"/></svg>${esc(T.edgeKinds.async)}</li>
       <li><svg viewBox="0 0 36 10"><path class="gx-lg-e hero" d="M2 5h32"/></svg>${esc(T.edgeKinds.hero)}</li>
@@ -2593,7 +2612,7 @@
     const FXM = global.GraphX && global.GraphX.fx;
     if (FXM && FXM.create) {
       FX = FXM.create({
-        host, stage, svg, defs, world, gEdges, gNodes, gGroups, gLabels, legend, tools, bFit, I, spec, opts, T, lang, reduce, dur,
+        host, stage, svg, defs, world, gEdges, gNodes, gGroups, gLabels, legend, tools, bFit, I, spec, opts, T, lang, reduce, dur, edgeDef,
         S, M, G, s, h, esc, btn, textW, fitText, colorVar, paint, isGroup, hasShape, repOf, descendantsOf, ancestors: id => ancestors(M, id),
         viewSize, camFor, animateCam, relayout, select, applyHighlight, rerender, drawMini, framed, renderPanel, toSVG, reveal, iconHTML,
         clearSelection: () => clearSelection(), panel, mini,

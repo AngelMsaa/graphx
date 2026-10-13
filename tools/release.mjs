@@ -58,11 +58,12 @@ Para un solo fichero, graphx-${V}.bundle.min.js (con ELK) o graphx-${V}.lite.min
 `);
 zip(`graphx-${V}-modules.zip`, mods);
 
-/* kit: fuentes, dist, react, ELK y el ensamblador */
+/* kit: fuentes, dist, react, ELK, los paquetes de dominio y el ensamblador */
 const kit = path.join(STAGE, `graphx-${V}-kit`);
 for (const f of [...SRC, 'graphx-build.mjs', 'package.json', 'README.md', 'README.es.md']) copy(r(f), path.join(kit, f));
 copy(r('vendor', 'elk.bundled.js'), path.join(kit, 'vendor', 'elk.bundled.js'));
 copy(r('react'), path.join(kit, 'react'));
+copy(r('packs'), path.join(kit, 'packs'));
 for (const f of fs.readdirSync(r('dist'))) copy(r('dist', f), path.join(kit, 'dist', f));
 zip(`graphx-${V}-kit.zip`, kit);
 

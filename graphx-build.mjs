@@ -72,10 +72,45 @@ G.warn.forEach(w => errors.push(w));
 
 const ids = new Set([...(spec.lanes || []).map(l => l.id), ...(spec.nodes || []).map(n => n.id)]);
 const eids = new Set((spec.edges || []).map(e => e.id).filter(Boolean));
-const KINDS = new Set(['service', 'app', 'module', 'function', 'method', 'class', 'file', 'folder', 'route', 'job', 'queue', 'datastore', 'cache', 'external', 'ui', 'config', 'test', 'package', 'other',
-  'user', 'mobile', 'cloud', 'lock', 'key', 'shield', 'card', 'cart', 'search', 'mail', 'bell', 'cpu', 'bug', 'branch', 'chart', 'gauge']);
 const DELTAS = new Set(['added', 'modified', 'removed', 'unchanged']);
-const EKINDS = new Set(['call', 'http', 'rpc', 'event', 'queue', 'data', 'dependency', 'render', 'async', 'other']);
+/* --- paquete de dominio: qué tipos de pieza y de arista existen, y las reglas que los atan ---
+   `pack` es el nombre de un fichero de packs/ o un objeto con `extends`. Sin `pack` rige software, el
+   vocabulario de siempre, y las reglas nuevas (anidado, extremos, cardinalidad, etiquetas, presupuesto,
+   fuentes) solo se aplican a quien declara un paquete: un JSON antiguo no gana avisos por esto. */
+const CATEGORIES = ['actor', 'unit', 'resource', 'activity', 'artifact', 'concept', 'event', 'state'];
+function loadPack(ref, seen = new Set()) {
+  const own = typeof ref === 'string' ? (() => {
+    if (!/^[a-z0-9-]+$/.test(ref)) throw new Error(`pack «${ref}»: nombre no válido`);
+    const f = path.join(HERE, 'packs', ref + '.json');
+    if (!fs.existsSync(f)) throw new Error(`pack «${ref}» no existe (hay: ${fs.readdirSync(path.join(HERE, 'packs')).map(x => x.replace(/\.json$/, '')).join(', ')})`);
+    return JSON.parse(fs.readFileSync(f, 'utf8'));
+  })() : ref;
+  if (!own || typeof own !== 'object') throw new Error('pack debe ser un nombre o un objeto');
+  const key = own.name || JSON.stringify(own).slice(0, 80);
+  if (seen.has(key)) throw new Error(`pack «${key}»: extends en círculo`);
+  seen.add(key);
+  const base = own.extends ? loadPack(own.extends, seen) : {};
+  return { ...base, ...own, extends: undefined,
+    nodeKinds: { ...base.nodeKinds, ...own.nodeKinds }, edgeKinds: { ...base.edgeKinds, ...own.edgeKinds },
+    nesting: { ...base.nesting, ...own.nesting }, cardinality: [...(base.cardinality || []), ...(own.cardinality || [])],
+    bannedLabels: [...new Set([...(base.bannedLabels || []), ...(own.bannedLabels || [])])] };
+}
+const PACK_DECLARED = spec.pack != null;
+let PACK;
+try { PACK = loadPack(spec.pack == null ? 'software' : spec.pack); }
+catch (e) { console.error(`✗ ${e.message}`); process.exit(1); }
+for (const [k, v] of Object.entries(PACK.nodeKinds)) if (!v || !CATEGORIES.includes(v.category)) errors.push(`pack ${PACK.name}: nodeKinds.${k} necesita category (${CATEGORIES.join(', ')})`);
+for (const [k, v] of Object.entries(PACK.edgeKinds)) {
+  if (v.style != null && !['solid', 'dashed', 'dotted'].includes(v.style)) errors.push(`pack ${PACK.name}: edgeKinds.${k}.style «${v.style}» inválido`);
+  if (v.blast != null && !['back', 'forward', 'both'].includes(v.blast)) errors.push(`pack ${PACK.name}: edgeKinds.${k}.blast «${v.blast}» inválido (back, forward, both)`);
+  if (v.polarity != null && !['+', '-'].includes(v.polarity)) errors.push(`pack ${PACK.name}: edgeKinds.${k}.polarity «${v.polarity}» inválida (+, -)`);
+}
+/* las categorías valen siempre como tipo: lo que el paquete no nombra cae en una, nunca en un tipo inventado */
+const KINDS = new Set([...Object.keys(PACK.nodeKinds), ...CATEGORIES, 'unmapped']);
+const EKINDS = new Set(Object.keys(PACK.edgeKinds));
+/* a la página solo va lo que el motor pinta; describe, ejemplos y reglas son para quien escribe */
+const slim = o => Object.fromEntries(Object.entries(o || {}).map(([k, v]) => [k, Object.fromEntries(Object.entries(v).filter(([f]) => !['describe', 'from', 'to', 'labelPattern'].includes(f)))]));
+if (PACK_DECLARED) spec.pack = { name: PACK.name, label: PACK.label, legend: PACK.legend, nodeKinds: slim(PACK.nodeKinds), edgeKinds: slim(PACK.edgeKinds) };
 
 /* iconos propios, estados propios y leyenda (1.4) */
 const PATH_RE = /^[MmLlHhVvCcSsQqTtAaZz0-9.,\s-]+$/;
@@ -125,6 +160,55 @@ for (const e of spec.edges || []) {
   if (e.weight != null && (typeof e.weight !== 'number' || e.weight < 0)) errors.push(`arista ${e.id}: weight debe ser un número positivo`);
   if (e.kind && !EKINDS.has(e.kind)) warns.push(`arista ${e.id}: kind «${e.kind}» desconocido`);
   if (e.delta && !DELTAS.has(e.delta)) errors.push(`arista ${e.id}: delta «${e.delta}» inválido`);
+}
+/* --- campos neutros que valen en cualquier paquete --- */
+const SRC_OK = x => typeof x === 'string' ? x.trim() !== '' : x && typeof x === 'object' && (typeof x.quote === 'string' || typeof x.ref === 'string');
+for (const x of [...(spec.nodes || []), ...(spec.edges || [])]) {
+  const who = x.from != null ? `arista ${x.id || x.from + '→' + x.to}` : `nodo ${x.id}`;
+  if (x.sources != null && !(Array.isArray(x.sources) && x.sources.every(SRC_OK))) errors.push(`${who}: sources debe ser una lista de citas (texto o { quote, ref })`);
+  if (x.confidence != null && !(typeof x.confidence === 'number' && x.confidence >= 0 && x.confidence <= 1)) errors.push(`${who}: confidence debe ser un número entre 0 y 1`);
+  if (x.category != null && !CATEGORIES.includes(x.category)) errors.push(`${who}: category «${x.category}» inválida (${CATEGORIES.join(', ')})`);
+  if (x.from != null && x.style != null && !['solid', 'dashed', 'dotted'].includes(x.style)) errors.push(`${who}: style «${x.style}» inválido (solid, dashed, dotted)`);
+}
+/* --- reglas del paquete: solo para quien lo declara --- */
+if (PACK_DECLARED) {
+  const byId = new Map((spec.nodes || []).map(n => [n.id, n]));
+  const catOf = n => n.category || (PACK.nodeKinds[n.kind] && PACK.nodeKinds[n.kind].category) || (CATEGORIES.includes(n.kind) ? n.kind : null);
+  const fits = (n, list) => !list || list.includes(n.kind) || list.includes(catOf(n));
+  for (const n of spec.nodes || []) {
+    const par = n.parent && byId.get(n.parent), allowed = par && PACK.nesting[par.kind];
+    if (allowed && !fits(n, allowed)) warns.push(`nodo ${n.id}: un ${n.kind} no va dentro de un ${par.kind} en ${PACK.name} (admite: ${allowed.join(', ')})`);
+    if (n.kind === 'unmapped' && !n.category) warns.push(`nodo ${n.id}: unmapped necesita category para que el motor sepa qué es`);
+  }
+  for (const e of spec.edges || []) {
+    const ek = PACK.edgeKinds[e.kind], a = byId.get(e.from), b = byId.get(e.to);
+    if (!ek || !a || !b) continue;
+    if (!fits(a, ek.from)) warns.push(`arista ${e.id}: ${e.kind} no sale de un ${a.kind} (sale de: ${ek.from.join(', ')})`);
+    if (!fits(b, ek.to)) warns.push(`arista ${e.id}: ${e.kind} no llega a un ${b.kind} (llega a: ${ek.to.join(', ')})`);
+  }
+  /* { edge, side: from|to, kinds?, min?, max? }: cuántas aristas de ese tipo tiene cada pieza de esos tipos */
+  for (const r of PACK.cardinality) {
+    const side = r.side === 'from' ? 'from' : 'to';
+    for (const n of (spec.nodes || []).filter(n => !r.kinds || fits(n, r.kinds))) {
+      const c = (spec.edges || []).filter(e => e.kind === r.edge && e[side] === n.id).length;
+      if (r.min != null && c < r.min) warns.push(`nodo ${n.id}: necesita al menos ${r.min} ${r.edge} (tiene ${c})`);
+      if (r.max != null && c > r.max) warns.push(`nodo ${n.id}: admite como mucho ${r.max} ${r.edge} (tiene ${c})`);
+    }
+  }
+  const banned = new Set(PACK.bannedLabels.map(l => l.toLowerCase()));
+  for (const x of [...(spec.nodes || []), ...(spec.edges || [])]) {
+    if (x.label && banned.has(String(x.label).trim().toLowerCase())) warns.push(`${x.from != null ? 'arista ' + x.id : 'nodo ' + x.id}: «${x.label}» es demasiado genérico; nombra el caso concreto`);
+  }
+  const budget = PACK.budget && PACK.budget.view;
+  if (budget) {
+    const initial = spec.initialDepth != null ? spec.initialDepth : Math.min(1, G.maxDepth);
+    const shown = [...G.M.values()].filter(n => !n.isLane && (n.depth === initial || (n.depth < initial && !n.children.length))).length;
+    if (shown > budget) warns.push(`la vista inicial enseña ${shown} piezas (presupuesto de ${PACK.name}: ${budget}); pliega o parte en vistas`);
+    (spec.filters || []).forEach(f => { if ((f.nodes || []).length > budget) warns.push(`filtro «${f.label}»: ${f.nodes.length} piezas (presupuesto: ${budget})`); });
+  }
+  if (PACK.requireSources) for (const x of [...(spec.nodes || []), ...(spec.edges || [])]) {
+    if (!Array.isArray(x.sources) || !x.sources.length) warns.push(`${x.from != null ? 'arista ' + x.id : 'nodo ' + x.id}: sin sources; ${PACK.name} pide citar de dónde sale`);
+  }
 }
 /* --- efectos (graphx-fx.js): `fx` y los datos que dibujan (caudal, calor, series, progreso, alertas) --- */
 {

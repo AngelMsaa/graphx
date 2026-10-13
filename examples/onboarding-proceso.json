@@ -1,5 +1,6 @@
 {
   "schema": "graphx/1",
+  "pack": "process",
   "title": "Incorporación de una persona nueva",
   "summary": "Ejemplo ficticio de uso fuera de las PRs: un proceso entre departamentos, de la firma del contrato al final del primer mes.",
   "lang": "es",
@@ -61,133 +62,133 @@
       "id": "p-firma",
       "lane": "persona",
       "label": "Firma del contrato",
-      "kind": "ui",
+      "kind": "event",
       "summary": "El punto de partida: con la firma, el resto de áreas reciben el aviso y empiezan a preparar la llegada."
     },
     {
       "id": "p-dia1",
       "lane": "persona",
       "label": "Primer día",
-      "kind": "ui",
+      "kind": "stage",
       "summary": "Lo que la persona ve el primer día. Todo lo demás del diagrama existe para que este día salga bien."
     },
     {
       "id": "p-dia1-acceso",
       "parent": "p-dia1",
       "label": "Entra con sus credenciales",
-      "kind": "function",
+      "kind": "step",
       "summary": "Si IT llegó a tiempo, el portátil arranca y el correo funciona. Es el fallo más visible cuando algo se retrasa."
     },
     {
       "id": "p-dia1-bienvenida",
       "parent": "p-dia1",
       "label": "Sesión de bienvenida",
-      "kind": "function",
+      "kind": "step",
       "summary": "Una hora con Personas y cultura: cómo funciona la empresa, a quién preguntar qué."
     },
     {
       "id": "p-mes1",
       "lane": "persona",
       "label": "Primer mes",
-      "kind": "ui",
+      "kind": "stage",
       "summary": "Las semanas en las que la persona pasa de observar a contribuir."
     },
     {
       "id": "r-alta",
       "lane": "rrhh",
       "label": "Alta administrativa",
-      "kind": "service",
+      "kind": "stage",
       "summary": "Todo lo que tiene que existir antes del primer día: el registro de la persona, su contrato y su nómina."
     },
     {
       "id": "r-alta-ficha",
       "parent": "r-alta",
       "label": "Crear la ficha",
-      "kind": "function",
+      "kind": "step",
       "summary": "La ficha es la fuente de verdad del resto de sistemas: sin ella, IT no puede crear las cuentas."
     },
     {
       "id": "r-alta-nomina",
       "parent": "r-alta",
       "label": "Alta en nómina",
-      "kind": "function",
+      "kind": "step",
       "summary": "Necesita los datos bancarios y fiscales; si faltan, la primera nómina se retrasa."
     },
     {
       "id": "r-plan",
       "lane": "rrhh",
       "label": "Plan de acogida",
-      "kind": "config",
+      "kind": "stage",
       "summary": "El guion del primer mes: sesiones, lecturas y quién acompaña cada semana."
     },
     {
       "id": "r-plan-agenda",
       "parent": "r-plan",
       "label": "Agenda del primer día",
-      "kind": "function",
+      "kind": "step",
       "summary": "Se envía a la persona y a su manager la semana anterior."
     },
     {
       "id": "r-plan-encuesta",
       "parent": "r-plan",
       "label": "Encuesta a los 30 días",
-      "kind": "function",
+      "kind": "step",
       "summary": "Cierra el proceso: qué funcionó y qué no, para mejorar la siguiente incorporación."
     },
     {
       "id": "i-equipo",
       "lane": "it",
       "label": "Equipo físico",
-      "kind": "external",
+      "kind": "artifact",
       "summary": "Portátil y periféricos. El plazo de compra es lo que más a menudo marca el calendario."
     },
     {
       "id": "i-cuentas",
       "lane": "it",
       "label": "Cuentas y accesos",
-      "kind": "service",
+      "kind": "stage",
       "summary": "Correo, SSO y las herramientas del equipo, con los permisos que pida el manager."
     },
     {
       "id": "i-cuentas-sso",
       "parent": "i-cuentas",
       "label": "Alta en el SSO",
-      "kind": "function",
+      "kind": "step",
       "summary": "Se crea a partir de la ficha de RR. HH.: si la ficha cambia, la cuenta se actualiza sola."
     },
     {
       "id": "i-cuentas-permisos",
       "parent": "i-cuentas",
       "label": "Permisos del equipo",
-      "kind": "function",
+      "kind": "step",
       "summary": "Los grupos y accesos concretos del puesto. Los define el manager, no IT."
     },
     {
       "id": "e-preparar",
       "lane": "equipo",
       "label": "Preparar la llegada",
-      "kind": "module",
+      "kind": "stage",
       "summary": "Lo que el equipo decide antes: primera tarea, compañero de acogida y permisos."
     },
     {
       "id": "e-preparar-buddy",
       "parent": "e-preparar",
       "label": "Elegir compañero de acogida",
-      "kind": "function",
+      "kind": "step",
       "summary": "Alguien del equipo que no es el manager y responde las dudas pequeñas."
     },
     {
       "id": "e-preparar-tarea",
       "parent": "e-preparar",
       "label": "Primera tarea real",
-      "kind": "function",
+      "kind": "step",
       "summary": "Pequeña y terminable en la primera semana: da la sensación temprana de aportar."
     },
     {
       "id": "e-seguimiento",
       "lane": "equipo",
       "label": "Seguimiento",
-      "kind": "job",
+      "kind": "step",
       "summary": "Reuniones semanales uno a uno durante el primer mes."
     }
   ],
@@ -196,7 +197,7 @@
       "id": "x-aviso",
       "from": "p-firma",
       "to": "r-alta-ficha",
-      "kind": "event",
+      "kind": "triggers",
       "label": "aviso de alta",
       "animated": true,
       "summary": "La firma dispara el proceso.",
@@ -206,7 +207,7 @@
       "id": "x-ficha-sso",
       "from": "r-alta-ficha",
       "to": "i-cuentas-sso",
-      "kind": "data",
+      "kind": "handoff",
       "label": "la ficha crea la cuenta",
       "emphasis": "hero",
       "animated": true,
@@ -216,68 +217,68 @@
       "id": "x-ficha-nom",
       "from": "r-alta-ficha",
       "to": "r-alta-nomina",
-      "kind": "call"
+      "kind": "next"
     },
     {
       "id": "x-pedido",
       "from": "r-alta-ficha",
       "to": "i-equipo",
-      "kind": "queue",
+      "kind": "handoff",
       "label": "pedido de equipo"
     },
     {
       "id": "x-permisos",
       "from": "e-preparar-tarea",
       "to": "i-cuentas-permisos",
-      "kind": "call",
+      "kind": "handoff",
       "label": "qué accesos necesita"
     },
     {
       "id": "x-acceso",
       "from": "i-cuentas-sso",
       "to": "p-dia1-acceso",
-      "kind": "data",
+      "kind": "handoff",
       "label": "credenciales"
     },
     {
       "id": "x-portatil",
       "from": "i-equipo",
       "to": "p-dia1-acceso",
-      "kind": "data",
+      "kind": "handoff",
       "label": "portátil listo"
     },
     {
       "id": "x-agenda",
       "from": "r-plan-agenda",
       "to": "p-dia1-bienvenida",
-      "kind": "event",
+      "kind": "handoff",
       "label": "agenda"
     },
     {
       "id": "x-buddy",
       "from": "e-preparar-buddy",
       "to": "p-dia1",
-      "kind": "call",
+      "kind": "handoff",
       "label": "le recibe"
     },
     {
       "id": "x-mes",
       "from": "p-dia1",
       "to": "p-mes1",
-      "kind": "call"
+      "kind": "next"
     },
     {
       "id": "x-seguir",
       "from": "e-seguimiento",
       "to": "p-mes1",
-      "kind": "call",
+      "kind": "handoff",
       "label": "1:1 semanal"
     },
     {
       "id": "x-encuesta",
       "from": "p-mes1",
       "to": "r-plan-encuesta",
-      "kind": "event",
+      "kind": "triggers",
       "label": "a los 30 días"
     }
   ],

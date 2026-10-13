@@ -159,6 +159,7 @@
 .gx-eline { fill: none; stroke: var(--gx-neu); stroke-width: 1.4; opacity: .85; transition: stroke-width .15s, opacity .15s; }
 .gx-edge.d-added .gx-eline { stroke: var(--gx-add); } .gx-edge.d-modified .gx-eline { stroke: var(--gx-mod); } .gx-edge.d-removed .gx-eline { stroke: var(--gx-del); stroke-dasharray: 4 4; }
 .gx-edge.dashed .gx-eline { stroke-dasharray: 6 5; }
+.gx-edge.dotted .gx-eline { stroke-dasharray: 1.5 4; stroke-linecap: round; }
 .gx-edge.lifted .gx-eline { stroke-width: 1.9; }
 .gx-edge.muted .gx-eline { opacity: .4; }
 .gx-edge.hero .gx-eline { stroke-width: 2.6; opacity: 1; }
@@ -289,7 +290,7 @@
 .gx-pill.gx-pst { background: color-mix(in srgb, var(--gx-pc) 16%, transparent); color: var(--gx-pc); }
 .gx-ic.fill, .gx-glyph-ic.fill { fill: currentColor; stroke: none; }
 .gx-lg-sw.d-added { background: var(--gx-add); opacity: 1; } .gx-lg-sw.d-modified { background: var(--gx-mod); opacity: 1; } .gx-lg-sw.d-removed { background: var(--gx-del); opacity: 1; }
-.gx-lg-e { stroke: var(--gx-neu); stroke-width: 1.6; fill: none; } .gx-lg-e.dashed { stroke-dasharray: 5 4; } .gx-lg-e.hero { stroke-width: 3; stroke: var(--gx-ink); }
+.gx-lg-e { stroke: var(--gx-neu); stroke-width: 1.6; fill: none; } .gx-lg-e.dashed { stroke-dasharray: 5 4; } .gx-lg-e.dotted { stroke-dasharray: 1.5 3.5; stroke-linecap: round; } .gx-lg-e.hero { stroke-width: 3; stroke: var(--gx-ink); }
 .gx-lg-e.flow { stroke: var(--gx-add); stroke-width: 2.2; stroke-dasharray: 2 6; animation: gx-flow 1.1s linear infinite; }
 .gx-lg-agg { font-size: 10.5px; padding: 1px 6px; border: 1px dashed var(--gx-line); border-radius: 5px; }
 

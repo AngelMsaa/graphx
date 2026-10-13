@@ -1234,17 +1234,16 @@ button.gx-bk-chip:hover { border-color: var(--gx-accent); color: var(--gx-accent
     }
 
     /* ---------- radio de impacto: qué deja de funcionar si esto falla ---------- */
-    /* En una llamada (call, http, rpc, data…) el fallo sube hacia quien llama; en un evento o una cola baja
-       hacia quien consume. `fx.blast.mode`: "auto" (eso), "callers", "downstream" o "both". Anillos por salto,
+    /* Cada tipo de arista dice hacia dónde viaja el fallo (`blast` en el paquete): en una llamada sube hacia
+       quien llama; en un evento o una cola baja hacia quien consume. `fx.blast.mode`: "auto" (eso), "callers", "downstream" o "both". Anillos por salto,
        piezas teñidas por distancia, pulsos en el sentido del fallo y, en el panel, el recuento y los equipos. */
     const BL = cfg.blast ? Object.assign({ mode: 'auto' }, obj(cfg.blast)) : null;
-    const FORWARD = { event: 1, queue: 1, async: 1 };
     let blast = null;
     const gBlast = s('g', { class: 'gx-blastl' });
     if (A.gGroups && A.gGroups.parentNode === world) world.insertBefore(gBlast, A.gGroups); else world.insertBefore(gBlast, world.firstChild);
     function computeBlast(id) {
       const start = [id, ...A.descendantsOf(id)], D = new Map(start.map(x => [x, 0])), used = new Map(), q = start.slice();
-      const way = e => (BL.mode === 'callers' ? 'b' : BL.mode === 'downstream' ? 'f' : BL.mode === 'both' ? 'fb' : FORWARD[e.kind] ? 'f' : 'b');
+      const way = e => (BL.mode === 'callers' ? 'b' : BL.mode === 'downstream' ? 'f' : BL.mode === 'both' ? 'fb' : ({ forward: 'f', both: 'fb' })[A.edgeDef(e.kind).blast] || 'b');
       while (q.length) {
         const x = q.shift(), d = D.get(x);
         for (const e of G.edges) {

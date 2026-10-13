@@ -349,6 +349,15 @@ fallan, `--mode lite` carga ELK de un CDN (≈135 KB con gzip) y `--lang en` gen
 }
 ```
 
+**Cualquier dominio, no solo software.** `"pack": "process"` cambia el vocabulario: tipos de pieza
+(etapa, paso, decisión, entregable…), tipos de arista con su trazo y su sentido de impacto (después,
+entrega, dispara, RACI), reglas de anidado y cardinalidad, etiquetas demasiado genéricas y un presupuesto de
+piezas por vista. Los paquetes están en `packs/`; un JSON también puede traer el suyo, `{ "extends":
+"process", "nodeKinds": { … } }`. Cada tipo cae en una de ocho categorías (actor, unit, resource, activity,
+artifact, concept, event, state), que valen como tipo cuando el paquete no tiene uno que encaje. Sin `pack`
+rige el vocabulario de software y nada cambia. Piezas y aristas admiten `sources` (citas) y `confidence`
+(de 0 a 1); las aristas, `style` (solid, dashed, dotted).
+
 **En una página**
 
 ```html

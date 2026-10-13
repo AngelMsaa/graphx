@@ -1,0 +1,255 @@
+{
+ "name": "process",
+ "label": {
+  "en": "Process",
+  "es": "Proceso"
+ },
+ "describe": "Work that moves between people or teams: stages, steps, decisions, what each step produces and who hands what to whom. Lanes are the roles or teams.",
+ "nodeKinds": {
+  "stage": {
+   "category": "unit",
+   "icon": "folder",
+   "label": {
+    "en": "stage",
+    "es": "etapa"
+   },
+   "describe": "a phase that groups steps; name it by its outcome (\"Accounts ready\"), not \"Phase 2\""
+  },
+  "step": {
+   "category": "activity",
+   "icon": "function",
+   "label": {
+    "en": "step",
+    "es": "paso"
+   },
+   "describe": "one action someone does; verb + object (\"Create the employee record\")"
+  },
+  "decision": {
+   "category": "activity",
+   "icon": "branch",
+   "label": {
+    "en": "decision",
+    "es": "decisión"
+   },
+   "describe": "a choice that sends work down different paths; phrase it as the question"
+  },
+  "event": {
+   "category": "event",
+   "icon": "bell",
+   "label": {
+    "en": "event",
+    "es": "evento"
+   },
+   "describe": "something that happens and starts or ends work (\"Contract signed\")"
+  },
+  "wait": {
+   "category": "state",
+   "icon": "gauge",
+   "label": {
+    "en": "wait",
+    "es": "espera"
+   },
+   "describe": "time where nothing moves; say what is awaited and for how long"
+  },
+  "touchpoint": {
+   "category": "event",
+   "icon": "ui",
+   "label": {
+    "en": "touchpoint",
+    "es": "momento"
+   },
+   "describe": "a moment the customer or newcomer lives directly"
+  },
+  "artifact": {
+   "category": "artifact",
+   "icon": "doc",
+   "label": {
+    "en": "artifact",
+    "es": "entregable"
+   },
+   "describe": "a document, record or physical thing a step produces or needs"
+  },
+  "tool": {
+   "category": "resource",
+   "icon": "app",
+   "label": {
+    "en": "tool",
+    "es": "herramienta"
+   },
+   "describe": "a system or tool a step uses"
+  },
+  "role": {
+   "category": "actor",
+   "icon": "user",
+   "label": {
+    "en": "role",
+    "es": "rol"
+   },
+   "describe": "a person or team, when roles are nodes rather than lanes"
+  }
+ },
+ "edgeKinds": {
+  "next": {
+   "style": "solid",
+   "blast": "forward",
+   "label": {
+    "en": "then",
+    "es": "después"
+   },
+   "from": [
+    "activity",
+    "event",
+    "state",
+    "stage"
+   ],
+   "to": [
+    "activity",
+    "event",
+    "state",
+    "stage"
+   ],
+   "describe": "order inside one lane"
+  },
+  "handoff": {
+   "style": "dashed",
+   "blast": "forward",
+   "label": {
+    "en": "hands off",
+    "es": "entrega"
+   },
+   "labelPattern": "what is handed over (\"signed contract\")",
+   "describe": "work or information crossing to another role or team"
+  },
+  "triggers": {
+   "style": "dotted",
+   "blast": "forward",
+   "label": {
+    "en": "triggers",
+    "es": "dispara"
+   },
+   "from": [
+    "event",
+    "activity",
+    "stage"
+   ],
+   "describe": "an event or step that starts another"
+  },
+  "produces": {
+   "style": "solid",
+   "blast": "forward",
+   "label": {
+    "en": "produces",
+    "es": "produce"
+   },
+   "to": [
+    "artifact"
+   ],
+   "describe": "a step creates an artifact"
+  },
+  "uses": {
+   "style": "solid",
+   "blast": "back",
+   "label": {
+    "en": "uses",
+    "es": "usa"
+   },
+   "to": [
+    "artifact",
+    "resource"
+   ],
+   "describe": "a step needs an artifact or tool; if it is missing the step stalls"
+  },
+  "responsible": {
+   "style": "dotted",
+   "blast": "back",
+   "label": "R",
+   "from": [
+    "actor"
+   ],
+   "to": [
+    "activity"
+   ]
+  },
+  "accountable": {
+   "style": "dotted",
+   "blast": "back",
+   "label": "A",
+   "from": [
+    "actor"
+   ],
+   "to": [
+    "activity"
+   ]
+  },
+  "consulted": {
+   "style": "dotted",
+   "blast": "back",
+   "label": "C",
+   "from": [
+    "actor"
+   ],
+   "to": [
+    "activity"
+   ]
+  },
+  "informed": {
+   "style": "dotted",
+   "blast": "back",
+   "label": "I",
+   "from": [
+    "actor"
+   ],
+   "to": [
+    "activity"
+   ]
+  }
+ },
+ "nesting": {
+  "stage": [
+   "stage",
+   "activity",
+   "event",
+   "state",
+   "artifact",
+   "resource"
+  ],
+  "step": [
+   "step",
+   "artifact"
+  ]
+ },
+ "cardinality": [
+  {
+   "edge": "accountable",
+   "side": "to",
+   "kinds": [
+    "step",
+    "decision"
+   ],
+   "max": 1
+  }
+ ],
+ "bannedLabels": [
+  "process",
+  "step",
+  "task",
+  "handoff",
+  "review",
+  "approval",
+  "phase",
+  "stage",
+  "misc",
+  "stuff",
+  "other",
+  "proceso",
+  "paso",
+  "tarea",
+  "revisión",
+  "aprobación",
+  "fase",
+  "etapa"
+ ],
+ "budget": {
+  "view": 18
+ }
+}

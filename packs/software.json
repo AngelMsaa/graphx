@@ -1,0 +1,198 @@
+{
+ "name": "software",
+ "label": "Software architecture",
+ "describe": "Services, modules, files and the calls, data and events between them. The default when a spec names no pack.",
+ "legend": "classic",
+ "nodeKinds": {
+  "service": {
+   "category": "unit",
+   "describe": "a deployable backend service"
+  },
+  "app": {
+   "category": "unit",
+   "describe": "a whole application"
+  },
+  "module": {
+   "category": "unit",
+   "describe": "a code module or package inside a unit"
+  },
+  "function": {
+   "category": "activity",
+   "describe": "a function or handler"
+  },
+  "method": {
+   "category": "activity",
+   "describe": "a method on a class"
+  },
+  "class": {
+   "category": "unit",
+   "describe": "a class"
+  },
+  "file": {
+   "category": "artifact",
+   "describe": "a source file"
+  },
+  "folder": {
+   "category": "unit",
+   "describe": "a directory"
+  },
+  "route": {
+   "category": "activity",
+   "describe": "an HTTP route or endpoint"
+  },
+  "job": {
+   "category": "activity",
+   "describe": "a scheduled or background job"
+  },
+  "queue": {
+   "category": "resource",
+   "describe": "a message queue or topic"
+  },
+  "datastore": {
+   "category": "resource",
+   "describe": "a database or persistent store"
+  },
+  "cache": {
+   "category": "resource",
+   "describe": "a cache"
+  },
+  "external": {
+   "category": "actor",
+   "describe": "a third party system outside the boundary"
+  },
+  "ui": {
+   "category": "unit",
+   "describe": "a screen or frontend component"
+  },
+  "config": {
+   "category": "artifact",
+   "describe": "configuration"
+  },
+  "test": {
+   "category": "artifact",
+   "describe": "a test suite"
+  },
+  "package": {
+   "category": "unit",
+   "describe": "a library dependency"
+  },
+  "other": {
+   "category": "concept"
+  },
+  "user": {
+   "category": "actor",
+   "describe": "a person using the system"
+  },
+  "mobile": {
+   "category": "unit"
+  },
+  "cloud": {
+   "category": "unit"
+  },
+  "lock": {
+   "category": "concept"
+  },
+  "key": {
+   "category": "concept"
+  },
+  "shield": {
+   "category": "concept"
+  },
+  "card": {
+   "category": "artifact"
+  },
+  "cart": {
+   "category": "artifact"
+  },
+  "search": {
+   "category": "activity"
+  },
+  "mail": {
+   "category": "artifact"
+  },
+  "bell": {
+   "category": "event"
+  },
+  "cpu": {
+   "category": "resource"
+  },
+  "bug": {
+   "category": "state"
+  },
+  "branch": {
+   "category": "artifact"
+  },
+  "chart": {
+   "category": "artifact"
+  },
+  "gauge": {
+   "category": "state"
+  }
+ },
+ "edgeKinds": {
+  "call": {
+   "style": "solid",
+   "blast": "back",
+   "describe": "a synchronous call"
+  },
+  "http": {
+   "style": "solid",
+   "blast": "back",
+   "describe": "an HTTP request"
+  },
+  "rpc": {
+   "style": "solid",
+   "blast": "back",
+   "describe": "a remote procedure call"
+  },
+  "data": {
+   "style": "solid",
+   "blast": "back",
+   "describe": "reads or writes data"
+  },
+  "dependency": {
+   "style": "solid",
+   "blast": "back",
+   "describe": "depends on at build or run time"
+  },
+  "render": {
+   "style": "solid",
+   "blast": "back",
+   "describe": "renders"
+  },
+  "other": {
+   "style": "solid",
+   "blast": "back",
+   "describe": "any other relation"
+  },
+  "event": {
+   "style": "dashed",
+   "blast": "forward",
+   "describe": "emits an event the target consumes"
+  },
+  "queue": {
+   "style": "dashed",
+   "blast": "forward",
+   "describe": "publishes to or consumes from a queue"
+  },
+  "async": {
+   "style": "dashed",
+   "blast": "forward",
+   "describe": "an asynchronous call"
+  }
+ },
+ "bannedLabels": [
+  "system",
+  "component",
+  "service",
+  "module",
+  "backend",
+  "frontend",
+  "stuff",
+  "misc",
+  "other"
+ ],
+ "budget": {
+  "view": 20
+ }
+}
