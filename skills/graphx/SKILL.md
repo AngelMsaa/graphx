@@ -64,6 +64,9 @@ Si no hay herramientas `mcp__graphx-mod__*`, añade una línea: el mod no está 
    `sequenceDiagram` o `flows` para «quién llama a quién y en qué orden»; `stateDiagram` para ciclos de vida; `gantt`
    para planes; `paths` para un repo o un diff; el resto de Mermaid para lo suyo. `capabilities` lo resume con lo que
    sabe pintar este terminal. Para ideas: [patrones](references/patrones.md) (recetas, no obligatorias).
+   Si no es software (un proceso, un negocio, un sistema con bucles, un árbol de metas, un argumento), elige un
+   **paquete** y escribe con su vocabulario: [paquetes](references/paquetes.md), que también dice cómo sacar el
+   mapa de un texto sin que salga vago.
 3. **Dibuja** con `show` (`spec`, `mermaid`, `paths`, `tree_text` o `file`). Etiquetas de ≤ 24 caracteres y un
    `summary` en cada pieza: en el terminal cada caja mide lo que su texto. Si parte de un Mermaid de la persona,
    **respeta su Mermaid** y enriquécelo según [las reglas de Mermaid](references/mermaid.md).
@@ -101,6 +104,8 @@ Di en una línea que con `graphx-mod` se vería en el lienzo, con recorrido y ef
   `%% @gx`, en qué tipos funciona cada cosa y los errores típicos. Léela antes de escribir Mermaid enriquecido.
 - [references/capacidades.md](references/capacidades.md) — el catálogo: tipos, formas, aristas, bloques del panel,
   datos y efectos, navegación, con sus campos.
+- [references/paquetes.md](references/paquetes.md) — **mapas de cualquier dominio**: qué paquete elegir, cómo
+  leerlo y el camino de una fuente a un mapa validado. Léela antes de dibujar algo que no sea software.
 - [references/patrones.md](references/patrones.md) — recetas de diseño (mapa de servicios, postmortem, pipeline,
   clúster, CI/CD, proceso, revisión de PR…), un catálogo de perspectivas para documentar un sistema y el **atlas**
   (varias perspectivas del mismo sistema en una página). Inspiración para proponer, nunca un molde.

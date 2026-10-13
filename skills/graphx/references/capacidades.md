@@ -20,7 +20,7 @@ la documentación larga, en `docs/referencia.md` del repositorio.
 
 | Qué | Campos |
 |---|---|
-| Tarjeta | `label` (≤ 24), `summary` (siempre), `subtitle`, `kind` (icono: `service app module function class file route job queue datastore cache external ui config test package user mobile cloud lock key shield card cart search mail bell cpu bug branch chart gauge other`), `tags` (búsqueda) |
+| Tarjeta | `label` (≤ 24), `summary` (siempre), `subtitle`, `kind` (con `pack`, los tipos del paquete, ver [paquetes](paquetes.md); sin él, icono: `service app module function class file route job queue datastore cache external ui config test package user mobile cloud lock key shield card cart search mail bell cpu bug branch chart gauge other`), `tags` (búsqueda) |
 | En la tarjeta y el panel | `notes: [{tone: warn\|info\|good, text}]` (un punto), `metrics: [{label, value}]`, `files: [{path, lines, additions, deletions, url}]`, `links: [{kind: jira (key) \| pr (number, repo) \| notion \| artifact \| doc \| url (url, label) \| node (target), status, note}]` (raíz: `links: {repo, jira, related}`), `delta: added\|modified\|removed` |
 | 61 formas | `shape`: las de Mermaid (rombo, cilindro, hexágono, nota, nube…) y de GraphX: `table`/`class`/`requirement` (`rows`), `bar` (`span`), `score`, `ticket` (`badge`, `avatar`), `flowbar`, `block` (`value`), `commit` |
 | Indicadores como pieza | `shape: kpi` (`value`, `unit`, `decimals`, `change` %, `good: "down"`, `spark`) · `gauge` (`value`, `min`, `max`, `thresholds: [aviso, crítico]`, `good: "high"`) · `donut` (`parts: [{label, value, color}]`) — un carril «panel» con 3–4 indicadores resume el sistema |
@@ -32,7 +32,7 @@ la documentación larga, en `docs/referencia.md` del repositorio.
 
 | Qué | Campos |
 |---|---|
-| Tipo | `kind: call http rpc event queue data dependency render async other` — `event`/`queue`/`async` son discontinuas y deciden el sentido del radio de impacto (el fallo baja hacia quien consume; en las demás sube hacia quien llama) |
+| Tipo | con `pack`, los del paquete (con su trazo, `polarity` y sentido de impacto); sin él, `kind: call http rpc event queue data dependency render async other` — `event`/`queue`/`async` son discontinuas y deciden el sentido del radio de impacto (el fallo baja hacia quien consume; en las demás sube hacia quien llama) |
 | Texto | `label` (corto), `summary`, `data` (qué viaja), `trigger` (qué la dispara) |
 | Énfasis y movimiento | `emphasis: hero` (una o dos) · `muted`; `animated` (solo las que cuentan la historia); `rate` (caudal → partículas), `speed`, `weight` (grosor) |
 | Extremos | `head`/`tail` (`arrow none triangle diamond odiamond circle cross open lollipop one zero-one one-many zero-many`), `headLabel`/`tailLabel`, `curve: true` |

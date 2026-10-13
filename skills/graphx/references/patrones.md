@@ -18,6 +18,10 @@ adorno: añádelo solo si hay datos reales o si lo piden.
 | qué está caliente o fallando en algo con muchos niveles | [Jerarquía con calor](#jerarquía-con-calor) |
 | cómo va un despliegue / CI | [CI/CD en Mermaid](#cicd-en-mermaid) |
 | quién hace qué y en qué orden (sin datos) | [Proceso de negocio](#proceso-de-negocio) |
+| por qué algo crece, se estanca u oscila | `pack: systems`, [paquetes](paquetes.md); ej. `examples/systems/` |
+| cómo gana y retiene clientes un negocio | `pack: business`; ej. `examples/business/hr-saas-growth.json` |
+| qué construir para mover un resultado | `pack: tree`; ej. `examples/tree/onboarding-ost.json` |
+| cómo se sostiene una idea o un argumento | `pack: concept`; ej. `examples/concept/meadows-leverage.json` |
 | cómo funciona una PR y en qué orden leerla | [Revisión de PR](#revisión-de-pr) |
 | qué está bloqueando qué | [Radar de trabajo](#radar-de-trabajo) |
 | quién llama a quién y en qué orden | [Secuencia](#secuencia) |
@@ -81,7 +85,7 @@ adorno: añádelo solo si hay datos reales o si lo piden.
 
 *Ejemplo: `examples/onboarding-proceso.json` (alta de una persona).*
 
-- **Forma**: grafo `down`, carriles por área (RR. HH., IT, equipo) con su color, 3 niveles (área › etapa › tarea) y un
+- **Forma**: `pack: process`, grafo `down`, carriles por área (RR. HH., IT, equipo) con su color, 3 niveles (área › etapa › tarea) y un
   `flow` para «el primer día» en secuencia. Sin datos: el valor está en el orden y en los dueños.
 - **Recorrer**: pasos con `depth` creciente y uno con `view: "flow:<id>"`.
 
