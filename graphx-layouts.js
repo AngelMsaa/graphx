@@ -409,7 +409,7 @@
         { id: 'customer', label: { en: 'Customer actions', es: 'Acciones del cliente' } }, { id: 'frontstage', label: { en: 'Frontstage', es: 'Frontstage' } },
         { id: 'backstage', label: { en: 'Backstage', es: 'Backstage' } }, { id: 'support', label: { en: 'Support processes', es: 'Procesos de soporte' } }],
         lines: [{ after: 'customer', label: { en: 'line of interaction', es: 'línea de interacción' } },
-          { after: 'frontstage', label: { en: 'line of visibility', es: 'línea de visibilidad' } },
+          { after: 'frontstage', label: { en: 'line of visibility', es: 'línea de visibilidad' }, mark: true },
           { after: 'backstage', label: { en: 'line of internal interaction', es: 'línea de interacción interna' } }] }
     },
     stakeholders: {
@@ -505,6 +505,7 @@
     const all = bboxOf(rects), X1 = Math.max(all.x + all.w, DX.kind === 'cont' ? DX.at + DX.len : 0, DX.kind === 'ord' ? DX.at[DX.n - 1] + DX.len[DX.n - 1] : 0);
     const Y1 = Math.max(all.y + all.h - 24, DY.kind === 'cont' ? DY.at + DY.len : 0, DY.kind === 'ord' ? DY.at[DY.n - 1] + DY.len[DY.n - 1] : 0);
     const bandLabel = (D, i) => (i < D.ax.bands.length ? tr(D.ax.bands[i].label || D.ax.bands[i].id) : '—');
+    const marked = [];
     const ordDeco = (D, isX) => {
       for (let i = 0; i < D.n; i++) {
         const a = D.at[i], l = D.len[i];
@@ -515,6 +516,7 @@
         const i = D.ax.bands.findIndex(b => b.id === ln.after); if (i < 0 || i >= D.n - 1) return;
         const p = r1(D.at[i] + D.len[i]);
         deco.push(E('path', { class: 'gx-ax-line', d: isX ? `M${p},${TOP - 30}V${Y1}` : `M4,${p}H${X1}` }));
+        if (ln.mark) marked.push({ isX, p, label: tr(ln.label) });
         if (ln.label) deco.push(E('text', { class: 'gx-ax-linet', ...(isX ? { x: p + 4, y: Y1 - 6 } : { x: r1(X1 - 6), y: p - 5, 'text-anchor': 'end' }) }, null, tr(ln.label)));
       });
       if (D.ax.label) deco.push(E('text', { class: 'gx-ax-title', ...(isX ? { x: r1(D.at[0]), y: TOP - 34 } : { x: 14, y: TOP - 12 }) }, null, tr(D.ax.label)));
@@ -535,12 +537,45 @@
     if (DX.kind === 'ord') ordDeco(DX, true); else if (DX.kind === 'cont') contDeco(DX, true);
     if (DY.kind === 'ord') ordDeco(DY, false); else if (DY.kind === 'cont') contDeco(DY, false);
     if (DX.offY) deco.push(E('text', { class: 'gx-ax-bandt', x: LEFT, y: DX.offY }, null, lang === 'es' ? 'sin posición' : 'not placed'));
-    const paths = new Map();
+    /* aristas: de borde a borde, recta si no pisa otra tarjeta; si la pisa, la ruta en L o en Z que menos pise */
+    const paths = new Map(), boxes = items.map(id => [id, rects.get(id)]).filter(x => x[1]);
+    const inside = (p, r, m) => p.x > r.x - m && p.x < r.x + r.w + m && p.y > r.y - m && p.y < r.y + r.h + m;
+    const cuts = (p, q, r) => {
+      let t0 = 0, t1 = 1; const dx = q.x - p.x, dy = q.y - p.y, m = 6;
+      for (const [P, Q] of [[-dx, p.x - (r.x - m)], [dx, r.x + r.w + m - p.x], [-dy, p.y - (r.y - m)], [dy, r.y + r.h + m - p.y]]) {
+        if (!P) { if (Q < 0) return false; continue; }
+        const t = Q / P; if (P < 0) { if (t > t1) return false; t0 = Math.max(t0, t); } else { if (t < t0) return false; t1 = Math.min(t1, t); }
+      }
+      return t0 < t1;
+    };
+    const edgeOf = (r, p, q) => {
+      const dx = q.x - p.x, dy = q.y - p.y, t = Math.min(dx ? (r.w / 2) / Math.abs(dx) : Infinity, dy ? (r.h / 2) / Math.abs(dy) : Infinity);
+      return { x: p.x + dx * Math.min(t, 1), y: p.y + dy * Math.min(t, 1) };
+    };
     for (const v of vedges) {
       const a = rects.get(v.from), b = rects.get(v.to); if (!a || !b) continue;
-      const pa = center(a), pb = center(b);
-      paths.set(v.id, { pts: [pa, pb], label: midLabel(v, pa, pb, textW) });
+      const pa = center(a), pb = center(b), mx = (pa.x + pb.x) / 2, my = (pa.y + pb.y) / 2;
+      const others = boxes.filter(([id]) => id !== v.from && id !== v.to).map(x => x[1]);
+      const cands = [[pa, pb], [pa, { x: pb.x, y: pa.y }, pb], [pa, { x: pa.x, y: pb.y }, pb],
+        [pa, { x: mx, y: pa.y }, { x: mx, y: pb.y }, pb], [pa, { x: pa.x, y: my }, { x: pb.x, y: my }, pb]]
+        .filter(c => c.slice(1, -1).every(p => !inside(p, a, 2) && !inside(p, b, 2)));
+      const cost = c => { let h = 0, len = 0; for (let i = 1; i < c.length; i++) { len += Math.hypot(c[i].x - c[i - 1].x, c[i].y - c[i - 1].y); others.forEach(r => { if (cuts(c[i - 1], c[i], r)) h++; }); } return h * 1e5 + len + (c.length - 2) * 40; };
+      const pts = cands.reduce((best, c) => (cost(c) < cost(best) ? c : best)).slice();
+      pts[0] = edgeOf(a, pts[0], pts[1]); pts[pts.length - 1] = edgeOf(b, pts[pts.length - 1], pts[pts.length - 2]);
+      const k = Math.floor((pts.length - 1) / 2);
+      paths.set(v.id, { pts, label: midLabel(v, pts[k], pts[k + 1], textW) });
     }
+    /* momento de la verdad: donde una arista cruza una línea marcada (la de visibilidad, en un blueprint) */
+    marked.forEach(ln => paths.forEach(path => {
+      for (let i = 1; i < path.pts.length; i++) {
+        const p = path.pts[i - 1], q = path.pts[i], u = ln.isX ? p.x : p.y, w = ln.isX ? q.x : q.y;
+        if ((u - ln.p) * (w - ln.p) >= 0) continue;
+        const t = (ln.p - u) / (w - u), o = ln.isX ? p.y + t * (q.y - p.y) : p.x + t * (q.x - p.x);
+        const at = ln.isX ? { cx: ln.p, cy: r1(o) } : { cx: r1(o), cy: ln.p };
+        deco.push(E('circle', { class: 'gx-ax-mot', r: 5, ...at }, [E('title', null, null, (lang === 'es' ? 'momento de la verdad: ' : 'moment of truth: ') + ln.label)]));
+        break;
+      }
+    }));
     const extra = [{ x: 0, y: TOP - 40, w: X1 + 30, h: Y1 - TOP + 100 }];
     return { rects, paths, bbox: bboxOf(rects, extra), deco };
   }

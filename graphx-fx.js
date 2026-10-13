@@ -79,10 +79,10 @@
 
   const STR = {
     es: { owners: 'Equipos', ownersT: 'Filtrar y marcar por equipo', noOwner: 'Sin equipo', colorOwn: 'Colorear por equipo', clear: 'Limpiar', owner: 'Equipo',
-      blast: 'Impacto', blastT: 'Radio de impacto: qué deja de funcionar si esto falla', blastH: 'Radio de impacto', hop: 'salto', hops: 'saltos', affected: 'piezas afectadas',
+      blast: 'Impacto', blastT: 'Radio de impacto: qué deja de funcionar si esto falla', blastH: 'Radio de impacto', hop: 'salto', hops: 'saltos', affected: 'piezas afectadas', up: 'sube si el origen sube', down: 'baja si el origen sube', late: 'llega con retraso',
       teams: 'equipos', unblast: 'Quitar el impacto', origin: 'origen', tlPlay: 'Reproducir la línea de tiempo', tlPause: 'Pausa', total: 'Actividad total', now: 'ahora', play: 'Flujo', playT: 'Recorrer el flujo: una onda sale de los orígenes y sigue las conexiones', stop: 'Detener', heat: 'Calor', progress: 'Progreso', trend: 'Serie', min: 'mín', max: 'máx', last: 'último', flow: 'flujo · partículas según el caudal', alert: { crit: 'Crítico', warn: 'Atención', info: 'Aviso', ok: 'Correcto' } },
     en: { owners: 'Teams', ownersT: 'Filter and mark by team', noOwner: 'No team', colorOwn: 'Color by team', clear: 'Clear', owner: 'Team',
-      blast: 'Impact', blastT: 'Blast radius: what stops working if this fails', blastH: 'Blast radius', hop: 'hop', hops: 'hops', affected: 'parts affected',
+      blast: 'Impact', blastT: 'Blast radius: what stops working if this fails', blastH: 'Blast radius', hop: 'hop', hops: 'hops', affected: 'parts affected', up: 'rises when the origin rises', down: 'falls when the origin rises', late: 'arrives with a delay',
       teams: 'teams', unblast: 'Clear the impact', origin: 'origin', tlPlay: 'Play the timeline', tlPause: 'Pause', total: 'Total activity', now: 'now', play: 'Flow', playT: 'Play the flow: a wave leaves the sources and follows the connections', stop: 'Stop', heat: 'Heat', progress: 'Progress', trend: 'Series', min: 'min', max: 'max', last: 'last', flow: 'flow · particles by throughput', alert: { crit: 'Critical', warn: 'Warning', info: 'Notice', ok: 'OK' } }
   };
 
@@ -432,6 +432,8 @@
 .gx-bk-heat .r + .r { margin-top: 2px; }
 .gx-bk-badges, .gx-bk-chips { display: flex; flex-wrap: wrap; gap: 5px; }
 .gx-bk-badges span { font-size: 11.5px; font-weight: 600; padding: 2px 9px; border-radius: 99px; background: var(--gx-tb-bg, var(--gx-bg)); color: var(--gx-tb, var(--gx-muted)); border: 1px solid color-mix(in srgb, var(--gx-tb, var(--gx-line)) 30%, transparent); }
+.gx-bk-sg { font-size: 9px; color: var(--gx-faint); }
+.gx-bk-dl { font-size: 10px; font-weight: 500; color: var(--gx-faint); }
 .gx-bk-chip { display: inline-flex; align-items: center; gap: 6px; padding: 3px 9px 3px 4px; border-radius: 99px; border: 1px solid var(--gx-line); background: var(--gx-bg); color: var(--gx-ink); font: 500 12px system-ui, sans-serif; cursor: pointer; }
 button.gx-bk-chip:hover { border-color: var(--gx-accent); color: var(--gx-accent); }
 .gx-bk-chip.st { cursor: default; padding-left: 4px; } .gx-bk-chip i { width: 18px; height: 18px; font-size: 7.5px; } .gx-bk-chip b { font: 600 11px var(--gx-mono); color: var(--gx-muted); }
@@ -1243,6 +1245,10 @@ button.gx-bk-chip:hover { border-color: var(--gx-accent); color: var(--gx-accent
     if (A.gGroups && A.gGroups.parentNode === world) world.insertBefore(gBlast, A.gGroups); else world.insertBefore(gBlast, world.firstChild);
     function computeBlast(id) {
       const start = [id, ...A.descendantsOf(id)], D = new Map(start.map(x => [x, 0])), used = new Map(), q = start.slice();
+      /* con polaridad, el impacto lleva signo: sube o baja según el producto de signos del camino hacia delante,
+         y cuenta los retrasos que cruza. Hacia atrás (quien llama) el signo no significa nada y se pierde */
+      const SG = new Map(start.map(x => [x, 1])), DL = new Map(start.map(x => [x, 0]));
+      const pol = e => e.polarity || A.edgeDef(e.kind).polarity, late = e => !!(e.delay || A.edgeDef(e.kind).delay);
       const way = e => (BL.mode === 'callers' ? 'b' : BL.mode === 'downstream' ? 'f' : BL.mode === 'both' ? 'fb' : ({ forward: 'f', both: 'fb' })[A.edgeDef(e.kind).blast] || 'b');
       while (q.length) {
         const x = q.shift(), d = D.get(x);
@@ -1251,14 +1257,17 @@ button.gx-bk-chip:hover { border-color: var(--gx-accent); color: var(--gx-accent
           if (w.includes('f') && e.from === x) y = e.to; else if (w.includes('b') && e.to === x) y = e.from;
           if (y == null) continue;
           if (!used.has(e.id)) used.set(e.id, e.from === x ? 'f' : 'b');
-          if (!D.has(y)) { D.set(y, d + 1); q.push(y); A.descendantsOf(y).forEach(c => { if (!D.has(c)) { D.set(c, d + 1); q.push(c); } }); }
+          if (!D.has(y)) {
+            const sg = e.from === x && SG.get(x) && pol(e) ? SG.get(x) * (pol(e) === '-' ? -1 : 1) : 0;
+            SG.set(y, sg); DL.set(y, DL.get(x) + (e.from === x && late(e) ? 1 : 0));
+            D.set(y, d + 1); q.push(y); A.descendantsOf(y).forEach(c => { if (!D.has(c)) { D.set(c, d + 1); q.push(c); } }); }
         }
       }
       const vis = new Map();
       D.forEach((d, x) => { const r = A.repOf(x); if (r != null && (!vis.has(r) || vis.get(r) > d)) vis.set(r, d); });
       const byHop = new Map(), teams = new Map();
       D.forEach((d, x) => { const n = M.get(x); if (!d || n.isLane || n.children.length) return; if (!byHop.has(d)) byHop.set(d, []); byHop.get(d).push(x); const o = ownerOf(x); const k = o ? o.id : '__none__'; teams.set(k, (teams.get(k) || 0) + 1); });
-      return { id, D, vis, used, byHop, teams, maxD: Math.max(0, ...byHop.keys()), n: [...byHop.values()].reduce((a, l) => a + l.length, 0) };
+      return { id, D, SG, DL, vis, used, byHop, teams, maxD: Math.max(0, ...byHop.keys()), n: [...byHop.values()].reduce((a, l) => a + l.length, 0) };
     }
     function applyBlast(anim) {
       if (!blast) return;
@@ -1311,7 +1320,8 @@ button.gx-bk-chip:hover { border-color: var(--gx-accent); color: var(--gx-accent
     }
     function blastHTML(n) {
       if (!blast || blast.id !== n.id) return '';
-      const chip = id => { const m = M.get(id), o = ownerOf(id); return `<button type="button" class="gx-bk-chip" data-go="${esc(id)}">${o ? `<i style="--gx-oc:${o.cvar}">${esc(o.short)}</i>` : ''}${esc(m.label)}</button>`; };
+      const sign = id => { const g = blast.SG.get(id), k = blast.DL.get(id); return (g ? `<b class="gx-bk-sg" title="${esc(g > 0 ? L.up : L.down)}">${g > 0 ? '▲' : '▼'}</b>` : '') + (g && k ? `<b class="gx-bk-dl" title="${esc(L.late)}">⧗${k > 1 ? k : ''}</b>` : ''); };
+      const chip = id => { const m = M.get(id), o = ownerOf(id); return `<button type="button" class="gx-bk-chip" data-go="${esc(id)}">${o ? `<i style="--gx-oc:${o.cvar}">${esc(o.short)}</i>` : ''}${sign(id)}${esc(m.label)}</button>`; };
       const hops = [...blast.byHop.keys()].sort((a, b) => a - b), mx = Math.max(1, ...hops.map(k => blast.byHop.get(k).length));
       const teams = [...blast.teams.entries()].sort((a, b) => b[1] - a[1]);
       return `<div class="gx-bk-blast"><div class="gx-bk-bh"><b>${esc(L.blastH)}</b><button type="button" class="gx-btn" data-act="unblast">${esc(L.unblast)} ✕</button></div>`

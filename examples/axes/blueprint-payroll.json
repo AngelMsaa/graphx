@@ -5,32 +5,217 @@
   "summary": "What a new HR admin does to run their first payroll, what they see us do, and what happens out of sight.",
   "axes": {
     "preset": "blueprint",
-    "x": { "label": "Stage", "bands": [
-      { "id": "signup", "label": "Sign up" }, { "id": "setup", "label": "Set up company" },
-      { "id": "import", "label": "Import people" }, { "id": "run", "label": "Run payroll" } ] }
+    "x": {
+      "label": "Stage",
+      "bands": [
+        {
+          "id": "signup",
+          "label": "Sign up"
+        },
+        {
+          "id": "setup",
+          "label": "Set up company"
+        },
+        {
+          "id": "import",
+          "label": "Import people"
+        },
+        {
+          "id": "run",
+          "label": "Run payroll"
+        }
+      ]
+    }
   },
+  "aggregates": [
+    {
+      "field": "hours",
+      "label": "Elapsed time",
+      "unit": "h"
+    }
+  ],
   "nodes": [
-    { "id": "c1", "kind": "touchpoint", "label": "Starts a trial", "at": { "x": "signup", "y": "customer" }, "summary": "From a search ad landing page." },
-    { "id": "c2", "kind": "step", "label": "Enters tax IDs", "at": { "x": "setup", "y": "customer" }, "summary": "Company and social security numbers." },
-    { "id": "c3", "kind": "step", "label": "Uploads employee CSV", "at": { "x": "import", "y": "customer" }, "summary": "Exported from the old provider." },
-    { "id": "c4", "kind": "step", "label": "Approves payslips", "at": { "x": "run", "y": "customer" }, "summary": "Reviews totals, then confirms." },
-    { "id": "f1", "kind": "touchpoint", "label": "Welcome call", "at": { "x": "signup", "y": "frontstage" }, "summary": "A specialist books 30 minutes in the first week." },
-    { "id": "f2", "kind": "touchpoint", "label": "Setup checklist", "at": { "x": "setup", "y": "frontstage" }, "summary": "In app list of what is still missing." },
-    { "id": "f3", "kind": "touchpoint", "label": "Import error report", "at": { "x": "import", "y": "frontstage" }, "summary": "Row by row problems, in plain words." },
-    { "id": "b1", "kind": "step", "label": "Specialist assigned", "at": { "x": "signup", "y": "backstage" }, "summary": "Round robin by region." },
-    { "id": "b2", "kind": "step", "label": "Validate tax IDs", "at": { "x": "setup", "y": "backstage" }, "summary": "Checked against the registry before payroll can run." },
-    { "id": "b3", "kind": "step", "label": "Calculate payroll", "at": { "x": "run", "y": "backstage" }, "summary": "Rules engine run per employee." },
-    { "id": "s1", "kind": "tool", "label": "Tax registry API", "at": { "x": "setup", "y": "support" }, "summary": "Government service; slow on the last days of the month." },
-    { "id": "s2", "kind": "tool", "label": "Payments bank", "at": { "x": "run", "y": "support" }, "summary": "Moves salaries once payslips are approved." }
+    {
+      "id": "c1",
+      "kind": "touchpoint",
+      "label": "Starts a trial",
+      "at": {
+        "x": "signup",
+        "y": "customer"
+      },
+      "summary": "From a search ad landing page.",
+      "hours": 0.2
+    },
+    {
+      "id": "c2",
+      "kind": "step",
+      "label": "Enters tax IDs",
+      "at": {
+        "x": "setup",
+        "y": "customer"
+      },
+      "summary": "Company and social security numbers.",
+      "hours": 0.5
+    },
+    {
+      "id": "c3",
+      "kind": "step",
+      "label": "Uploads employee CSV",
+      "at": {
+        "x": "import",
+        "y": "customer"
+      },
+      "summary": "Exported from the old provider.",
+      "hours": 1
+    },
+    {
+      "id": "c4",
+      "kind": "step",
+      "label": "Approves payslips",
+      "at": {
+        "x": "run",
+        "y": "customer"
+      },
+      "summary": "Reviews totals, then confirms.",
+      "hours": 2
+    },
+    {
+      "id": "f1",
+      "kind": "touchpoint",
+      "label": "Welcome call",
+      "at": {
+        "x": "signup",
+        "y": "frontstage"
+      },
+      "summary": "A specialist books 30 minutes in the first week.",
+      "hours": 1
+    },
+    {
+      "id": "f2",
+      "kind": "touchpoint",
+      "label": "Setup checklist",
+      "at": {
+        "x": "setup",
+        "y": "frontstage"
+      },
+      "summary": "In app list of what is still missing.",
+      "hours": 0.5
+    },
+    {
+      "id": "f3",
+      "kind": "touchpoint",
+      "label": "Import error report",
+      "at": {
+        "x": "import",
+        "y": "frontstage"
+      },
+      "summary": "Row by row problems, in plain words.",
+      "hours": 0.1
+    },
+    {
+      "id": "b1",
+      "kind": "step",
+      "label": "Specialist assigned",
+      "at": {
+        "x": "signup",
+        "y": "backstage"
+      },
+      "summary": "Round robin by region.",
+      "hours": 24
+    },
+    {
+      "id": "b2",
+      "kind": "step",
+      "label": "Validate tax IDs",
+      "at": {
+        "x": "setup",
+        "y": "backstage"
+      },
+      "summary": "Checked against the registry before payroll can run.",
+      "hours": 4
+    },
+    {
+      "id": "b3",
+      "kind": "step",
+      "label": "Calculate payroll",
+      "at": {
+        "x": "run",
+        "y": "backstage"
+      },
+      "summary": "Rules engine run per employee.",
+      "hours": 1
+    },
+    {
+      "id": "s1",
+      "kind": "tool",
+      "label": "Tax registry API",
+      "at": {
+        "x": "setup",
+        "y": "support"
+      },
+      "summary": "Government service; slow on the last days of the month.",
+      "hours": 48
+    },
+    {
+      "id": "s2",
+      "kind": "tool",
+      "label": "Payments bank",
+      "at": {
+        "x": "run",
+        "y": "support"
+      },
+      "summary": "Moves salaries once payslips are approved.",
+      "hours": 24
+    }
   ],
   "edges": [
-    { "id": "e1", "from": "c1", "to": "b1", "kind": "triggers" },
-    { "id": "e2", "from": "b1", "to": "f1", "kind": "next" },
-    { "id": "e3", "from": "c2", "to": "b2", "kind": "triggers" },
-    { "id": "e4", "from": "b2", "to": "s1", "kind": "uses" },
-    { "id": "e5", "from": "b2", "to": "f2", "kind": "next" },
-    { "id": "e6", "from": "c3", "to": "f3", "kind": "triggers" },
-    { "id": "e7", "from": "c4", "to": "b3", "kind": "triggers" },
-    { "id": "e8", "from": "b3", "to": "s2", "kind": "uses" }
+    {
+      "id": "e1",
+      "from": "c1",
+      "to": "b1",
+      "kind": "triggers"
+    },
+    {
+      "id": "e2",
+      "from": "b1",
+      "to": "f1",
+      "kind": "next"
+    },
+    {
+      "id": "e3",
+      "from": "c2",
+      "to": "b2",
+      "kind": "triggers"
+    },
+    {
+      "id": "e4",
+      "from": "b2",
+      "to": "s1",
+      "kind": "uses"
+    },
+    {
+      "id": "e5",
+      "from": "b2",
+      "to": "f2",
+      "kind": "next"
+    },
+    {
+      "id": "e6",
+      "from": "c3",
+      "to": "f3",
+      "kind": "triggers"
+    },
+    {
+      "id": "e7",
+      "from": "c4",
+      "to": "b3",
+      "kind": "triggers"
+    },
+    {
+      "id": "e8",
+      "from": "b3",
+      "to": "s2",
+      "kind": "uses"
+    }
   ]
 }

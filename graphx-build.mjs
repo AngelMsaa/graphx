@@ -201,9 +201,13 @@ for (const x of [...(spec.nodes || []), ...(spec.edges || [])]) {
 const DELAY_TYPES = ['perception', 'response', 'delivery'];
 for (const e of spec.edges || []) {
   if (e.polarity != null && !['+', '-'].includes(e.polarity)) errors.push(`arista ${e.id}: polarity «${e.polarity}» inválida (+, -)`);
+  if (e.direction != null && !['directed', 'undirected', 'mutual'].includes(e.direction)) errors.push(`arista ${e.id}: direction «${e.direction}» inválida (directed, undirected, mutual)`);
+  if (e.weight != null && !(typeof e.weight === 'number' && e.weight > 0)) errors.push(`arista ${e.id}: weight debe ser un número mayor que 0`);
   if (e.delay != null && e.delay !== true && e.delay !== false && !(typeof e.delay === 'object' && (e.delay.type == null || DELAY_TYPES.includes(e.delay.type)) && (e.delay.duration == null || typeof e.delay.duration === 'string' || typeof e.delay.duration === 'number')))
     errors.push(`arista ${e.id}: delay debe ser true o { duration, type: ${DELAY_TYPES.join('|')} }`);
 }
+for (const x of [...(spec.nodes || []), ...(spec.edges || [])]) if (x.leverage != null && ![2, 3, 4, 5, 6, 9, 10, 11, 12].includes(x.leverage)) errors.push(`${x.from != null ? 'arista' : 'nodo'} ${x.id}: leverage ${x.leverage} no es un nivel que el motor sepa colocar (2, 3, 4, 5, 6, 9, 10, 11, 12; 7 y 8 son bucles)`);
+if (spec.aggregates != null && !(Array.isArray(spec.aggregates) && spec.aggregates.every(a => a && typeof a.field === 'string'))) errors.push('aggregates debe ser una lista de { field, label?, unit? }');
 for (const n of spec.nodes || []) ['purpose', 'statedPurpose', 'observedPurpose'].forEach(k => { if (n[k] != null && typeof n[k] !== 'string') errors.push(`nodo ${n.id}: ${k} debe ser texto`); });
 if (spec.groups != null && !Array.isArray(spec.groups)) errors.push('groups debe ser una lista de { id, type, label, edges }');
 for (const [i, g] of (Array.isArray(spec.groups) ? spec.groups : []).entries()) {
@@ -211,8 +215,9 @@ for (const [i, g] of (Array.isArray(spec.groups) ? spec.groups : []).entries()) 
   g.edges.forEach(id => { if (!eids.has(id)) errors.push(`grupo ${g.id}: arista «${id}» desconocida`); });
 }
 const SYSTEMS = sandbox.GraphX.systems.analyze({ ...spec, pack: PACK });
-const USES_SYSTEMS = SYSTEMS.loops.length > 0 || (spec.edges || []).some(e => sandbox.GraphX.systems.effective(e, PACK).polarity) || (Array.isArray(spec.groups) && spec.groups.length > 0);
+const USES_SYSTEMS = SYSTEMS.loops.length > 0 || (spec.edges || []).some(e => sandbox.GraphX.systems.effective(e, PACK).polarity) || (Array.isArray(spec.groups) && spec.groups.length > 0) || SYSTEMS.aggregates.length > 0;
 SYSTEMS.warnings.forEach(w => warns.push(w));
+SYSTEMS.aggregates.forEach(a => console.log(`${a.label}: ${Math.round(a.total * 100) / 100}${a.unit ? ' ' + a.unit : ''} por ${a.path.nodes.join(' → ')}`));
 if (SYSTEMS.loops.length) console.log(`bucles: ${SYSTEMS.loops.map(l => l.tag + (l.label ? ' ' + l.label : '')).join(', ')}`);
 /* --- reglas del paquete: solo para quien lo declara --- */
 if (PACK_DECLARED) {
@@ -265,7 +270,17 @@ if (PACK_DECLARED) {
   if (budget) {
     const initial = spec.initialDepth != null ? spec.initialDepth : Math.min(1, G.maxDepth);
     const shown = [...G.M.values()].filter(n => !n.isLane && (n.depth === initial || (n.depth < initial && !n.children.length))).length;
-    if (shown > budget) warns.push(`la vista inicial enseña ${shown} piezas (presupuesto de ${PACK.name}: ${budget}); pliega o parte en vistas`);
+    /* dónde plegar: un grupo cuyas aristas se quedan dentro mucho más de lo que salen se lee igual cerrado
+       (la jerarquía de Meadows). Candidatos: los padres abiertos en la vista inicial y los carriles */
+    const fold = () => {
+      const top = id => { let n = G.M.get(id); while (n && n.parent && G.M.get(n.parent) && G.M.get(n.parent).depth >= initial) n = G.M.get(n.parent); return n; };
+      const sets = [...G.M.values()].filter(n => n.children.length && n.depth < initial && !n.isLane).map(n => ({ label: n.label, has: id => { for (let x = G.M.get(id); x; x = G.M.get(x.parent)) if (x.id === n.id) return true; return false; } }));
+      (spec.lanes || []).forEach(l => sets.push({ label: l.label, has: id => { const t = top(id); return !!t && (spec.nodes || []).some(n => n.id === t.id && n.lane === l.id); } }));
+      return sets.map(c => { let i = 0, o = 0; (spec.edges || []).forEach(e => { const a = c.has(e.from), b = c.has(e.to); if (a && b) i++; else if (a || b) o++; }); return { ...c, i, o }; })
+        .filter(c => c.i >= 2 && c.i >= 2 * c.o).sort((x, y) => y.i / (y.o + 1) - x.i / (x.o + 1)).slice(0, 3);
+    };
+    const cand = shown > budget ? fold() : [];
+    if (shown > budget) warns.push(`la vista inicial enseña ${shown} piezas (presupuesto de ${PACK.name}: ${budget}); pliega o parte en vistas${cand.length ? `; se pliegan bien por densidad: ${cand.map(c => `${c.label} (${c.i} dentro, ${c.o} fuera)`).join(', ')}` : ''}`);
     (spec.filters || []).forEach(f => { if ((f.nodes || []).length > budget) warns.push(`filtro «${f.label}»: ${f.nodes.length} piezas (presupuesto: ${budget})`); });
   }
   if (PACK.requireSources) for (const x of [...(spec.nodes || []), ...(spec.edges || [])]) {

@@ -22,13 +22,15 @@
       stated: 'Declarado', observed: 'Observado', mismatch: 'lo que dice perseguir no es lo que hace', goal: 'Meta', noGoal: 'sin meta: un bucle que equilibra necesita una',
       traps: 'Posibles trampas', wayOut: 'Salida', lever: 'Dónde intervenir', leverNote: 'de menos a más eficaz; cuanto más arriba, más resiste el sistema y menos obvio es el sentido',
       see: 'Ver como', seeOff: 'Dejar de ver como', seeNote: 'gris: lo que este actor no ve ni toca',
-      L: { goals: 'metas', rules: 'reglas', info: 'flujos de información', reinforcing: 'ganancia de los bucles que refuerzan', balancing: 'fuerza de los bucles que equilibran', delays: 'retrasos', stocks: 'estructura de stocks y flujos', params: 'parámetros' } },
+      agg: 'Acumulado', aggTo: 'hasta aquí, por el camino más largo', critical: 'camino crítico',
+      L: { paradigm: 'paradigma', evolution: 'capacidad de cambiar la propia estructura', buffers: 'amortiguadores', goals: 'metas', rules: 'reglas', info: 'flujos de información', reinforcing: 'ganancia de los bucles que refuerzan', balancing: 'fuerza de los bucles que equilibran', delays: 'retrasos', stocks: 'estructura de stocks y flujos', params: 'parámetros' } },
     en: { R: 'reinforcing loop', B: 'balancing loop', delay: 'delay', pol: '+ same direction · − opposite direction', loops: 'Loops',
       osc: 'oscillation risk: a balancing loop with a delay overshoots', inLoops: 'In loops', purpose: 'Purpose',
       stated: 'Stated', observed: 'Observed', mismatch: 'what it says it pursues is not what it does', goal: 'Goal', noGoal: 'no goal: a balancing loop needs one',
       traps: 'Possible traps', wayOut: 'Way out', lever: 'Where to intervene', leverNote: 'most effective first; the higher the point, the more the system resists and the less obvious the direction',
       see: 'See as', seeOff: 'Stop seeing as', seeNote: 'grey: what this actor neither sees nor touches',
-      L: { goals: 'goals', rules: 'rules', info: 'information flows', reinforcing: 'gain of reinforcing loops', balancing: 'strength of balancing loops', delays: 'delays', stocks: 'stock and flow structure', params: 'parameters' } }
+      agg: 'Accumulated', aggTo: 'to here, along the longest path', critical: 'critical path',
+      L: { paradigm: 'paradigm', evolution: 'power to change its own structure', buffers: 'buffers', goals: 'goals', rules: 'rules', info: 'information flows', reinforcing: 'gain of reinforcing loops', balancing: 'strength of balancing loops', delays: 'delays', stocks: 'stock and flow structure', params: 'parameters' } }
   };
 
   /* polaridad y retraso efectivos: lo de la arista, si no lo que su tipo trae en el paquete */
@@ -106,7 +108,35 @@
     if (truncated) warnings.push(`hay más bucles de los que se enumeran (máximo ${MAX_LOOPS}, de hasta ${MAX_LEN} aristas)`);
     const traps = findTraps(spec, pack, list);
     traps.forEach(t => warnings.push(`posible trampa «${t.name}»: ${t.why}`));
-    return { loops: list, traps, leverage: leverage(spec, pack, list), warnings, pack };
+    const aggs = (Array.isArray(spec.aggregates) ? spec.aggregates : []).filter(a => a && a.field).map(a => aggregate(spec, a));
+    return { loops: list, traps, leverage: leverage(spec, pack, list), aggregates: aggs, warnings, pack };
+  }
+
+  /* `aggregates: [{ field, label, unit }]`: la suma de un número a lo largo del camino más largo que llega a
+     cada pieza (el plazo de una cadena de valor, el coste acumulado). Cuenta lo que lleva la pieza y lo que
+     lleva cada arista. Un ciclo no suma dos veces. */
+  function aggregate(spec, a) {
+    const f = a.field, num = x => (x && typeof x[f] === 'number' && isFinite(x[f]) ? x[f] : 0);
+    const nodes = new Map((spec.nodes || []).map(n => [n.id, n])), into = new Map();
+    (spec.edges || []).forEach(e => { if (nodes.has(e.from) && nodes.has(e.to)) { if (!into.has(e.to)) into.set(e.to, []); into.get(e.to).push(e); } });
+    /* las aristas de vuelta se descartan antes de sumar, recorriendo desde las raíces en el orden del spec,
+       para que el corte no dependa de por qué pieza empiece la memoria */
+    const back = new Set(), state = new Map(), outOf = new Map();
+    (spec.edges || []).forEach(e => { if (nodes.has(e.from) && nodes.has(e.to)) { if (!outOf.has(e.from)) outOf.set(e.from, []); outOf.get(e.from).push(e); } });
+    const dfs = id => { state.set(id, 1); for (const e of outOf.get(id) || []) { const s = state.get(e.to); if (s === 1) back.add(e); else if (!s) dfs(e.to); } state.set(id, 2); };
+    [...nodes.keys()].sort((x, y) => (into.has(x) ? 1 : 0) - (into.has(y) ? 1 : 0)).forEach(id => { if (!state.get(id)) dfs(id); });
+    const memo = new Map(), via = new Map();
+    const at = id => {
+      if (memo.has(id)) return memo.get(id);
+      let best = 0, how = null;
+      for (const e of into.get(id) || []) { if (back.has(e)) continue; const v = at(e.from) + num(e); if (v > best) { best = v; how = e; } }
+      const v = best + num(nodes.get(id)); memo.set(id, v); via.set(id, how); return v;
+    };
+    nodes.forEach((_, id) => at(id));
+    let end = null; memo.forEach((v, id) => { if (end == null || v > memo.get(end)) end = id; });
+    const path = { nodes: [], edges: [] };
+    for (let x = end; x != null; ) { path.nodes.unshift(x); const e = via.get(x); if (!e) break; path.edges.unshift(e.id); x = e.from; }
+    return { field: f, label: a.label || f, unit: a.unit || '', at: memo, total: end != null ? memo.get(end) : 0, path };
   }
 
   /* papel de una pieza en el modelo: el que su tipo declare en el paquete (`role`), si no el propio tipo */
@@ -126,6 +156,10 @@
       out: { es: 'fijar la meta en absoluto, o atarla a los mejores resultados y no a los peores', en: 'keep the goal absolute, or peg it to the best results instead of the worst' } },
     'escalation': { es: 'escalada', en: 'escalation',
       out: { es: 'desarmarse por una de las partes, o negociar un bucle que equilibre', en: 'one side steps back, or negotiate a balancing loop' } },
+    'rule-beating': { es: 'esquivar las reglas', en: 'rule beating',
+      out: { es: 'rediseñar la regla para que lo que esquiva sea lo que se buscaba', en: 'redesign the rule so that the evasion is what the rule was after' } },
+    'seeking-the-wrong-goal': { es: 'perseguir la meta equivocada', en: 'seeking the wrong goal',
+      out: { es: 'medir lo que de verdad importa, no lo fácil de medir', en: 'measure what actually matters, not what is easy to count' } },
     'tragedy-of-the-commons': { es: 'tragedia de los comunes', en: 'tragedy of the commons',
       out: { es: 'devolver a cada usuario la señal del recurso común: educar, regular o repartir', en: 'feed the state of the commons back to each user: educate, regulate or divide it' } }
   };
@@ -184,6 +218,23 @@
       const growing = drains.filter(e => R.some(l => l.nodes.includes(e.from) && !l.nodes.includes(id)));
       if (owners.size > 1 && growing.length > 1) add('tragedy-of-the-commons', { nodes: [id, ...drains.map(e => e.from)], edges: drains.map(e => e.id) }, `${nodes.get(id).label} lo vacían ${[...owners].join(', ')} y ninguno ve en su crecimiento lo que queda`);
     }
+    /* una regla que empuja algo en un sentido y, a través de cómo responde un actor, en el contrario */
+    const sgn = e => (pol(e) === '-' ? -1 : 1);
+    for (const r of nodes.keys()) {
+      if (roleOf(nodes.get(r), pack) !== 'rule') continue;
+      for (const d of edges.filter(e => e.from === r && pol(e))) {
+        for (const q of edges.filter(e => e.from === r && pol(e) && catOf(nodes.get(e.to), pack) === 'actor')) {
+          const back = edges.find(e => e.from === q.to && e.to === d.to && pol(e) && sgn(q) * sgn(e) !== sgn(d));
+          if (back) add('rule-beating', { nodes: [r, q.to, d.to], edges: [d.id, q.id, back.id] }, `${nodes.get(r).label} empuja ${(nodes.get(d.to) || { label: d.to }).label} en un sentido y la respuesta de ${nodes.get(q.to).label} lo lleva al contrario`);
+        }
+      }
+    }
+    /* una meta cuyo propósito declarado no es el que se observa: el bucle persigue el indicador */
+    for (const [id, n] of nodes) {
+      if (roleOf(n, pack) !== 'goal' || !n.statedPurpose || !n.observedPurpose || n.statedPurpose.trim() === n.observedPurpose.trim()) continue;
+      const ls = loops.filter(l => l.nodes.includes(id) || edges.some(e => e.from === id && l.nodes.includes(e.to)));
+      add('seeking-the-wrong-goal', { nodes: [id, ...ls.flatMap(l => l.nodes)], edges: ls.flatMap(l => l.edges) }, `${n.label} dice perseguir «${n.statedPurpose}» y persigue «${n.observedPurpose}»`);
+    }
     return out;
   }
 
@@ -195,16 +246,22 @@
     // un concepto sin papel solo es parámetro si mueve algo: fuera de la red causal no hay palanca
     const causal = new Set();
     (spec.edges || []).forEach(e => { if (effective(e, pack).polarity) { causal.add(e.from); causal.add(e.to); } });
+    const KEY = { 2: 'paradigm', 3: 'goals', 4: 'evolution', 5: 'rules', 6: 'info', 9: 'delays', 10: 'stocks', 11: 'buffers', 12: 'params' };
     for (const n of spec.nodes || []) {
       const r = roleOf(n, pack), c = catOf(n, pack);
-      if (r === 'goal') put(3, 'goals', { node: n.id, label: n.label });
+      /* `leverage` en la pieza manda: el autor sabe que ese stock es un amortiguador o esa regla, un paradigma */
+      if (KEY[n.leverage]) put(n.leverage, KEY[n.leverage], { node: n.id, label: n.label });
+      else if (r === 'paradigm') put(2, 'paradigm', { node: n.id, label: n.label });
+      else if (r === 'evolution') put(4, 'evolution', { node: n.id, label: n.label });
+      else if (r === 'goal') put(3, 'goals', { node: n.id, label: n.label });
       else if (r === 'rule') put(5, 'rules', { node: n.id, label: n.label });
-      else if (r === 'stock') put(10, 'stocks', { node: n.id, label: n.label });
+      else if (r === 'stock') put(n.buffer ? 11 : 10, n.buffer ? 'buffers' : 'stocks', { node: n.id, label: n.label });
       else if (r === 'variable' || (c === 'concept' && r !== 'cloud' && causal.has(n.id))) put(12, 'params', { node: n.id, label: n.label });
     }
     for (const e of spec.edges || []) {
       const ef = effective(e, pack);
-      if (ef.delay) put(9, 'delays', { edge: e.id, label: e.label || `${e.from} → ${e.to}` });
+      if (KEY[e.leverage]) put(e.leverage, KEY[e.leverage], { edge: e.id, label: e.label || `${e.from} → ${e.to}` });
+      else if (ef.delay) put(9, 'delays', { edge: e.id, label: e.label || `${e.from} → ${e.to}` });
       else if (ef.polarity && (pack && pack.edgeKinds && pack.edgeKinds[e.kind] && pack.edgeKinds[e.kind].info)) put(6, 'info', { edge: e.id, label: e.label || `${e.from} → ${e.to}` });
     }
     loops.forEach(l => put(l.type === 'B' ? 8 : 7, l.type === 'B' ? 'balancing' : 'reinforcing', { loop: l.id, label: l.tag + (l.label ? ' ' + l.label : '') }));
@@ -252,9 +309,10 @@
   function create(A) {
     const { spec, S, M, s, esc, world, legend, lang } = A;
     const L = STR[lang] || STR.en;
-    const { loops, traps, leverage: lever, pack } = analyze(spec);
+    const { loops, traps, leverage: lever, aggregates: aggs, pack } = analyze(spec);
     const hasPol = (spec.edges || []).some(e => effective(e, pack).polarity);
-    if (!loops.length && !hasPol) return null;
+    if (!loops.length && !hasPol && !aggs.length) return null;
+    const fmt = (v, a) => `${Math.round(v * 100) / 100}${a.unit ? ' ' + a.unit : ''}`;
     const nodeById = new Map((spec.nodes || []).map(n => [n.id, n]));
     injectCSS();
     const loopsOf = new Map();
@@ -296,6 +354,7 @@
     const lightables = new Map();
     loops.forEach(l => lightables.set(l.id, l));
     traps.forEach(t => lightables.set(t.id, t));
+    aggs.forEach(a => lightables.set('agg:' + a.field, { id: 'agg:' + a.field, nodes: a.path.nodes, edges: a.path.edges }));
     lever.forEach(g => lightables.set('lever:' + g.level, { id: 'lever:' + g.level,
       nodes: g.items.flatMap(i => i.node ? [i.node] : i.loop ? lightables.get(i.loop).nodes : i.edge ? (spec.edges || []).filter(e => e.id === i.edge).flatMap(e => [e.from, e.to]) : []),
       edges: g.items.flatMap(i => i.edge ? [i.edge] : i.loop ? lightables.get(i.loop).edges : []) }));
@@ -335,7 +394,8 @@
       if (pinned) light(pinned);
     }
 
-    if (legend) {
+    if (legend && aggs.length) legend.insertAdjacentHTML('beforeend', `<ul class="gx-lg-loops">${aggs.map(a => `<li data-sys="agg:${esc(a.field)}" title="${esc(L.critical)}"><b>Σ</b>${esc(a.label)}: ${esc(fmt(a.total, a))}</li>`).join('')}</ul>`);
+    if (legend && (loops.length || hasPol)) {
       const rows = [`<li><svg viewBox="0 0 36 10"><path class="gx-lg-e" d="M2 5h32"/><line class="gx-delay" x1="16" y1="1" x2="16" y2="9"/><line class="gx-delay" x1="20" y1="1" x2="20" y2="9"/></svg>${esc(L.delay)}</li>`,
         `<li>${esc(L.pol)}</li>`];
       const lst = loops.map(l => `<li data-sys="${esc(l.id)}"><b>${esc(l.tag)}</b>${esc(l.label || L[l.type])}${l.oscillates ? ' ⚠' : ''}</li>`).join('');
@@ -345,8 +405,8 @@
         + (lst ? `<h4>${esc(L.loops)}</h4><ul class="gx-lg-loops">${lst}</ul>` : '')
         + (trp ? `<h4>${esc(L.traps)}</h4><ul class="gx-lg-loops">${trp}</ul>` : '')
         + (lev ? `<h4 title="${esc(L.leverNote)}">${esc(L.lever)}</h4><ul class="gx-lg-loops">${lev}</ul>` : ''));
-      legend.querySelectorAll('[data-sys]').forEach(li => { const x = lightables.get(li.getAttribute('data-sys')); if (x) bind(li, x); });
     }
+    if (legend) legend.querySelectorAll('[data-sys]').forEach(li => { const x = lightables.get(li.getAttribute('data-sys')); if (x) bind(li, x); });
 
     /* en el panel: a qué bucles pertenece y qué persigue, declarado frente a observado */
     function panelTop(n) {
@@ -356,6 +416,7 @@
       if (n.statedPurpose) rows.push(`<dt>${esc(L.stated)}</dt><dd>${esc(n.statedPurpose)}</dd>`);
       if (n.observedPurpose) rows.push(`<dt>${esc(L.observed)}</dt><dd>${esc(n.observedPurpose)}</dd>`);
       if (n.statedPurpose && n.observedPurpose && n.statedPurpose.trim() !== n.observedPurpose.trim()) rows.push(`<dd class="warn">≠ ${esc(L.mismatch)}</dd>`);
+      aggs.forEach(a => { if (a.at.has(n.id)) rows.push(`<dt>${esc(a.label)}</dt><dd title="${esc(L.aggTo)}">${esc(fmt(a.at.get(n.id), a))}</dd>`); });
       const ls = loopsOf.get(n.id) || [];
       if (ls.length) rows.push(`<dt>${esc(L.inLoops)}</dt>` + ls.map(l => `<dd>${esc(name(l))} · ${esc(L[l.type])}${l.oscillates ? ` <span class="warn">⚠ ${esc(L.osc)}</span>` : ''}${l.type === 'B' ? (l.goal ? ` · ${esc(L.goal)}: ${esc(l.goal)}` : l.authored ? ` <span class="warn">${esc(L.noGoal)}</span>` : '') : ''}</dd>`).join(''));
       const ts = traps.filter(t => t.nodes.includes(n.id));
@@ -375,5 +436,5 @@
     return { edge, afterLayout, panelTop, loops, destroy: () => gLoops.remove() };
   }
 
-  return { create, analyze, findLoops, effective, version: '1.0.0' };
+  return { create, analyze, findLoops, effective, aggregate, version: '1.1.0' };
 });

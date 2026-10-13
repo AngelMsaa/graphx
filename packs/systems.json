@@ -1,166 +1,175 @@
 {
- "name": "systems",
- "label": {
-  "en": "Systems (stocks, flows, feedback)",
-  "es": "Sistemas (stocks, flujos, realimentación)"
- },
- "describe": "Donella Meadows style: stocks that accumulate, flows that fill or drain them, and information links with a polarity that close feedback loops. Use it for growth, decline, policy and any dynamic that changes over time.",
- "nodeKinds": {
-  "stock": {
-   "category": "resource",
-   "icon": "datastore",
-   "label": {
-    "en": "stock",
-    "es": "stock"
-   },
-   "describe": "an accumulation you could count at an instant: customers, cash, trust, backlog. Name it as a noun with a unit."
+  "name": "systems",
+  "label": {
+    "en": "Systems (stocks, flows, feedback)",
+    "es": "Sistemas (stocks, flujos, realimentación)"
   },
-  "flow": {
-   "category": "activity",
-   "icon": "gauge",
-   "label": {
-    "en": "flow",
-    "es": "flujo"
-   },
-   "describe": "a rate that fills or drains a stock, per unit of time: signups per week, churn per month."
+  "describe": "Donella Meadows style: stocks that accumulate, flows that fill or drain them, and information links with a polarity that close feedback loops. Use it for growth, decline, policy and any dynamic that changes over time.",
+  "nodeKinds": {
+    "stock": {
+      "category": "resource",
+      "icon": "datastore",
+      "label": {
+        "en": "stock",
+        "es": "stock"
+      },
+      "describe": "an accumulation you could count at an instant: customers, cash, trust, backlog. Name it as a noun with a unit."
+    },
+    "flow": {
+      "category": "activity",
+      "icon": "gauge",
+      "label": {
+        "en": "flow",
+        "es": "flujo"
+      },
+      "describe": "a rate that fills or drains a stock, per unit of time: signups per week, churn per month."
+    },
+    "variable": {
+      "category": "concept",
+      "icon": "chart",
+      "label": {
+        "en": "variable",
+        "es": "variable"
+      },
+      "describe": "a quantity that shapes a flow: price, fertility, perceived quality. Phrase it so \"more\" has a meaning."
+    },
+    "cloud": {
+      "category": "resource",
+      "icon": "cloud",
+      "label": {
+        "en": "boundary",
+        "es": "frontera"
+      },
+      "describe": "where a flow comes from or goes to outside the model boundary."
+    },
+    "goal": {
+      "category": "state",
+      "icon": "key",
+      "label": {
+        "en": "goal",
+        "es": "meta"
+      },
+      "describe": "the target a balancing loop steers toward."
+    },
+    "paradigm": {
+      "category": "concept",
+      "icon": "idea",
+      "label": {
+        "en": "paradigm",
+        "es": "paradigma"
+      },
+      "describe": "the shared belief the system grows out of: what everyone takes for granted about how things work."
+    },
+    "rule": {
+      "category": "concept",
+      "icon": "config",
+      "label": {
+        "en": "rule",
+        "es": "regla"
+      },
+      "describe": "a policy, incentive or constraint that shapes decisions."
+    },
+    "actor": {
+      "category": "actor",
+      "icon": "user",
+      "label": {
+        "en": "actor",
+        "es": "actor"
+      },
+      "describe": "someone deciding on local information."
+    }
   },
-  "variable": {
-   "category": "concept",
-   "icon": "chart",
-   "label": {
-    "en": "variable",
-    "es": "variable"
-   },
-   "describe": "a quantity that shapes a flow: price, fertility, perceived quality. Phrase it so \"more\" has a meaning."
+  "edgeKinds": {
+    "inflow": {
+      "style": "solid",
+      "blast": "forward",
+      "polarity": "+",
+      "label": {
+        "en": "fills",
+        "es": "llena"
+      },
+      "from": [
+        "flow"
+      ],
+      "to": [
+        "stock"
+      ],
+      "describe": "a flow that adds to a stock"
+    },
+    "outflow": {
+      "style": "solid",
+      "blast": "forward",
+      "polarity": "-",
+      "label": {
+        "en": "drains",
+        "es": "vacía"
+      },
+      "from": [
+        "flow"
+      ],
+      "to": [
+        "stock"
+      ],
+      "describe": "a flow that subtracts from a stock (drawn flow → stock, sign −)"
+    },
+    "pipe": {
+      "style": "solid",
+      "blast": "forward",
+      "label": {
+        "en": "material",
+        "es": "material"
+      },
+      "from": [
+        "cloud",
+        "stock"
+      ],
+      "to": [
+        "flow"
+      ],
+      "describe": "where the material of a flow comes from; no polarity"
+    },
+    "link": {
+      "style": "dashed",
+      "blast": "forward",
+      "polarity": "+",
+      "label": {
+        "en": "influences",
+        "es": "influye"
+      },
+      "describe": "information: a change in the source changes the target. Set polarity \"-\" when more source means less target.",
+      "info": true
+    },
+    "targets": {
+      "style": "dotted",
+      "blast": "forward",
+      "polarity": "+",
+      "label": {
+        "en": "sets the goal",
+        "es": "fija la meta"
+      },
+      "from": [
+        "goal",
+        "rule",
+        "actor"
+      ],
+      "describe": "a goal or rule that sets what a flow aims for",
+      "info": true
+    }
   },
-  "cloud": {
-   "category": "resource",
-   "icon": "cloud",
-   "label": {
-    "en": "boundary",
-    "es": "frontera"
-   },
-   "describe": "where a flow comes from or goes to outside the model boundary."
-  },
-  "goal": {
-   "category": "state",
-   "icon": "key",
-   "label": {
-    "en": "goal",
-    "es": "meta"
-   },
-   "describe": "the target a balancing loop steers toward."
-  },
-  "rule": {
-   "category": "concept",
-   "icon": "config",
-   "label": {
-    "en": "rule",
-    "es": "regla"
-   },
-   "describe": "a policy, incentive or constraint that shapes decisions."
-  },
-  "actor": {
-   "category": "actor",
-   "icon": "user",
-   "label": {
-    "en": "actor",
-    "es": "actor"
-   },
-   "describe": "someone deciding on local information."
+  "bannedLabels": [
+    "system",
+    "factor",
+    "variable",
+    "stock",
+    "flow",
+    "thing",
+    "stuff",
+    "other",
+    "sistema",
+    "factor",
+    "cosa"
+  ],
+  "budget": {
+    "view": 16
   }
- },
- "edgeKinds": {
-  "inflow": {
-   "style": "solid",
-   "blast": "forward",
-   "polarity": "+",
-   "label": {
-    "en": "fills",
-    "es": "llena"
-   },
-   "from": [
-    "flow"
-   ],
-   "to": [
-    "stock"
-   ],
-   "describe": "a flow that adds to a stock"
-  },
-  "outflow": {
-   "style": "solid",
-   "blast": "forward",
-   "polarity": "-",
-   "label": {
-    "en": "drains",
-    "es": "vacía"
-   },
-   "from": [
-    "flow"
-   ],
-   "to": [
-    "stock"
-   ],
-   "describe": "a flow that subtracts from a stock (drawn flow → stock, sign −)"
-  },
-  "pipe": {
-   "style": "solid",
-   "blast": "forward",
-   "label": {
-    "en": "material",
-    "es": "material"
-   },
-   "from": [
-    "cloud",
-    "stock"
-   ],
-   "to": [
-    "flow"
-   ],
-   "describe": "where the material of a flow comes from; no polarity"
-  },
-  "link": {
-   "style": "dashed",
-   "blast": "forward",
-   "polarity": "+",
-   "label": {
-    "en": "influences",
-    "es": "influye"
-   },
-   "describe": "information: a change in the source changes the target. Set polarity \"-\" when more source means less target.",
-   "info": true
-  },
-  "targets": {
-   "style": "dotted",
-   "blast": "forward",
-   "polarity": "+",
-   "label": {
-    "en": "sets the goal",
-    "es": "fija la meta"
-   },
-   "from": [
-    "goal",
-    "rule",
-    "actor"
-   ],
-   "describe": "a goal or rule that sets what a flow aims for",
-   "info": true
-  }
- },
- "bannedLabels": [
-  "system",
-  "factor",
-  "variable",
-  "stock",
-  "flow",
-  "thing",
-  "stuff",
-  "other",
-  "sistema",
-  "factor",
-  "cosa"
- ],
- "budget": {
-  "view": 16
- }
 }

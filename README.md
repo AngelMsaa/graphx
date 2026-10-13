@@ -366,9 +366,21 @@ balancing one its `goal`, `sensor` and `actuator`; nodes accept `purpose`, `stat
 
 **Traps and where to intervene.** The legend lists the loops, any of Meadows' system traps the structure
 matches (policy resistance, shifting the burden, success to the successful, drift to low performance,
-escalation, tragedy of the commons), each with its way out in the panel, and the elements grouped by
-leverage point, goals first and parameters last. Clicking an actor offers "See as", which dims everything
-that actor has no direct link to. `examples/systems/traps.json` triggers every trap.
+escalation, tragedy of the commons, rule beating, seeking the wrong goal), each with its way out in the panel,
+and the elements grouped by leverage point, from paradigm down to parameters. A `paradigm` node ranks 2, a stock
+with `buffer: true` ranks 11, and `leverage: <level>` on any node or edge overrides the guess. Clicking an actor offers "See as", which dims everything
+that actor has no direct link to. With blast radius on, each affected piece shows whether it rises or falls
+when the origin rises, and how many delays the impact crosses on the way. `examples/systems/traps.json`
+triggers every trap.
+
+**Path totals.** `aggregates: [{ "field": "hours", "label": "Elapsed time", "unit": "h" }]` sums a number
+that nodes and edges carry along the longest path into each piece: lead time in a value stream, cost in a
+chain. The legend shows the total and lights the critical path; the panel shows the running total; `--check`
+prints both.
+
+**Edges.** `direction` (`directed`, `undirected`, `mutual`) sets the arrowheads and `weight` the stroke width.
+When the first view is over the pack's budget, the builder names the groups or lanes whose links stay inside
+far more than they leave: those fold without losing much.
 
 **More packs.** `business` (segments, offers, channels, partners, metrics and the rates that move them;
 `drives` edges carry polarity, so growth and churn loops come out on their own), `tree` (opportunity
@@ -383,7 +395,8 @@ labelled `ranges`); each node says where it falls with `at: { x, y }`, a band id
 `blueprint` (customer, frontstage, backstage, support, with the lines of interaction, visibility and
 internal interaction), `wardley` (evolution across, visibility up) and `stakeholders` (interest across,
 power up); `{ "preset": "blueprint", "x": { "bands": [...] } }` adds your own stages. With axes, `lanes` are
-not drawn. See `examples/axes/`.
+not drawn. Edges go border to border and bend around cards in their way. A line with `mark: true` (the
+line of visibility, in `blueprint`) gets a ring wherever an edge crosses it: a moment of truth. See `examples/axes/`.
 
 **In a page**
 

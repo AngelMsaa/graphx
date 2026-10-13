@@ -367,9 +367,22 @@ bucle y da a uno que equilibra su `goal`, `sensor` y `actuator`; las piezas admi
 
 **Trampas y dónde intervenir.** La leyenda lista los bucles, las trampas de Meadows que encajan con la
 estructura (resistencia a las políticas, desplazar la carga, éxito para el exitoso, deriva hacia el bajo
-rendimiento, escalada, tragedia de los comunes), cada una con su salida en el panel, y los elementos por
-punto de apalancamiento, primero las metas y al final los parámetros. Al pulsar un actor aparece «Ver
-como», que atenúa todo lo que ese actor no toca directamente. `examples/systems/traps.json` dispara todas.
+rendimiento, escalada, tragedia de los comunes, esquivar las reglas, perseguir la meta equivocada), cada una con
+su salida en el panel, y los elementos por punto de apalancamiento, del paradigma a los parámetros. Una pieza
+`paradigm` va al 2, un stock con `buffer: true` al 11 y `leverage: <nivel>` en cualquier pieza o arista manda
+sobre lo que el motor deduce. Al pulsar un actor aparece «Ver
+como», que atenúa todo lo que ese actor no toca directamente. Con el radio de impacto, cada pieza afectada dice
+si sube o baja cuando sube el origen y cuántos retrasos cruza el impacto. `examples/systems/traps.json` dispara
+todas.
+
+**Totales por camino.** `aggregates: [{ "field": "hours", "label": "Tiempo", "unit": "h" }]` suma un número que
+llevan piezas y aristas a lo largo del camino más largo hasta cada pieza: el plazo de una cadena de valor, el
+coste de una cadena. La leyenda da el total y enciende el camino crítico; el panel, lo acumulado; `--check`
+imprime los dos.
+
+**Aristas.** `direction` (`directed`, `undirected`, `mutual`) pone las puntas y `weight` el grosor. Cuando la
+primera vista se pasa del presupuesto del paquete, el builder nombra los grupos o carriles cuyas aristas se
+quedan dentro mucho más de lo que salen: esos se pliegan sin perder casi nada.
 
 **Más paquetes.** `business` (segmentos, propuestas, canales, socios, métricas y los ritmos que las mueven;
 las aristas `drives` llevan polaridad, así que los bucles de crecimiento y de bajas salen solos), `tree`
@@ -384,7 +397,8 @@ con `lines: [{ after, label }]` con nombre entre ellas) o continuo (`range`, por
 `blueprint` (cliente, frontstage, backstage, soporte, con las líneas de interacción, visibilidad e
 interacción interna), `wardley` (evolución en horizontal, visibilidad en vertical) y `stakeholders` (interés y
 poder); `{ "preset": "blueprint", "x": { "bands": [...] } }` añade tus etapas. Con ejes, los `lanes` no se
-pintan. Ver `examples/axes/`.
+pintan. Las aristas van de borde a borde y rodean las tarjetas que se cruzan. Una línea con `mark: true` (la
+de visibilidad, en `blueprint`) lleva un aro donde la cruza una arista: un momento de la verdad. Ver `examples/axes/`.
 
 **En una página**
 

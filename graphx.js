@@ -1066,8 +1066,10 @@
     /* una arista agrupada (×N) lleva las puntas de sus aristas si todas coinciden; si no, la flecha */
     const edgeEnds = v => {
       const same = k => { const vals = [...new Set(v.list.map(e => e[k] || null))]; return vals.length === 1 ? vals[0] : undefined; };
-      const head = same('head'), tail = same('tail');
-      return { head: head === undefined ? 'arrow' : (head || 'arrow'), tail: tail || null };
+      const head = same('head'), tail = same('tail'), dir = same('direction');
+      /* `direction` pone las puntas por defecto; `head`/`tail` explícitos mandan */
+      const dHead = dir === 'undirected' ? 'none' : 'arrow', dTail = dir === 'mutual' ? 'arrow' : null;
+      return { head: head === undefined ? 'arrow' : (head || dHead), tail: tail || dTail };
     };
     function markEdge(line, v, lit) {
       const key = lit && !v.hero ? 'lit' : (v.cvar || (MK_COLOR[v.delta] ? v.delta : 'unchanged'));

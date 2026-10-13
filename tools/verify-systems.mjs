@@ -35,8 +35,14 @@ const traps = load('traps.json');
 const lanes = JSON.parse(fs.readFileSync(path.join(ROOT, 'examples/systems/traps.json'), 'utf8')).nodes.reduce((m, n) => m.set(n.id, n.lane), new Map());
 const found = traps.traps.map(t => `${[...new Set(t.nodes.map(id => lanes.get(id)))].join('+')}:${t.key}`).sort();
 expect('traps: each lane raises its own trap and nothing else', found, [
-  'dl:drift-to-low-performance', 'es:escalation', 'pr:policy-resistance', 'sb:shifting-the-burden', 'ss:success-to-the-successful', 'tc:tragedy-of-the-commons']);
+  'dl:drift-to-low-performance', 'es:escalation', 'pr:policy-resistance', 'rb:rule-beating', 'sb:shifting-the-burden', 'ss:success-to-the-successful', 'tc:tragedy-of-the-commons', 'wg:seeking-the-wrong-goal']);
 expect('traps: leverage ranks goals before parameters', traps.leverage.map(g => g.level), [...traps.leverage.map(g => g.level)].sort((a, b) => a - b));
+
+const lv = Object.fromEntries(traps.leverage.map(g => [g.level, g.items.map(i => i.node || i.edge)]));
+expect('leverage: paradigm, self-organisation and buffers get their levels', [lv[2], lv[4], lv[11]].map(x => (x || []).filter(id => id.startsWith('lv-'))), [['lv-para'], ['lv-evo'], ['lv-cash']]);
+
+const vs = sys.analyze({ nodes: ['a', 'b', 'c', 'd'].map((id, i) => ({ id, days: [2, 3, 10, 1][i] })), edges: [{ id: 'ab', from: 'a', to: 'b', days: 1 }, { id: 'bd', from: 'b', to: 'd' }, { id: 'ac', from: 'a', to: 'c' }, { id: 'cd', from: 'c', to: 'd' }, { id: 'da', from: 'd', to: 'a' }], aggregates: [{ field: 'days', unit: 'd' }] }).aggregates[0];
+expect('aggregates: longest path wins and a cycle is not counted twice', [vs.total, vs.path.nodes], [13, ['a', 'c', 'd']]);
 
 const big = sys.findLoops(Array.from({ length: 12 }, (_, i) => Array.from({ length: 12 }, (_, j) => i !== j && { id: `e${i}-${j}`, from: 'n' + i, to: 'n' + j, polarity: '+' })).flat().filter(Boolean), null);
 expect('dense graph: enumeration stops at the cap', [big.loops.length, big.truncated], [50, true]);

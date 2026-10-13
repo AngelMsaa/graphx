@@ -62,7 +62,14 @@ Con `systems` o `business`, el signo va en `polarity` (`+`, `-`; el tipo trae un
 en decidir, en que llegue). Nombra cada bucle que el motor encuentre (`bucles: R1, B1` en la salida de `--check`)
 en `groups`: `{ "id": "R1", "type": "R", "label": "referrals compound", "edges": [ids de sus aristas], "goal": … }`.
 La etiqueta dice qué hace, sin el «R1» delante (el motor lo pone), y cada B lleva su `goal`. Un aviso de
-oscilación o de trampa es un hallazgo, no un error: cuéntaselo a la persona.
+oscilación o de trampa es un hallazgo, no un error: cuéntaselo a la persona. Si la fuente dice que una meta
+persigue otra cosa de la que declara, ponlo en `statedPurpose` y `observedPurpose`; si nombra la creencia de
+fondo, es una pieza `paradigm`; un stock que está para absorber golpes lleva `buffer: true`.
+
+Cuando la fuente da tiempos o costes por paso, ponlos como número en un campo de cada pieza (`"hours": 4`) y
+declara `aggregates: [{ "field": "hours", "label": "…", "unit": "h" }]`: el motor suma el camino crítico.
+Una relación sin sentido (dos socios, dos ideas que se tocan) lleva `direction: "undirected"`; una que va en
+los dos, `"mutual"`.
 
 ## Medir
 
