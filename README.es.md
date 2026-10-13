@@ -365,6 +365,19 @@ glifo en su centro y avisa cuando uno que equilibra tiene retraso, porque oscila
 bucle y da a uno que equilibra su `goal`, `sensor` y `actuator`; las piezas admiten `purpose`,
 `statedPurpose` y `observedPurpose`. Ver `examples/systems/`.
 
+**Trampas y dónde intervenir.** La leyenda lista los bucles, las trampas de Meadows que encajan con la
+estructura (resistencia a las políticas, desplazar la carga, éxito para el exitoso, deriva hacia el bajo
+rendimiento, escalada, tragedia de los comunes), cada una con su salida en el panel, y los elementos por
+punto de apalancamiento, primero las metas y al final los parámetros. Al pulsar un actor aparece «Ver
+como», que atenúa todo lo que ese actor no toca directamente. `examples/systems/traps.json` dispara todas.
+
+**Más paquetes.** `business` (segmentos, propuestas, canales, socios, métricas y los ritmos que las mueven;
+las aristas `drives` llevan polaridad, así que los bucles de crecimiento y de bajas salen solos), `tree`
+(árboles de oportunidades, OKR, mapas de impacto) y `concept` (mapas conceptuales y argumentos). Un paquete
+puede exigir que un tipo de arista lleve etiqueta (`requireLabel`, para que un mapa conceptual se lea como
+frases) y que las piezas lleguen a una meta (`trace: [{ "from": [...], "to": [...], "via": [...] }]`, por
+aristas de los tipos de `via` o subiendo por sus padres). Hay un ejemplo por paquete en `examples/<pack>/`.
+
 **En una página**
 
 ```html

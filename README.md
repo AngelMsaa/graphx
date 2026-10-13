@@ -364,6 +364,19 @@ and warns when a balancing loop has a delay, since it will oscillate. `groups` n
 balancing one its `goal`, `sensor` and `actuator`; nodes accept `purpose`, `statedPurpose` and
 `observedPurpose`. See `examples/systems/`.
 
+**Traps and where to intervene.** The legend lists the loops, any of Meadows' system traps the structure
+matches (policy resistance, shifting the burden, success to the successful, drift to low performance,
+escalation, tragedy of the commons), each with its way out in the panel, and the elements grouped by
+leverage point, goals first and parameters last. Clicking an actor offers "See as", which dims everything
+that actor has no direct link to. `examples/systems/traps.json` triggers every trap.
+
+**More packs.** `business` (segments, offers, channels, partners, metrics and the rates that move them;
+`drives` edges carry polarity, so growth and churn loops come out on their own), `tree` (opportunity
+solution trees, OKRs, impact maps) and `concept` (concept maps and arguments). A pack can also require
+that an edge kind has a label (`requireLabel`, so a concept map reads as sentences) and that pieces trace
+to a goal (`trace: [{ "from": [...], "to": [...], "via": [...] }]`, following edges of the `via` kinds or
+climbing through parents). One example per pack sits under `examples/<pack>/`.
+
 **In a page**
 
 ```html

@@ -192,12 +192,15 @@
   function leverage(spec, pack, loops) {
     const groups = new Map();
     const put = (level, key, item) => { if (!groups.has(level)) groups.set(level, { level, key, items: [] }); groups.get(level).items.push(item); };
+    // un concepto sin papel solo es parámetro si mueve algo: fuera de la red causal no hay palanca
+    const causal = new Set();
+    (spec.edges || []).forEach(e => { if (effective(e, pack).polarity) { causal.add(e.from); causal.add(e.to); } });
     for (const n of spec.nodes || []) {
       const r = roleOf(n, pack), c = catOf(n, pack);
       if (r === 'goal') put(3, 'goals', { node: n.id, label: n.label });
       else if (r === 'rule') put(5, 'rules', { node: n.id, label: n.label });
       else if (r === 'stock') put(10, 'stocks', { node: n.id, label: n.label });
-      else if (r === 'variable' || (c === 'concept' && r !== 'cloud')) put(12, 'params', { node: n.id, label: n.label });
+      else if (r === 'variable' || (c === 'concept' && r !== 'cloud' && causal.has(n.id))) put(12, 'params', { node: n.id, label: n.label });
     }
     for (const e of spec.edges || []) {
       const ef = effective(e, pack);

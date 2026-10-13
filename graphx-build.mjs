@@ -206,11 +206,12 @@ if (PACK_DECLARED) {
     if (!fits(b, ek.to)) warns.push(`arista ${e.id}: ${e.kind} no llega a un ${b.kind} (llega a: ${ek.to.join(', ')})`);
     if (ek.requireLabel && !e.label) warns.push(`arista ${e.id}: ${e.kind} necesita label que se lea como frase (${a.label} … ${b.label})`);
   }
-  /* { from, to }: cada pieza de esos tipos tiene que llegar a una de los otros, por aristas hacia delante o
-     subiendo por sus padres. Es la trazabilidad de un árbol de metas: lo que se hace sirve a algo */
+  /* { from, to, via? }: cada pieza de esos tipos tiene que llegar a una de los otros, por aristas hacia delante
+     (solo de los tipos de via, si lo hay) o subiendo por sus padres. Es la trazabilidad de un árbol de metas:
+     lo que se hace sirve a algo, y un «bloquea» no cuenta como servir */
   for (const r of PACK.trace || []) {
     const out = new Map();
-    (spec.edges || []).forEach(e => { if (!out.has(e.from)) out.set(e.from, []); out.get(e.from).push(e.to); });
+    (spec.edges || []).filter(e => !r.via || r.via.includes(e.kind)).forEach(e => { if (!out.has(e.from)) out.set(e.from, []); out.get(e.from).push(e.to); });
     const reaches = start => {
       const seen = new Set([start]), q = [start];
       while (q.length) {
