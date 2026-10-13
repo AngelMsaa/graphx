@@ -1,0 +1,219 @@
+{
+  "pack": "business",
+  "title": "HR SaaS growth engine",
+  "lang": "en",
+  "summary": "How a mid market HR platform wins and keeps accounts. Referrals compound paying accounts; support load balances growth when onboarding effort is short of what new accounts need.",
+  "direction": "right",
+  "nodes": [
+    {
+      "id": "smb",
+      "kind": "segment",
+      "label": "HR leads at 50 to 500 person firms",
+      "summary": "Run payroll and time off on spreadsheets today."
+    },
+    {
+      "id": "prop",
+      "kind": "offer",
+      "label": "Payroll closed in one afternoon",
+      "summary": "The outcome they buy, not the feature list."
+    },
+    {
+      "id": "ads",
+      "kind": "channel",
+      "label": "Search ads on payroll queries",
+      "summary": "Where most trial signups come from today."
+    },
+    {
+      "id": "payroll-api",
+      "kind": "capability",
+      "label": "Local payroll rules engine",
+      "summary": "Encodes social security and tax rules per region."
+    },
+    {
+      "id": "bank",
+      "kind": "partner",
+      "label": "Payments bank",
+      "summary": "Moves salaries; outages stop payroll."
+    },
+    {
+      "id": "rival",
+      "kind": "competitor",
+      "label": "Spreadsheet plus gestor",
+      "summary": "What most prospects use today; free but slow and error prone."
+    },
+    {
+      "id": "accounts",
+      "kind": "metric",
+      "label": "Paying accounts",
+      "sources": [
+        {
+          "quote": "1,240 paying accounts at end of Q2",
+          "ref": "board deck p.4"
+        }
+      ],
+      "summary": "Companies with an active subscription."
+    },
+    {
+      "id": "signups",
+      "kind": "rate",
+      "label": "New accounts per month",
+      "summary": "Accounts that start a paid plan in the month."
+    },
+    {
+      "id": "churn",
+      "kind": "rate",
+      "label": "Cancelled accounts per month",
+      "summary": "Accounts that cancel in the month."
+    },
+    {
+      "id": "referrals",
+      "kind": "metric",
+      "label": "Referral invites sent",
+      "summary": "Invites sent from inside the product per month."
+    },
+    {
+      "id": "tickets",
+      "kind": "metric",
+      "label": "Open support tickets",
+      "summary": "Support tickets waiting for a first answer."
+    },
+    {
+      "id": "onboard",
+      "kind": "lever",
+      "label": "Onboarding specialists",
+      "summary": "People who walk new accounts through setup; the team controls the headcount."
+    },
+    {
+      "id": "nrr",
+      "kind": "goal",
+      "label": "Monthly churn under 1.5%",
+      "summary": "The retention target the onboarding team is measured on."
+    },
+    {
+      "id": "seat",
+      "kind": "revenue",
+      "label": "Per employee subscription",
+      "summary": "Billed per active employee each month."
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "prop",
+      "to": "smb",
+      "kind": "offers"
+    },
+    {
+      "id": "e2",
+      "from": "ads",
+      "to": "smb",
+      "kind": "reaches"
+    },
+    {
+      "id": "e3",
+      "from": "payroll-api",
+      "to": "prop",
+      "kind": "enables"
+    },
+    {
+      "id": "e4",
+      "from": "bank",
+      "to": "payroll-api",
+      "kind": "enables"
+    },
+    {
+      "id": "e5",
+      "from": "smb",
+      "to": "seat",
+      "kind": "pays",
+      "label": "per employee, monthly"
+    },
+    {
+      "id": "e6",
+      "from": "rival",
+      "to": "prop",
+      "kind": "competes"
+    },
+    {
+      "id": "f1",
+      "from": "signups",
+      "to": "accounts",
+      "kind": "fills"
+    },
+    {
+      "id": "f2",
+      "from": "churn",
+      "to": "accounts",
+      "kind": "drains"
+    },
+    {
+      "id": "d1",
+      "from": "accounts",
+      "to": "referrals",
+      "kind": "drives",
+      "label": "happy admins invite peers"
+    },
+    {
+      "id": "d2",
+      "from": "referrals",
+      "to": "signups",
+      "kind": "drives",
+      "delay": {
+        "duration": "2 months",
+        "type": "delivery"
+      }
+    },
+    {
+      "id": "d3",
+      "from": "signups",
+      "to": "tickets",
+      "kind": "drives",
+      "label": "setup questions"
+    },
+    {
+      "id": "d4",
+      "from": "tickets",
+      "to": "churn",
+      "kind": "drives",
+      "label": "slow answers lose accounts"
+    },
+    {
+      "id": "d5",
+      "from": "onboard",
+      "to": "tickets",
+      "kind": "drives",
+      "polarity": "-"
+    },
+    {
+      "id": "g1",
+      "from": "nrr",
+      "to": "onboard",
+      "kind": "targets"
+    }
+  ],
+  "groups": [
+    {
+      "id": "R1",
+      "type": "R",
+      "label": "referrals compound",
+      "edges": [
+        "d1",
+        "d2",
+        "f1"
+      ]
+    },
+    {
+      "id": "B1",
+      "type": "B",
+      "label": "setup load costs accounts",
+      "goal": "Monthly churn under 1.5%",
+      "edges": [
+        "d1",
+        "d2",
+        "d3",
+        "d4",
+        "f2"
+      ]
+    }
+  ]
+}

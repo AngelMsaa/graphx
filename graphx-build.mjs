@@ -93,7 +93,7 @@ function loadPack(ref, seen = new Set()) {
   const base = own.extends ? loadPack(own.extends, seen) : {};
   return { ...base, ...own, extends: undefined,
     nodeKinds: { ...base.nodeKinds, ...own.nodeKinds }, edgeKinds: { ...base.edgeKinds, ...own.edgeKinds },
-    nesting: { ...base.nesting, ...own.nesting }, cardinality: [...(base.cardinality || []), ...(own.cardinality || [])],
+    nesting: { ...base.nesting, ...own.nesting }, cardinality: [...(base.cardinality || []), ...(own.cardinality || [])], trace: [...(base.trace || []), ...(own.trace || [])],
     bannedLabels: [...new Set([...(base.bannedLabels || []), ...(own.bannedLabels || [])])] };
 }
 const PACK_DECLARED = spec.pack != null;
@@ -106,6 +106,7 @@ for (const [k, v] of Object.entries(PACK.edgeKinds)) {
   if (v.blast != null && !['back', 'forward', 'both'].includes(v.blast)) errors.push(`pack ${PACK.name}: edgeKinds.${k}.blast «${v.blast}» inválido (back, forward, both)`);
   if (v.polarity != null && !['+', '-'].includes(v.polarity)) errors.push(`pack ${PACK.name}: edgeKinds.${k}.polarity «${v.polarity}» inválida (+, -)`);
 }
+PACK.trace.forEach((r, i) => { if (!r || !Array.isArray(r.from) || !Array.isArray(r.to)) errors.push(`pack ${PACK.name}: trace[${i}] necesita listas from y to`); });
 /* las categorías valen siempre como tipo: lo que el paquete no nombra cae en una, nunca en un tipo inventado */
 const KINDS = new Set([...Object.keys(PACK.nodeKinds), ...CATEGORIES, 'unmapped']);
 const EKINDS = new Set(Object.keys(PACK.edgeKinds));
@@ -203,6 +204,23 @@ if (PACK_DECLARED) {
     if (!ek || !a || !b) continue;
     if (!fits(a, ek.from)) warns.push(`arista ${e.id}: ${e.kind} no sale de un ${a.kind} (sale de: ${ek.from.join(', ')})`);
     if (!fits(b, ek.to)) warns.push(`arista ${e.id}: ${e.kind} no llega a un ${b.kind} (llega a: ${ek.to.join(', ')})`);
+    if (ek.requireLabel && !e.label) warns.push(`arista ${e.id}: ${e.kind} necesita label que se lea como frase (${a.label} … ${b.label})`);
+  }
+  /* { from, to }: cada pieza de esos tipos tiene que llegar a una de los otros, por aristas hacia delante o
+     subiendo por sus padres. Es la trazabilidad de un árbol de metas: lo que se hace sirve a algo */
+  for (const r of PACK.trace || []) {
+    const out = new Map();
+    (spec.edges || []).forEach(e => { if (!out.has(e.from)) out.set(e.from, []); out.get(e.from).push(e.to); });
+    const reaches = start => {
+      const seen = new Set([start]), q = [start];
+      while (q.length) {
+        const x = q.shift(), n = byId.get(x);
+        if (x !== start && n && fits(n, r.to)) return true;
+        for (const y of [...(out.get(x) || []), ...(n && n.parent ? [n.parent] : [])]) if (!seen.has(y)) { seen.add(y); q.push(y); }
+      }
+      return false;
+    };
+    for (const n of (spec.nodes || []).filter(n => fits(n, r.from))) if (!reaches(n.id)) warns.push(`nodo ${n.id}: «${n.label}» no lleva a ningún ${r.to.join(' ni ')}; ¿a qué sirve?`);
   }
   /* { edge, side: from|to, kinds?, min?, max? }: cuántas aristas de ese tipo tiene cada pieza de esos tipos */
   for (const r of PACK.cardinality) {

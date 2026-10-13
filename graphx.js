@@ -2624,7 +2624,7 @@
     /* sistemas (graphx-systems.js): polaridad, retrasos y bucles; sin el módulo o sin polaridad, nada cambia */
     const SYSM = global.GraphX && global.GraphX.systems;
     if (SYSM && SYSM.create) {
-      SYS = SYSM.create({ spec, S, M, s, esc, world, legend, lang, repOf,
+      SYS = SYSM.create({ spec, S, M, s, esc, world, legend, panel, lang, repOf,
         lightSet: set => { hoverSet = set; applyHighlight(); } });
     }
     renderTour(); syncTabs(); setMinimap(S.minimap);

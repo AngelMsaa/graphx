@@ -1,0 +1,138 @@
+{
+ "name": "concept",
+ "label": {
+  "en": "Concepts and arguments",
+  "es": "Conceptos y argumentos"
+ },
+ "describe": "Ideas and how they relate. Every relation reads as a sentence (concept, linking phrase, concept). Claims are supported or attacked by evidence and other claims.",
+ "nodeKinds": {
+  "concept": {
+   "category": "concept",
+   "icon": "node",
+   "label": {
+    "en": "concept",
+    "es": "concepto"
+   },
+   "describe": "a noun phrase"
+  },
+  "claim": {
+   "category": "concept",
+   "icon": "doc",
+   "label": {
+    "en": "claim",
+    "es": "afirmación"
+   },
+   "describe": "a full sentence that can be true or false"
+  },
+  "evidence": {
+   "category": "artifact",
+   "icon": "search",
+   "label": {
+    "en": "evidence",
+    "es": "evidencia"
+   },
+   "describe": "an observation, figure or source, cited"
+  },
+  "question": {
+   "category": "concept",
+   "icon": "bug",
+   "label": {
+    "en": "open question",
+    "es": "pregunta abierta"
+   }
+  },
+  "example": {
+   "category": "artifact",
+   "icon": "file",
+   "label": {
+    "en": "example",
+    "es": "ejemplo"
+   }
+  }
+ },
+ "edgeKinds": {
+  "relates": {
+   "style": "solid",
+   "blast": "forward",
+   "requireLabel": true,
+   "label": {
+    "en": "relates",
+    "es": "se relaciona"
+   },
+   "labelPattern": "a linking phrase so the triple reads as a sentence (\"requires\", \"is measured by\")"
+  },
+  "is-a": {
+   "style": "solid",
+   "blast": "back",
+   "label": {
+    "en": "is a",
+    "es": "es un"
+   }
+  },
+  "part-of": {
+   "style": "solid",
+   "blast": "back",
+   "label": {
+    "en": "part of",
+    "es": "parte de"
+   }
+  },
+  "causes": {
+   "style": "solid",
+   "blast": "forward",
+   "label": {
+    "en": "causes",
+    "es": "causa"
+   }
+  },
+  "supports": {
+   "style": "solid",
+   "blast": "forward",
+   "label": {
+    "en": "supports",
+    "es": "apoya"
+   },
+   "to": [
+    "claim",
+    "question"
+   ]
+  },
+  "attacks": {
+   "style": "dashed",
+   "blast": "forward",
+   "label": {
+    "en": "attacks",
+    "es": "contradice"
+   },
+   "to": [
+    "claim",
+    "question"
+   ]
+  },
+  "example-of": {
+   "style": "dotted",
+   "blast": "back",
+   "label": {
+    "en": "example of",
+    "es": "ejemplo de"
+   },
+   "from": [
+    "example"
+   ]
+  }
+ },
+ "bannedLabels": [
+  "idea",
+  "concept",
+  "thing",
+  "stuff",
+  "related",
+  "other",
+  "concepto",
+  "cosa",
+  "relacionado"
+ ],
+ "budget": {
+  "view": 20
+ }
+}

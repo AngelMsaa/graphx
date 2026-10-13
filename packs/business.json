@@ -1,0 +1,272 @@
+{
+ "name": "business",
+ "label": {
+  "en": "Business and strategy",
+  "es": "Negocio y estrategia"
+ },
+ "describe": "Who the business serves, what it offers, how value and money move between it, partners and customers, and which metrics drive each other. Edges of kind drives carry a polarity, so growth and churn loops are found automatically.",
+ "nodeKinds": {
+  "segment": {
+   "category": "actor",
+   "icon": "user",
+   "label": {
+    "en": "customer segment",
+    "es": "segmento"
+   },
+   "describe": "a specific group with a shared job to be done (\"HR leads at 50 to 500 person companies\"), never \"users\""
+  },
+  "offer": {
+   "category": "concept",
+   "icon": "shield",
+   "label": {
+    "en": "value proposition",
+    "es": "propuesta de valor"
+   },
+   "describe": "what a segment gets, phrased as the outcome for them"
+  },
+  "channel": {
+   "category": "unit",
+   "icon": "mail",
+   "label": {
+    "en": "channel",
+    "es": "canal"
+   },
+   "describe": "how the offer reaches the segment"
+  },
+  "capability": {
+   "category": "unit",
+   "icon": "cpu",
+   "label": {
+    "en": "capability",
+    "es": "capacidad"
+   },
+   "describe": "something the business can do that the offer depends on"
+  },
+  "partner": {
+   "category": "actor",
+   "icon": "external",
+   "label": {
+    "en": "partner",
+    "es": "socio"
+   },
+   "describe": "an organisation outside the business it depends on"
+  },
+  "competitor": {
+   "category": "actor",
+   "icon": "search",
+   "label": {
+    "en": "competitor",
+    "es": "competidor"
+   },
+   "describe": "a named alternative the segment could choose"
+  },
+  "metric": {
+   "category": "state",
+   "icon": "chart",
+   "label": {
+    "en": "metric",
+    "es": "métrica"
+   },
+   "role": "stock",
+   "describe": "a number you could read on a dashboard today: paying accounts, MRR, NPS"
+  },
+  "rate": {
+   "category": "activity",
+   "icon": "gauge",
+   "label": {
+    "en": "rate",
+    "es": "ritmo"
+   },
+   "role": "flow",
+   "describe": "a number per period that moves a metric: signups per week, churn per month"
+  },
+  "lever": {
+   "category": "concept",
+   "icon": "key",
+   "label": {
+    "en": "lever",
+    "es": "palanca"
+   },
+   "role": "variable",
+   "describe": "a decision the business controls: price, sales headcount, onboarding effort"
+  },
+  "goal": {
+   "category": "state",
+   "icon": "key",
+   "label": {
+    "en": "goal",
+    "es": "objetivo"
+   },
+   "role": "goal",
+   "describe": "a target a team steers toward"
+  },
+  "cost": {
+   "category": "resource",
+   "icon": "cart",
+   "label": {
+    "en": "cost",
+    "es": "coste"
+   }
+  },
+  "revenue": {
+   "category": "resource",
+   "icon": "card",
+   "label": {
+    "en": "revenue stream",
+    "es": "fuente de ingresos"
+   }
+  }
+ },
+ "edgeKinds": {
+  "offers": {
+   "style": "solid",
+   "blast": "forward",
+   "label": {
+    "en": "offers",
+    "es": "ofrece"
+   },
+   "from": [
+    "offer"
+   ],
+   "to": [
+    "segment"
+   ]
+  },
+  "reaches": {
+   "style": "solid",
+   "blast": "forward",
+   "label": {
+    "en": "reaches",
+    "es": "llega a"
+   },
+   "from": [
+    "channel"
+   ],
+   "to": [
+    "segment"
+   ]
+  },
+  "enables": {
+   "style": "solid",
+   "blast": "forward",
+   "label": {
+    "en": "enables",
+    "es": "hace posible"
+   },
+   "from": [
+    "capability",
+    "partner"
+   ],
+   "describe": "if the source fails, the target fails"
+  },
+  "pays": {
+   "style": "solid",
+   "blast": "back",
+   "label": {
+    "en": "pays",
+    "es": "paga"
+   },
+   "labelPattern": "what is paid (\"seat licence, monthly\")",
+   "describe": "a tangible exchange: money, goods, contracts"
+  },
+  "gives": {
+   "style": "dashed",
+   "blast": "back",
+   "label": {
+    "en": "gives",
+    "es": "aporta"
+   },
+   "labelPattern": "what is given (\"referrals\", \"usage data\")",
+   "describe": "an intangible exchange: knowledge, trust, referrals"
+  },
+  "competes": {
+   "style": "dotted",
+   "blast": "both",
+   "label": {
+    "en": "competes with",
+    "es": "compite con"
+   },
+   "from": [
+    "competitor",
+    "offer"
+   ]
+  },
+  "drives": {
+   "style": "dashed",
+   "blast": "forward",
+   "polarity": "+",
+   "info": true,
+   "label": {
+    "en": "drives",
+    "es": "impulsa"
+   },
+   "describe": "more source means more target; set polarity \"-\" when more source means less"
+  },
+  "fills": {
+   "style": "solid",
+   "blast": "forward",
+   "polarity": "+",
+   "label": {
+    "en": "adds to",
+    "es": "suma a"
+   },
+   "from": [
+    "rate"
+   ],
+   "to": [
+    "metric"
+   ]
+  },
+  "drains": {
+   "style": "solid",
+   "blast": "forward",
+   "polarity": "-",
+   "label": {
+    "en": "drains",
+    "es": "resta a"
+   },
+   "from": [
+    "rate"
+   ],
+   "to": [
+    "metric"
+   ]
+  },
+  "targets": {
+   "style": "dotted",
+   "blast": "forward",
+   "polarity": "+",
+   "info": true,
+   "label": {
+    "en": "sets the goal",
+    "es": "fija la meta"
+   },
+   "from": [
+    "goal"
+   ]
+  }
+ },
+ "bannedLabels": [
+  "users",
+  "customers",
+  "market",
+  "growth",
+  "revenue",
+  "strategy",
+  "value",
+  "business",
+  "product",
+  "usuarios",
+  "clientes",
+  "mercado",
+  "crecimiento",
+  "ingresos",
+  "estrategia",
+  "valor",
+  "negocio",
+  "producto"
+ ],
+ "budget": {
+  "view": 18
+ }
+}

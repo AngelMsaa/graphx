@@ -1,0 +1,413 @@
+{
+ "pack": "systems",
+ "title": "Meadows traps",
+ "lang": "en",
+ "summary": "One motif per system trap from Thinking in Systems, chapter 5. Each lane should raise exactly its own trap.",
+ "direction": "right",
+ "lanes": [
+  {
+   "id": "pr",
+   "label": "Policy resistance"
+  },
+  {
+   "id": "sb",
+   "label": "Shifting the burden"
+  },
+  {
+   "id": "ss",
+   "label": "Success to the successful"
+  },
+  {
+   "id": "dl",
+   "label": "Drift to low performance"
+  },
+  {
+   "id": "es",
+   "label": "Escalation"
+  },
+  {
+   "id": "tc",
+   "label": "Tragedy of the commons"
+  }
+ ],
+ "nodes": [
+  {
+   "id": "pr-supply",
+   "kind": "stock",
+   "label": "Drugs on the street",
+   "lane": "pr",
+   "summary": "Drugs on the street."
+  },
+  {
+   "id": "pr-enf",
+   "kind": "flow",
+   "label": "Seizures per month",
+   "lane": "pr",
+   "summary": "Seizures per month."
+  },
+  {
+   "id": "pr-price",
+   "kind": "variable",
+   "label": "Street price",
+   "lane": "pr",
+   "summary": "Street price."
+  },
+  {
+   "id": "pr-imp",
+   "kind": "flow",
+   "label": "Imports per month",
+   "lane": "pr",
+   "summary": "Imports per month."
+  },
+  {
+   "id": "sb-bugs",
+   "kind": "stock",
+   "label": "Open bugs",
+   "lane": "sb",
+   "summary": "Open bugs."
+  },
+  {
+   "id": "sb-hot",
+   "kind": "flow",
+   "label": "Hotfixes per week",
+   "lane": "sb",
+   "summary": "Hotfixes per week."
+  },
+  {
+   "id": "sb-ref",
+   "kind": "flow",
+   "label": "Refactoring per week",
+   "lane": "sb",
+   "summary": "Refactoring per week."
+  },
+  {
+   "id": "ss-a",
+   "kind": "stock",
+   "label": "Team A reputation",
+   "lane": "ss",
+   "summary": "Team A reputation."
+  },
+  {
+   "id": "ss-ra",
+   "kind": "flow",
+   "label": "Projects to A",
+   "lane": "ss",
+   "summary": "Projects to A."
+  },
+  {
+   "id": "ss-b",
+   "kind": "stock",
+   "label": "Team B reputation",
+   "lane": "ss",
+   "summary": "Team B reputation."
+  },
+  {
+   "id": "ss-rb",
+   "kind": "flow",
+   "label": "Projects to B",
+   "lane": "ss",
+   "summary": "Projects to B."
+  },
+  {
+   "id": "dl-q",
+   "kind": "stock",
+   "label": "Service quality",
+   "lane": "dl",
+   "summary": "Service quality."
+  },
+  {
+   "id": "dl-t",
+   "kind": "goal",
+   "label": "Quality target",
+   "lane": "dl",
+   "summary": "Quality target."
+  },
+  {
+   "id": "dl-e",
+   "kind": "flow",
+   "label": "Improvement effort",
+   "lane": "dl",
+   "summary": "Improvement effort."
+  },
+  {
+   "id": "es-a",
+   "kind": "stock",
+   "label": "Arms of A",
+   "lane": "es",
+   "summary": "Arms of A.",
+   "owner": "A"
+  },
+  {
+   "id": "es-ba",
+   "kind": "flow",
+   "label": "A buys arms",
+   "lane": "es",
+   "summary": "A buys arms."
+  },
+  {
+   "id": "es-b",
+   "kind": "stock",
+   "label": "Arms of B",
+   "lane": "es",
+   "summary": "Arms of B.",
+   "owner": "B"
+  },
+  {
+   "id": "es-bb",
+   "kind": "flow",
+   "label": "B buys arms",
+   "lane": "es",
+   "summary": "B buys arms."
+  },
+  {
+   "id": "tc-fish",
+   "kind": "stock",
+   "label": "Fish in the bay",
+   "lane": "tc",
+   "summary": "Fish in the bay."
+  },
+  {
+   "id": "tc-ca",
+   "kind": "flow",
+   "label": "Fleet A catch",
+   "lane": "tc",
+   "summary": "Fleet A catch.",
+   "owner": "A"
+  },
+  {
+   "id": "tc-cb",
+   "kind": "flow",
+   "label": "Fleet B catch",
+   "lane": "tc",
+   "summary": "Fleet B catch.",
+   "owner": "B"
+  },
+  {
+   "id": "tc-ba",
+   "kind": "stock",
+   "label": "Fleet A boats",
+   "lane": "tc",
+   "summary": "Fleet A boats."
+  },
+  {
+   "id": "tc-bb",
+   "kind": "stock",
+   "label": "Fleet B boats",
+   "lane": "tc",
+   "summary": "Fleet B boats."
+  }
+ ],
+ "edges": [
+  {
+   "id": "pr1",
+   "from": "pr-supply",
+   "to": "pr-enf",
+   "kind": "link"
+  },
+  {
+   "id": "pr2",
+   "from": "pr-enf",
+   "to": "pr-supply",
+   "kind": "outflow"
+  },
+  {
+   "id": "pr3",
+   "from": "pr-supply",
+   "to": "pr-price",
+   "kind": "link",
+   "polarity": "-"
+  },
+  {
+   "id": "pr4",
+   "from": "pr-price",
+   "to": "pr-imp",
+   "kind": "link"
+  },
+  {
+   "id": "pr5",
+   "from": "pr-imp",
+   "to": "pr-supply",
+   "kind": "inflow"
+  },
+  {
+   "id": "sb1",
+   "from": "sb-bugs",
+   "to": "sb-hot",
+   "kind": "link"
+  },
+  {
+   "id": "sb2",
+   "from": "sb-hot",
+   "to": "sb-bugs",
+   "kind": "outflow"
+  },
+  {
+   "id": "sb3",
+   "from": "sb-bugs",
+   "to": "sb-ref",
+   "kind": "link"
+  },
+  {
+   "id": "sb4",
+   "from": "sb-ref",
+   "to": "sb-bugs",
+   "kind": "outflow",
+   "delay": true
+  },
+  {
+   "id": "sb5",
+   "from": "sb-hot",
+   "to": "sb-ref",
+   "kind": "link",
+   "polarity": "-",
+   "label": "time left for refactoring"
+  },
+  {
+   "id": "ss1",
+   "from": "ss-a",
+   "to": "ss-ra",
+   "kind": "link"
+  },
+  {
+   "id": "ss2",
+   "from": "ss-ra",
+   "to": "ss-a",
+   "kind": "inflow"
+  },
+  {
+   "id": "ss3",
+   "from": "ss-b",
+   "to": "ss-rb",
+   "kind": "link"
+  },
+  {
+   "id": "ss4",
+   "from": "ss-rb",
+   "to": "ss-b",
+   "kind": "inflow"
+  },
+  {
+   "id": "ss5",
+   "from": "ss-a",
+   "to": "ss-rb",
+   "kind": "link",
+   "polarity": "-"
+  },
+  {
+   "id": "ss6",
+   "from": "ss-b",
+   "to": "ss-ra",
+   "kind": "link",
+   "polarity": "-"
+  },
+  {
+   "id": "dl1",
+   "from": "dl-t",
+   "to": "dl-e",
+   "kind": "targets"
+  },
+  {
+   "id": "dl2",
+   "from": "dl-q",
+   "to": "dl-e",
+   "kind": "link",
+   "polarity": "-"
+  },
+  {
+   "id": "dl3",
+   "from": "dl-e",
+   "to": "dl-q",
+   "kind": "inflow"
+  },
+  {
+   "id": "dl4",
+   "from": "dl-q",
+   "to": "dl-t",
+   "kind": "link",
+   "label": "target follows what we get"
+  },
+  {
+   "id": "es1",
+   "from": "es-a",
+   "to": "es-bb",
+   "kind": "link"
+  },
+  {
+   "id": "es2",
+   "from": "es-bb",
+   "to": "es-b",
+   "kind": "inflow"
+  },
+  {
+   "id": "es3",
+   "from": "es-b",
+   "to": "es-ba",
+   "kind": "link"
+  },
+  {
+   "id": "es4",
+   "from": "es-ba",
+   "to": "es-a",
+   "kind": "inflow"
+  },
+  {
+   "id": "tc1",
+   "from": "tc-ca",
+   "to": "tc-fish",
+   "kind": "outflow"
+  },
+  {
+   "id": "tc2",
+   "from": "tc-cb",
+   "to": "tc-fish",
+   "kind": "outflow"
+  },
+  {
+   "id": "tc3",
+   "from": "tc-ca",
+   "to": "tc-ba",
+   "kind": "link"
+  },
+  {
+   "id": "tc4",
+   "from": "tc-ba",
+   "to": "tc-ca",
+   "kind": "link"
+  },
+  {
+   "id": "tc5",
+   "from": "tc-cb",
+   "to": "tc-bb",
+   "kind": "link"
+  },
+  {
+   "id": "tc6",
+   "from": "tc-bb",
+   "to": "tc-cb",
+   "kind": "link"
+  }
+ ],
+ "groups": [
+  {
+   "id": "pr-police",
+   "type": "B",
+   "label": "police seize",
+   "edges": [
+    "pr1",
+    "pr2"
+   ],
+   "goal": "no drugs on the street"
+  },
+  {
+   "id": "pr-dealers",
+   "type": "B",
+   "label": "dealers refill",
+   "edges": [
+    "pr3",
+    "pr4",
+    "pr5"
+   ],
+   "goal": "a steady supply for buyers"
+  }
+ ]
+}

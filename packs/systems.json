@@ -127,7 +127,8 @@
     "en": "influences",
     "es": "influye"
    },
-   "describe": "information: a change in the source changes the target. Set polarity \"-\" when more source means less target."
+   "describe": "information: a change in the source changes the target. Set polarity \"-\" when more source means less target.",
+   "info": true
   },
   "targets": {
    "style": "dotted",
@@ -142,7 +143,8 @@
     "rule",
     "actor"
    ],
-   "describe": "a goal or rule that sets what a flow aims for"
+   "describe": "a goal or rule that sets what a flow aims for",
+   "info": true
   }
  },
  "bannedLabels": [

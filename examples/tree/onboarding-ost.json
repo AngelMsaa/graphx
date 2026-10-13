@@ -1,0 +1,85 @@
+{
+  "pack": "tree",
+  "title": "Faster first payroll",
+  "lang": "en",
+  "summary": "Opportunity solution tree for new accounts that stall before running their first payroll.",
+  "direction": "down",
+  "nodes": [
+    {
+      "id": "out",
+      "kind": "outcome",
+      "label": "70% of new accounts run payroll within 14 days",
+      "summary": "Baseline 41% in Q2."
+    },
+    {
+      "id": "o1",
+      "kind": "opportunity",
+      "parent": "out",
+      "label": "\"I don't know which employee data you need\"",
+      "sources": [
+        {
+          "quote": "I didn't know what to gather",
+          "ref": "interview 7"
+        }
+      ],
+      "summary": "Heard in 9 of 14 interviews."
+    },
+    {
+      "id": "o2",
+      "kind": "opportunity",
+      "parent": "out",
+      "label": "\"Our old provider won't export history\"",
+      "summary": "Heard in 5 of 14 interviews; blocks go live for switchers."
+    },
+    {
+      "id": "o1a",
+      "kind": "opportunity",
+      "parent": "o1",
+      "label": "Tax IDs live with the gestor, not HR",
+      "summary": "The admin has to chase an outside advisor before setup can finish."
+    },
+    {
+      "id": "s1",
+      "kind": "solution",
+      "parent": "o1a",
+      "label": "Invite the gestor to fill tax fields",
+      "summary": "A scoped link that lets the advisor fill only the tax fields."
+    },
+    {
+      "id": "s2",
+      "kind": "solution",
+      "parent": "o1",
+      "label": "Checklist emailed before kickoff",
+      "summary": "Lists every field we will ask for, sent the day the contract is signed."
+    },
+    {
+      "id": "s3",
+      "kind": "solution",
+      "parent": "o2",
+      "label": "Start with zero history, import later",
+      "summary": "Run the first payroll on current data and backfill history later."
+    },
+    {
+      "id": "x1",
+      "kind": "experiment",
+      "parent": "s1",
+      "label": "5 accounts get a gestor invite link; count completed tax fields in 3 days",
+      "summary": "Riskiest assumption: advisors will act on a link from a stranger."
+    },
+    {
+      "id": "x3",
+      "kind": "experiment",
+      "parent": "s3",
+      "label": "Fake door: 'skip history' button on import step",
+      "summary": "Riskiest assumption: admins accept going live without history."
+    }
+  ],
+  "edges": [
+    {
+      "id": "c1",
+      "from": "s2",
+      "to": "o1a",
+      "kind": "supports"
+    }
+  ]
+}

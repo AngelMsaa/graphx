@@ -1,0 +1,177 @@
+{
+ "name": "tree",
+ "label": {
+  "en": "Goal trees",
+  "es": "Árboles de metas"
+ },
+ "describe": "Outcome to opportunities to solutions to experiments (opportunity solution tree), objective to key results to initiatives (OKR), or goal to actors to impacts to deliverables (impact map). Children sit under their parent; every leaf must trace up to an outcome, objective or goal.",
+ "nodeKinds": {
+  "outcome": {
+   "category": "state",
+   "icon": "chart",
+   "label": {
+    "en": "outcome",
+    "es": "resultado"
+   },
+   "describe": "a measurable change in customer or business behaviour"
+  },
+  "opportunity": {
+   "category": "concept",
+   "icon": "search",
+   "label": {
+    "en": "opportunity",
+    "es": "oportunidad"
+   },
+   "describe": "an unmet need, pain or desire, in the customer's words"
+  },
+  "solution": {
+   "category": "activity",
+   "icon": "ui",
+   "label": {
+    "en": "solution",
+    "es": "solución"
+   },
+   "describe": "something to build or change"
+  },
+  "experiment": {
+   "category": "activity",
+   "icon": "test",
+   "label": {
+    "en": "assumption test",
+    "es": "prueba"
+   },
+   "describe": "the cheapest test of the riskiest assumption"
+  },
+  "objective": {
+   "category": "state",
+   "icon": "key",
+   "label": {
+    "en": "objective",
+    "es": "objetivo"
+   }
+  },
+  "key-result": {
+   "category": "state",
+   "icon": "gauge",
+   "label": {
+    "en": "key result",
+    "es": "resultado clave"
+   },
+   "describe": "a number, a baseline and a target date"
+  },
+  "initiative": {
+   "category": "activity",
+   "icon": "job",
+   "label": {
+    "en": "initiative",
+    "es": "iniciativa"
+   }
+  },
+  "goal": {
+   "category": "state",
+   "icon": "key",
+   "label": {
+    "en": "goal",
+    "es": "meta"
+   }
+  },
+  "actor": {
+   "category": "actor",
+   "icon": "user",
+   "label": {
+    "en": "actor",
+    "es": "actor"
+   }
+  },
+  "impact": {
+   "category": "concept",
+   "icon": "bell",
+   "label": {
+    "en": "impact",
+    "es": "impacto"
+   },
+   "describe": "a change in an actor's behaviour"
+  },
+  "deliverable": {
+   "category": "artifact",
+   "icon": "package",
+   "label": {
+    "en": "deliverable",
+    "es": "entregable"
+   }
+  }
+ },
+ "edgeKinds": {
+  "supports": {
+   "style": "dashed",
+   "blast": "back",
+   "label": {
+    "en": "supports",
+    "es": "apoya"
+   },
+   "describe": "a cross link: this also serves that"
+  },
+  "blocks": {
+   "style": "dotted",
+   "blast": "forward",
+   "label": {
+    "en": "blocks",
+    "es": "bloquea"
+   }
+  }
+ },
+ "nesting": {
+  "outcome": [
+   "opportunity"
+  ],
+  "opportunity": [
+   "opportunity",
+   "solution"
+  ],
+  "solution": [
+   "experiment"
+  ],
+  "objective": [
+   "key-result"
+  ],
+  "key-result": [
+   "initiative"
+  ],
+  "goal": [
+   "actor"
+  ],
+  "actor": [
+   "impact"
+  ],
+  "impact": [
+   "deliverable"
+  ]
+ },
+ "trace": [
+  {
+   "from": [
+    "solution",
+    "experiment",
+    "initiative",
+    "deliverable"
+   ],
+   "to": [
+    "outcome",
+    "objective",
+    "goal"
+   ]
+  }
+ ],
+ "bannedLabels": [
+  "improve ux",
+  "growth",
+  "engagement",
+  "better onboarding",
+  "mejorar ux",
+  "crecimiento",
+  "engagement"
+ ],
+ "budget": {
+  "view": 20
+ }
+}

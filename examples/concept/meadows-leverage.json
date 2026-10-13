@@ -1,0 +1,110 @@
+{
+  "pack": "concept",
+  "title": "Why parameters are weak levers",
+  "lang": "en",
+  "summary": "The argument in Meadows ch.6 that changing numbers rarely changes behaviour, and what does.",
+  "direction": "right",
+  "nodes": [
+    {
+      "id": "c-param",
+      "kind": "concept",
+      "label": "Parameter",
+      "summary": "A number in the system: a tax rate, a setpoint, a subsidy."
+    },
+    {
+      "id": "c-struct",
+      "kind": "concept",
+      "label": "Feedback structure",
+      "summary": "The loops, delays and information links between stocks."
+    },
+    {
+      "id": "c-behav",
+      "kind": "concept",
+      "label": "System behaviour",
+      "summary": "What the system does over time: grows, oscillates, collapses."
+    },
+    {
+      "id": "claim",
+      "kind": "claim",
+      "label": "Changing parameters rarely changes how a system behaves",
+      "sources": [
+        {
+          "quote": "Parameters are the least effective",
+          "ref": "Meadows, Thinking in Systems, ch.6"
+        }
+      ],
+      "summary": "Meadows ranks parameters last of twelve leverage points."
+    },
+    {
+      "id": "ev1",
+      "kind": "evidence",
+      "label": "Decades of tax rate tweaks left deficits in place",
+      "summary": "Budgets swing between parties while the deficit pattern persists."
+    },
+    {
+      "id": "ev2",
+      "kind": "evidence",
+      "label": "Interest rates can trigger runaway loops",
+      "summary": "A parameter that pushes a reinforcing loop past a threshold does change behaviour."
+    },
+    {
+      "id": "ex1",
+      "kind": "example",
+      "label": "Thermostat setpoint",
+      "summary": "Raising it changes the room temperature, not how the heater responds."
+    },
+    {
+      "id": "q",
+      "kind": "question",
+      "label": "When does a parameter cross a threshold and reshape structure?",
+      "summary": "Where the claim stops holding."
+    }
+  ],
+  "edges": [
+    {
+      "id": "r1",
+      "from": "c-struct",
+      "to": "c-behav",
+      "kind": "relates",
+      "label": "produces"
+    },
+    {
+      "id": "r2",
+      "from": "c-param",
+      "to": "c-struct",
+      "kind": "relates",
+      "label": "tunes, but does not change,"
+    },
+    {
+      "id": "r3",
+      "from": "c-param",
+      "to": "c-behav",
+      "kind": "relates",
+      "label": "is shaped mostly by structure, rarely by"
+    },
+    {
+      "id": "s1",
+      "from": "ev1",
+      "to": "claim",
+      "kind": "supports"
+    },
+    {
+      "id": "a1",
+      "from": "ev2",
+      "to": "claim",
+      "kind": "attacks"
+    },
+    {
+      "id": "a2",
+      "from": "ev2",
+      "to": "q",
+      "kind": "supports"
+    },
+    {
+      "id": "x1",
+      "from": "ex1",
+      "to": "c-param",
+      "kind": "example-of"
+    }
+  ]
+}
