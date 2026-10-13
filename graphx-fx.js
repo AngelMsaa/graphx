@@ -1260,7 +1260,7 @@ button.gx-bk-chip:hover { border-color: var(--gx-accent); color: var(--gx-accent
           if (!D.has(y)) {
             const sg = e.from === x && SG.get(x) && pol(e) ? SG.get(x) * (pol(e) === '-' ? -1 : 1) : 0;
             SG.set(y, sg); DL.set(y, DL.get(x) + (e.from === x && late(e) ? 1 : 0));
-            D.set(y, d + 1); q.push(y); A.descendantsOf(y).forEach(c => { if (!D.has(c)) { D.set(c, d + 1); q.push(c); } }); }
+            D.set(y, d + 1); q.push(y); A.descendantsOf(y).forEach(c => { if (!D.has(c)) { D.set(c, d + 1); SG.set(c, 0); DL.set(c, DL.get(y)); q.push(c); } }); }
         }
       }
       const vis = new Map();
