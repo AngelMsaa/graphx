@@ -113,6 +113,14 @@ const EKINDS = new Set(Object.keys(PACK.edgeKinds));
 /* a la página solo va lo que el motor pinta; describe, ejemplos y reglas son para quien escribe */
 const slim = o => Object.fromEntries(Object.entries(o || {}).map(([k, v]) => [k, Object.fromEntries(Object.entries(v).filter(([f]) => !['describe', 'from', 'to', 'labelPattern'].includes(f)))]));
 if (PACK_DECLARED) spec.pack = { name: PACK.name, label: PACK.label, legend: PACK.legend, nodeKinds: slim(PACK.nodeKinds), edgeKinds: slim(PACK.edgeKinds) };
+/* el panel dice qué es cada pieza y lee cada relación como una frase: va lo justo de los tipos que se usan */
+{
+  const used = (list, defs, pick) => Object.fromEntries([...new Set((list || []).map(x => x.kind).filter(k => defs[k]))].map(k => [k, pick(defs[k])]));
+  spec.vocab = {
+    nodes: used(spec.nodes, PACK.nodeKinds, v => ({ describe: v.describe, category: v.category })),
+    edges: used(spec.edges, PACK.edgeKinds, v => ({ label: v.label, inverse: v.inverse, describe: v.describe }))
+  };
+}
 
 /* iconos propios, estados propios y leyenda (1.4) */
 const PATH_RE = /^[MmLlHhVvCcSsQqTtAaZz0-9.,\s-]+$/;
@@ -421,8 +429,17 @@ for (const f of spec.flows || []) {
   }
   f._mids = mids;
 }
-((spec.tour && spec.tour.steps) || []).forEach((st, i) => {
-  const w = `paso ${i + 1}`;
+const TOURS = spec.tours && spec.tours.length ? spec.tours : spec.tour ? [spec.tour] : [];
+if (spec.tours && spec.tour) warns.push('tour y tours a la vez: manda tours');
+TOURS.forEach((t, ti) => { if (!t.title && TOURS.length > 1) warns.push(`recorrido ${ti + 1}: sin title`); if (!(t.steps || []).length) warns.push(`recorrido ${ti + 1}: sin pasos`); });
+/* ELI5 es todo o nada dentro de un recorrido: un paso sin versión sencilla se lee en técnico en medio del modo fácil */
+TOURS.forEach((t, ti) => {
+  const st = t.steps || [], n = st.filter(x => x.simple && (x.simple.body || x.simple.body_html)).length;
+  if (n && n < st.length) warns.push(`recorrido ${ti + 1}: ${st.length - n} de ${st.length} pasos sin simple.body`);
+  if (n && !(t.simple && t.simple.question) && t.question) warns.push(`recorrido ${ti + 1}: tiene pasos en simple pero no simple.question`);
+});
+TOURS.flatMap((t, ti) => (t.steps || []).map((st, i) => [st, i, ti])).forEach(([st, i, ti]) => {
+  const w = TOURS.length > 1 ? `recorrido ${ti + 1}, paso ${i + 1}` : `paso ${i + 1}`;
   const fo = st.focus || {};
   (fo.nodes || []).forEach(id => { if (!ids.has(id)) errors.push(`${w}: nodo desconocido ${id}`); });
   (fo.edges || []).forEach(id => { if (!eids.has(id)) errors.push(`${w}: arista desconocida ${id}`); });
@@ -482,6 +499,8 @@ else {
      --mode lite: sin ELK, se carga de jsDelivr al abrir (≈110 KB + datos).
      --mode dev:  fuentes sin minificar, para depurar. */
   const mode = opt('--mode', 'full');
+  /* --layout app (defecto): el diagrama ocupa la ventana. --layout doc: la página de antes, con el lienzo a media altura */
+  const doc = opt('--layout', 'app') === 'doc';
   const D = f => path.join(HERE, 'dist', f);
   /* dist/ vale si su huella coincide con la de las fuentes (tools/build-dist.mjs la escribe) */
   const srcHash = crypto.createHash('sha256').update(fs.readFileSync(path.join(HERE, 'graphx.js'))).update(fs.readFileSync(path.join(HERE, 'graphx.css'))).update(fs.readFileSync(path.join(HERE, 'graphx-mermaid.js'))).update(fs.readFileSync(path.join(HERE, 'graphx-shapes.js'))).update(fs.readFileSync(path.join(HERE, 'graphx-layouts.js'))).update(fs.readFileSync(path.join(HERE, 'graphx-tree.js'))).update(fs.readFileSync(path.join(HERE, 'graphx-fx.js'))).digest('hex');
@@ -510,15 +529,17 @@ main { max-width: 1320px; margin: 0 auto; padding: 28px 16px 48px; display: flex
 header h1 { margin: 0; font-size: 24px; line-height: 1.25; letter-spacing: -.01em; text-wrap: balance; }
 header p { margin: 8px 0 0; color: var(--muted); max-width: 75ch; }
 .gx-host { --gx-h: min(72vh, 760px); }
+body.gx-apppage, html:has(body.gx-apppage) { height: 100%; overflow: hidden; }
+body.gx-apppage .gx-host { position: fixed; inset: 0; }
 footer { color: var(--muted); font-size: 12.5px; }
 </style>
 </head>
-<body>
-<main>
+<body${doc ? '' : ' class="gx-apppage"'}>
+${doc ? `<main>
 <header><h1>${escHtml(spec.title || '')}</h1>${spec.summary ? `<p>${escHtml(spec.summary)}</p>` : ''}</header>
 ${block}
-<footer>GraphX · ${(spec.nodes || []).length} piezas · ${(spec.edges || []).length} conexiones · ${(spec.flows || []).length} flujos · ${((spec.tour && spec.tour.steps) || []).length} pasos</footer>
-</main>
+<footer>GraphX · ${(spec.nodes || []).length} piezas · ${(spec.edges || []).length} conexiones · ${(spec.flows || []).length} flujos · ${TOURS.reduce((a, t) => a + (t.steps || []).length, 0)} pasos</footer>
+</main>` : block.replace('data-gx', 'data-gx data-app')}
 ${systemsJS}${engine}
 </body>
 </html>`;

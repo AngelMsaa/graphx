@@ -155,7 +155,7 @@
 .gx-fx-play.on { color: #fff; background: var(--gx-accent); border-color: var(--gx-accent); }
 /* mapa de calor */
 .gx-node.has-h > .gx-card { fill: color-mix(in srgb, var(--gx-h) 15%, var(--gx-card)); stroke: color-mix(in srgb, var(--gx-h) 70%, var(--gx-card-line)); transition: fill .6s, stroke .6s; }
-.gx-node.has-h > .gx-accent { fill: var(--gx-h); opacity: 1; transition: fill .6s; }
+.gx-leaf.has-h > .gx-card { stroke: color-mix(in srgb, var(--gx-h) 60%, var(--gx-card-line)); transition: stroke .6s; }
 .gx-node.has-h .gx-glyph-ic { stroke: color-mix(in srgb, var(--gx-h) 75%, var(--gx-ink)); }
 .gx-node.gx-shape.has-h > .gx-card { stroke-width: 1.6; }
 .gx-hb rect { fill: var(--gx-h); transition: fill .6s; }
@@ -275,7 +275,7 @@
 .gx-ownc .gx-node[data-own] > .gx-card { stroke: color-mix(in srgb, var(--gx-oc) 75%, var(--gx-card-line)); }
 .gx-ownc .gx-node[data-own]:not(.gx-shape) > .gx-card { fill: color-mix(in srgb, var(--gx-oc) 8%, var(--gx-card)); }
 .gx-ownc .gx-node[data-own].gx-shape > .gx-card:not(.ghost) { fill: color-mix(in srgb, var(--gx-oc) 12%, var(--gx-card)); }
-.gx-ownc .gx-node[data-own] > .gx-accent { fill: var(--gx-oc); opacity: 1; }
+.gx-ownc .gx-leaf[data-own] > .gx-card { stroke: color-mix(in srgb, var(--gx-oc) 60%, var(--gx-card-line)); }
 .gx-own-pop { position: absolute; z-index: 45; display: none; width: 280px; max-height: 380px; overflow: auto; padding: 8px; background: var(--gx-card); border: 1px solid var(--gx-line);
   border-radius: 12px; box-shadow: var(--gx-shadow); font-size: 13px; }
 .gx-own-pop.on { display: block; }

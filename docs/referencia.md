@@ -199,7 +199,7 @@ efectos, §8; los dos mandan sobre el JSON). La instancia expone `ready`, `expan
 | | `kind`: `create` · `destroy` | `node` — la cabecera nace en esa fila; la línea de vida acaba, con un aspa, en el siguiente mensaje |
 | | `summary` `data` | salen en el tooltip del mensaje |
 | | `note` `repeat` `animated` `color` | |
-| recorrido | `tour.title` `tour.steps[]` | |
+| recorridos | `tours[]`: `title` `question` `filter` `steps[]` `simple` | varios, uno por pregunta del lector: «Empezar recorrido» los lista con su `question` y un selector cambia de uno a otro. `simple: {question}` en el recorrido y `simple: {title, body}` en cada paso dan el modo ELI5, que el lector activa en la barra del recorrido. Al empezar, el recorrido aplica el filtro predefinido que nombra `filter` (o el más pequeño que cubre sus pasos; `false`, ninguno). `tour` (uno solo) sigue valiendo; con los dos, manda `tours` |
 | paso | `title` `body_html` | di **qué pasa, qué viaja y qué lo dispara** |
 | | `focus` | `{ "nodes": [], "edges": [] }` o `{ "messages": [] }` con `view` de flujo |
 | | `view` `depth` `expand` `collapse` `select` | todo opcional: el motor abre solo lo necesario para ver el foco |

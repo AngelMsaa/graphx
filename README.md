@@ -353,7 +353,10 @@ decision, artifact…), edge kinds with their own line style and blast direction
 RACI), nesting and cardinality rules, labels too generic to accept, and a node budget per view. Packs live
 in `packs/`; a spec can also inline one, `{ "extends": "process", "nodeKinds": { … } }`. Every kind maps to
 one of eight categories (actor, unit, resource, activity, artifact, concept, event, state), which also work
-as kinds when nothing in the pack fits. Without `pack`, the software vocabulary applies and nothing changes.
+as kinds when nothing in the pack fits. The category also picks the icon, from a fixed set of eight, so the same
+role looks the same in every map; only the spec's `icons` can override it. An edge kind can name its reverse
+reading with `inverse` ("Reads" / "Read by"), which the panel uses to list a node's connections as sentences.
+Without `pack`, the software vocabulary applies and nothing changes.
 Nodes and edges accept `sources` (quotes) and `confidence` (0 to 1); edges accept `style` (solid, dashed,
 dotted).
 

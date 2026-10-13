@@ -63,7 +63,7 @@ la documentación larga, en `docs/referencia.md` del repositorio.
 
 | Qué | Cómo |
 |---|---|
-| Recorrido / presentación | spec `tour.steps: [{title, body_html, focus: {nodes, edges} \| {messages}, view, depth, expand, collapse, select}]`; en el mod, `guide.steps` (`title`, `body`, `nodes`, `edges`, `expand`, `depth`, `select`, `view: "flow:<id>"`, `signs`) y `present: true` |
+| Recorrido / presentación | spec `tours: [{title, question, filter, simple: {question}, steps}]` (varios, uno por pregunta; `tour` sigue valiendo para uno), cada paso `{title, body_html, focus: {nodes, edges} \| {messages}, view, depth, expand, collapse, select, simple: {title, body}}]` (con `simple`, la caja enseña el interruptor ELI5); en el mod, `guide.steps` (`title`, `body`, `nodes`, `edges`, `expand`, `depth`, `select`, `view: "flow:<id>"`, `signs`) y `present: true` |
 | Carteles | `signs`: anclados a una pieza, sueltos o de un paso del recorrido; `banner` arriba. Tonos `info tip ok warn danger note` |
 | Foco y trazado | `guide.focus` (+ `prune`), `select`, `trace: {id, dir: up\|down}` (de qué depende / qué depende de ella), `depth`, `reset` |
 | Filtros con nombre | raíz `filters: [{label, query \| paths \| delta \| kinds \| nodes, prune}]`, `focus` inicial |

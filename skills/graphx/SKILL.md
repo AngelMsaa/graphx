@@ -68,11 +68,12 @@ Si no hay herramientas `mcp__graphx-mod__*`, añade una línea: el mod no está 
    **paquete** y escribe con su vocabulario: [paquetes](references/paquetes.md), que también dice cómo sacar el
    mapa de un texto sin que salga vago.
 3. **Dibuja** con `show` (`spec`, `mermaid`, `paths`, `tree_text` o `file`). Etiquetas de ≤ 24 caracteres y un
-   `summary` en cada pieza: en el terminal cada caja mide lo que su texto. Si parte de un Mermaid de la persona,
+   `summary` en cada pieza (el de la raíz dice primero qué es el sistema: [recorridos](references/recorridos.md#la-descripción-del-mapa)): en el terminal cada caja mide lo que su texto. Si parte de un Mermaid de la persona,
    **respeta su Mermaid** y enriquécelo según [las reglas de Mermaid](references/mermaid.md).
 4. **Constrúyelo al hablar** con `patch` (`add`, `update`, `remove`, `set`) en vez de rehacerlo con `show`: la vista,
    los carteles y el recorrido se conservan.
-5. **Guía**: `guide` con un recorrido de 3–6 pasos (cada `body`: qué pasa, qué viaja, qué lo dispara), `focus`,
+5. **Guía**: `guide` con un recorrido de 3–6 pasos (cada `body`: qué pasa, qué viaja, qué lo dispara; un mapa que
+   se queda lleva varios en `tours`, uno por pregunta, con `simple` para el modo ELI5: [recorridos](references/recorridos.md)), `focus`,
    `trace`, `blast`, `flow`, `owners`, `timeline`; `present: true` para presentarlo. `signs`: pocos carteles (riesgos,
    decisiones, preguntas).
 6. **Datos**: `data` cambia calor, series, progreso, alertas, valores y caudal en vivo sin recolocar. Qué hay y en qué
@@ -106,6 +107,8 @@ Di en una línea que con `graphx-mod` se vería en el lienzo, con recorrido y ef
   datos y efectos, navegación, con sus campos.
 - [references/paquetes.md](references/paquetes.md) — **mapas de cualquier dominio**: qué paquete elegir, cómo
   leerlo y el camino de una fuente a un mapa validado. Léela antes de dibujar algo que no sea software.
+- [references/recorridos.md](references/recorridos.md) — **qué recorridos escribir y cómo**: uno por pregunta
+  del lector, los cuatro tipos, la anatomía de un paso y cómo trabajarlos con la persona.
 - [references/patrones.md](references/patrones.md) — recetas de diseño (mapa de servicios, postmortem, pipeline,
   clúster, CI/CD, proceso, revisión de PR…), un catálogo de perspectivas para documentar un sistema y el **atlas**
   (varias perspectivas del mismo sistema en una página). Inspiración para proponer, nunca un molde.
