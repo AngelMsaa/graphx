@@ -1166,8 +1166,12 @@
       const key = lit && !v.hero ? 'lit' : (v.cvar || (MK_COLOR[v.delta] ? v.delta : 'unchanged'));
       const { head, tail } = edgeEnds(v);
       const me = markerRef(head, key, I, v._weighted), ms = markerRef(tail, key, I, v._weighted);
-      if (me) line.setAttribute('marker-end', me); else line.removeAttribute('marker-end');
-      if (ms) line.setAttribute('marker-start', ms); else line.removeAttribute('marker-start');
+      setMarker(line, 'marker-end', me); setMarker(line, 'marker-start', ms);
+    }
+    /* reescribir un marker, aunque sea al mismo valor, obliga a repintar todo el SVG: cada hover lo hacía en todas las aristas */
+    function setMarker(line, attr, ref) {
+      if (line.getAttribute(attr) === ref) return;
+      if (ref) line.setAttribute(attr, ref); else line.removeAttribute(attr);
     }
     const maxWeight = Math.max(0, ...(spec.edges || []).map(e => typeof e.weight === 'number' ? e.weight : 0));
     function makeEdge(v, path) {

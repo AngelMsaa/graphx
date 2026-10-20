@@ -405,8 +405,8 @@
 .gx-sticky.on { display: block; }
 .gx-sticky button { position: absolute; top: 0; height: 32px; display: flex; align-items: center; gap: 8px; padding: 0 12px; overflow: hidden;
   font: inherit; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; text-align: left;
-  color: var(--gx-ink); background: color-mix(in srgb, var(--gx-band-head) 92%, transparent); border: 0; border-right: 1px solid var(--gx-band-div);
-  border-bottom: 1px solid var(--gx-frame); cursor: pointer; pointer-events: auto; backdrop-filter: blur(4px); }
+  color: var(--gx-ink); background: var(--gx-band-head); border: 0; border-right: 1px solid var(--gx-band-div);
+  border-bottom: 1px solid var(--gx-frame); cursor: pointer; pointer-events: auto; }
 .gx-sticky button b { font-family: var(--gx-mono); color: var(--gx-faint); letter-spacing: 0; }
 .gx-sticky button span { overflow: hidden; text-overflow: ellipsis; }
 .gx-sticky button.lit { color: var(--gx-accent); box-shadow: inset 0 -2px 0 var(--gx-accent); }
