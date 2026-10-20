@@ -1075,8 +1075,12 @@
       const key = lit && !v.hero ? 'lit' : (v.cvar || (MK_COLOR[v.delta] ? v.delta : 'unchanged'));
       const { head, tail } = edgeEnds(v);
       const me = markerRef(head, key, I, v._weighted), ms = markerRef(tail, key, I, v._weighted);
-      if (me) line.setAttribute('marker-end', me); else line.removeAttribute('marker-end');
-      if (ms) line.setAttribute('marker-start', ms); else line.removeAttribute('marker-start');
+      setMarker(line, 'marker-end', me); setMarker(line, 'marker-start', ms);
+    }
+    /* reescribir un marker, aunque sea al mismo valor, obliga a repintar todo el SVG: cada hover lo hacía en todas las aristas */
+    function setMarker(line, attr, ref) {
+      if (line.getAttribute(attr) === ref) return;
+      if (ref) line.setAttribute(attr, ref); else line.removeAttribute(attr);
     }
     const maxWeight = Math.max(0, ...(spec.edges || []).map(e => typeof e.weight === 'number' ? e.weight : 0));
     function makeEdge(v, path) {
@@ -1671,8 +1675,17 @@
     }
 
     /* --- iluminación: foco del paso, trazado, vecindad al pasar, filtro de cambios --- */
-    let hoverSet = null;
+    let hoverSet = null, hoverTimer = 0;
+    /* Al barrer el puntero por un mapa denso se cruzan piezas, aristas y huecos varias veces por
+       segundo, y atenuar el mapa entero en cada cruce lo hace parpadear: solo se aplica donde el
+       puntero se detiene. Encender pesa más que cambiar de pieza ya encendida o apagar. */
     function hoverLit(id, v) {
+      clearTimeout(hoverTimer);
+      const off = !id && !v;
+      if (off && !hoverSet) return;
+      hoverTimer = setTimeout(() => applyHover(id, v), off ? 120 : hoverSet ? 40 : 90);
+    }
+    function applyHover(id, v) {
       if (S.tour >= 0 || S.trace) { hoverSet = null; applyHighlight(); return; }
       if (!id && !v) { hoverSet = null; applyHighlight(); return; }
       const nodes = new Set(), edges = new Set();
