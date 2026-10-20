@@ -1785,8 +1785,17 @@
     }
 
     /* --- iluminación: foco del paso, trazado, vecindad al pasar, filtro de cambios --- */
-    let hoverSet = null;
+    let hoverSet = null, hoverTimer = 0;
+    /* Al barrer el puntero por un mapa denso se cruzan piezas, aristas y huecos varias veces por
+       segundo, y atenuar el mapa entero en cada cruce lo hace parpadear: solo se aplica donde el
+       puntero se detiene. Encender pesa más que cambiar de pieza ya encendida o apagar. */
     function hoverLit(id, v) {
+      clearTimeout(hoverTimer);
+      const off = !id && !v;
+      if (off && !hoverSet) return;
+      hoverTimer = setTimeout(() => applyHover(id, v), off ? 120 : hoverSet ? 40 : 90);
+    }
+    function applyHover(id, v) {
       /* con algo seleccionado su vecindad se queda fija: pasar por otras piezas no la sustituye */
       if (S.tour >= 0 || S.trace || S.selected) { hoverSet = null; applyHighlight(); return; }
       if (!id && !v) { hoverSet = null; applyHighlight(); return; }
